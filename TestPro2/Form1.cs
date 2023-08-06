@@ -49,14 +49,12 @@ namespace TestPro2
             jsonData = jsonData.Replace("-", "");
 
             rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
-            JsonTable p = new JsonTable();
-            p.Sequence = "Pretreatment";
-            jts.Add(p);
+            JsonTable jsontable = new JsonTable();
+            jsontable.Sequence = "Pretreatment";
+            jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
-                short bake = 1;
-                string s = "";
-                JsonTable jsontable = new JsonTable();
+                jsontable = new JsonTable();
                 switch (sequence.ModuleType)
                 {
                     case "B":
@@ -65,8 +63,7 @@ namespace TestPro2
                         break;
 
                     case "C":
-                        s = "Clean";
-                        jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
+                        jsontable = GetClean(sequence);
                         break;
 
                     case "L":
@@ -75,8 +72,7 @@ namespace TestPro2
                         break;
 
                     case "V":
-                        s = "Vacume";
-                        jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
+                        jsontable = GetVacume(sequence);
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -101,7 +97,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "bake" + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Bake" +" "+ ps.SequenceNumber.ToString();
             return jsontable;
         }
         public JsonTable GetLayer(ProcessSequence ps)
@@ -115,7 +111,35 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "leyer" + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Leyer" +" "+ ps.SequenceNumber.ToString();
+            return jsontable;
+        }
+        public JsonTable GetVacume(ProcessSequence ps)
+        {
+            JsonTable jsontable = new JsonTable();
+            foreach (Vacuum1 vacuum in rootobject.Vacuum)
+            {
+                if (ps.ModuleNumber == vacuum.Identification.ModuleNumber)
+                {
+                    jsontable.ModuleName = vacuum.Identification.ModuleName;
+                    break;
+                }
+            }
+            jsontable.Sequence = "Vacuum" +" "+ ps.SequenceNumber.ToString();
+            return jsontable;
+        }
+        public JsonTable GetClean(ProcessSequence ps)
+        {
+            JsonTable jsontable = new JsonTable();
+            foreach (Clean clean in rootobject.Clean)
+            {
+                if (ps.ModuleNumber == clean.Identification.ModuleNumber)
+                {
+                    jsontable.ModuleName = clean.Identification.ModuleName;
+                    break;
+                }
+            }
+            jsontable.Sequence = "Clean" + " " + ps.SequenceNumber.ToString();
             return jsontable;
         }
     }
