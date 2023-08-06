@@ -43,7 +43,7 @@ namespace TestPro2
             //string replacement = "__";
             //jsonData = Regex.Replace(jsonData, pattern, replacement);
 
-            //string spacePattern = @"\S \S";
+            ///string spacePattern = @"\S \S";
             //string spaceReplacement = "_";
             //jsonData = Regex.Replace(jsonData, spacePattern, spaceReplacement);
 
@@ -128,26 +128,49 @@ namespace TestPro2
         public JsonTable GetLayer(ProcessSequence ps)
         {
             JsonTable jsontable = new JsonTable();
-
+            float tempSrcMod = 0;
+            float tempGSMMod = 0;
+            float tempRateMod = 0;
+            jsontable.Sequence = "Layer" + " - " + ps.SequenceNumber.ToString();
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
                 {
-                    jsontable = LayerDetails(layer.References);
+                    tempRateMod = layer.References.RateModule1;
+                    tempGSMMod = layer.References.GSMModule;
                     jsontable.ModuleName = layer.Identification.ModuleName;
-                    jsontable.Thickness = layer.Parameter.General.Thickness.ToString() + "";
+                    jsontable.Thickness = layer.Parameter.General.Thickness.ToString() + "\u212B";
                     break;
                 }
             }
-            //foreach (Source source in rootobject.Source)
-            //{
-            //    if (ps.ModuleNumber == source.Identification.ModuleNumber)
-            //    {
-            //        jsontable.TSource = source.Identification.ModuleName;
-            //        break;
-            //    }
-            //}
-            jsontable.Sequence = "Layer" + " - " + ps.SequenceNumber.ToString();
+            foreach (Rate rate in rootobject.Rate)
+            {
+                if (tempRateMod == rate.Identification.ModuleNumber)
+                {
+                    jsontable.Rate = rate.Parameter.General.Rate.ToString();
+                    tempSrcMod = rate.References.SourceModule;
+                    break;
+                }
+            }
+            foreach (Source source in rootobject.Source)
+            {
+                if (tempSrcMod == source.Identification.ModuleNumber)
+                {
+                    if (source.Parameter.SourceNumber == 1)
+                        jsontable.TSource = source.References.EECModule;
+                    else
+                        jsontable.TSource = source.Parameter.SourceNumber.ToString();
+                    break;
+                }
+            }
+            foreach (GSM1 gsm in rootobject.GSM)
+            {
+                if (tempGSMMod == gsm.Identification.ModuleNumber)
+                {
+                    jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();
+                    break;
+                }
+            }
             return jsontable;
         }
         public JsonTable GetVacuum(ProcessSequence ps)
@@ -176,35 +199,6 @@ namespace TestPro2
                 }
             }
             jsontable.Sequence = "Clean" + " - " + ps.SequenceNumber.ToString();
-            return jsontable;
-        }
-        public JsonTable LayerDetails(References3 rfr)
-        {
-            float tempSrcMod = 0;
-            JsonTable jsontable = new JsonTable();
-            foreach (Rate rate in rootobject.Rate)
-            {
-                if (rfr.RateModule1 == rate.Identification.ModuleNumber)
-                {
-                    jsontable.Rate = rate.Parameter.General.Rate.ToString();
-                    tempSrcMod = rate.References.SourceModule;
-                    break;
-                }
-            }
-            foreach (Source source in rootobject.Source)
-            {
-                if (tempSrcMod == source.Identification.ModuleNumber)
-                {
-                    if (source.Parameter.SourceNumber == 1)
-                        jsontable.TSource = source.References.EECModule;
-                    else
-                        jsontable.TSource = source.Identification.ModuleNumber.ToString();
-
-
-                    break;
-                }
-            }
-
             return jsontable;
         }
     }

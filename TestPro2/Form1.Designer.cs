@@ -33,15 +33,16 @@
             open_btn = new Button();
             rtb = new RichTextBox();
             dgv = new DataGridView();
+            process_btn = new Button();
+            show_file_name = new TextBox();
+            label1 = new Label();
+            jsonTableBindingSource = new BindingSource(components);
             sequenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             moduleNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             thicknessDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             rateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            jsonTableBindingSource = new BindingSource(components);
-            process_btn = new Button();
-            show_file_name = new TextBox();
-            label1 = new Label();
+            startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             SuspendLayout();
@@ -69,7 +70,7 @@
             dgv.AllowUserToAddRows = false;
             dgv.AutoGenerateColumns = false;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, thicknessDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn });
+            dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, thicknessDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
@@ -85,57 +86,8 @@
             dgv.RightToLeft = RightToLeft.Yes;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
-            dgv.Size = new Size(1078, 592);
+            dgv.Size = new Size(1078, 692);
             dgv.TabIndex = 2;
-            // 
-            // sequenceDataGridViewTextBoxColumn
-            // 
-            sequenceDataGridViewTextBoxColumn.DataPropertyName = "Sequence";
-            sequenceDataGridViewTextBoxColumn.HeaderText = "Sequence";
-            sequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
-            sequenceDataGridViewTextBoxColumn.Name = "sequenceDataGridViewTextBoxColumn";
-            sequenceDataGridViewTextBoxColumn.ReadOnly = true;
-            sequenceDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // moduleNameDataGridViewTextBoxColumn
-            // 
-            moduleNameDataGridViewTextBoxColumn.DataPropertyName = "ModuleName";
-            moduleNameDataGridViewTextBoxColumn.HeaderText = "ModuleName";
-            moduleNameDataGridViewTextBoxColumn.MinimumWidth = 8;
-            moduleNameDataGridViewTextBoxColumn.Name = "moduleNameDataGridViewTextBoxColumn";
-            moduleNameDataGridViewTextBoxColumn.ReadOnly = true;
-            moduleNameDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "TSource";
-            dataGridViewTextBoxColumn2.HeaderText = "TSource";
-            dataGridViewTextBoxColumn2.MinimumWidth = 8;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            dataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // thicknessDataGridViewTextBoxColumn
-            // 
-            thicknessDataGridViewTextBoxColumn.DataPropertyName = "Thickness";
-            thicknessDataGridViewTextBoxColumn.HeaderText = "Thickness";
-            thicknessDataGridViewTextBoxColumn.MinimumWidth = 8;
-            thicknessDataGridViewTextBoxColumn.Name = "thicknessDataGridViewTextBoxColumn";
-            thicknessDataGridViewTextBoxColumn.ReadOnly = true;
-            thicknessDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // rateDataGridViewTextBoxColumn
-            // 
-            rateDataGridViewTextBoxColumn.DataPropertyName = "Rate";
-            rateDataGridViewTextBoxColumn.HeaderText = "Rate";
-            rateDataGridViewTextBoxColumn.MinimumWidth = 8;
-            rateDataGridViewTextBoxColumn.Name = "rateDataGridViewTextBoxColumn";
-            rateDataGridViewTextBoxColumn.ReadOnly = true;
-            rateDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // jsonTableBindingSource
-            // 
-            jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
             // process_btn
             // 
@@ -164,6 +116,65 @@
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
             label1.Text = "File Name";
+            // 
+            // jsonTableBindingSource
+            // 
+            jsonTableBindingSource.DataSource = typeof(JsonTable);
+            // 
+            // sequenceDataGridViewTextBoxColumn
+            // 
+            sequenceDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            sequenceDataGridViewTextBoxColumn.DataPropertyName = "Sequence";
+            sequenceDataGridViewTextBoxColumn.HeaderText = "Sequence";
+            sequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
+            sequenceDataGridViewTextBoxColumn.Name = "sequenceDataGridViewTextBoxColumn";
+            sequenceDataGridViewTextBoxColumn.ReadOnly = true;
+            sequenceDataGridViewTextBoxColumn.Width = 124;
+            // 
+            // moduleNameDataGridViewTextBoxColumn
+            // 
+            moduleNameDataGridViewTextBoxColumn.DataPropertyName = "ModuleName";
+            moduleNameDataGridViewTextBoxColumn.HeaderText = "ModuleName";
+            moduleNameDataGridViewTextBoxColumn.MinimumWidth = 8;
+            moduleNameDataGridViewTextBoxColumn.Name = "moduleNameDataGridViewTextBoxColumn";
+            moduleNameDataGridViewTextBoxColumn.ReadOnly = true;
+            moduleNameDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.DataPropertyName = "TSource";
+            dataGridViewTextBoxColumn2.HeaderText = "Source";
+            dataGridViewTextBoxColumn2.MinimumWidth = 8;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // thicknessDataGridViewTextBoxColumn
+            // 
+            thicknessDataGridViewTextBoxColumn.DataPropertyName = "Thickness";
+            thicknessDataGridViewTextBoxColumn.HeaderText = "Thickness";
+            thicknessDataGridViewTextBoxColumn.MinimumWidth = 8;
+            thicknessDataGridViewTextBoxColumn.Name = "thicknessDataGridViewTextBoxColumn";
+            thicknessDataGridViewTextBoxColumn.ReadOnly = true;
+            thicknessDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // rateDataGridViewTextBoxColumn
+            // 
+            rateDataGridViewTextBoxColumn.DataPropertyName = "Rate";
+            rateDataGridViewTextBoxColumn.HeaderText = "Rate";
+            rateDataGridViewTextBoxColumn.MinimumWidth = 8;
+            rateDataGridViewTextBoxColumn.Name = "rateDataGridViewTextBoxColumn";
+            rateDataGridViewTextBoxColumn.ReadOnly = true;
+            rateDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // startIntensityDataGridViewTextBoxColumn
+            // 
+            startIntensityDataGridViewTextBoxColumn.DataPropertyName = "StartIntensity";
+            startIntensityDataGridViewTextBoxColumn.HeaderText = "Start Intensity";
+            startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
+            startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
+            startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
+            startIntensityDataGridViewTextBoxColumn.Width = 150;
             // 
             // Form1
             // 
@@ -197,11 +208,12 @@
         private TextBox show_file_name;
         private Label label1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private BindingSource jsonTableBindingSource;
         private DataGridViewTextBoxColumn sequenceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn thicknessDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn rateDataGridViewTextBoxColumn;
-        private BindingSource jsonTableBindingSource;
+        private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
     }
 }
