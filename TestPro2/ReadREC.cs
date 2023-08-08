@@ -1,4 +1,5 @@
-﻿public class Rootobject
+
+public class Rootobject
 {
     public Identification Identification { get; set; }
     public RecipeProperty RecipeProperty { get; set; }
@@ -20,17 +21,15 @@
     public RVG[] RVG { get; set; }
     public LimitCheck[] LimitCheck { get; set; }
     public GSM1[] GSM { get; set; }
-    public object[] IonSource { get; set; }
+    public IonSource1[] IonSource { get; set; }
     public object[] IosParameterSet { get; set; }
-    public object[] QMG { get; set; }
+    public QMG[] QMG { get; set; }
     public object[] PEM { get; set; }
-    public object[] Sequencer { get; set; }
+    public Sequencer[] Sequencer { get; set; }
     public object[] SequencerParameter { get; set; }
-    public object[] EntryAction { get; set; }
+    public EntryAction[] EntryAction { get; set; }
     public object[] Supervision { get; set; }
     public User[] User { get; set; }
-
-
 }
 
 public class Identification
@@ -520,7 +519,7 @@ public class General2
     public float Rate { get; set; }
     public float RampTime { get; set; }
     public float RateStartSetPofloat { get; set; }
-    public double ControlGain { get; set; }
+    public float ControlGain { get; set; }
     public float ToolingFactor { get; set; }
     public float PowerLimit { get; set; }
     public float WaitPower { get; set; }
@@ -597,7 +596,7 @@ public class Ramping
 public class Ramp1
 {
     public float Time { get; set; }
-    public double Power { get; set; }
+    public float Power { get; set; }
 }
 
 public class Ramp2
@@ -982,11 +981,11 @@ public class Wavelength
     public float HighLimit { get; set; }
 }
 
-public class User
+public class IonSource1
 {
     public Identification13 Identification { get; set; }
     public References7 References { get; set; }
-    public object[] Parameter { get; set; }
+    public Parameter13 Parameter { get; set; }
 }
 
 public class Identification13
@@ -994,12 +993,290 @@ public class Identification13
     public float ModuleNumber { get; set; }
     public string ModuleName { get; set; }
     public string ModuleDefinitionState { get; set; }
-    public string UserName { get; set; }
 }
 
 public class References7
 {
+    public float ParameterSet1 { get; set; }
+    public float ParameterSet2 { get; set; }
+    public float ParameterSet3 { get; set; }
+}
+
+public class Parameter13
+{
+    public General4 General { get; set; }
+    public MP[] MPS { get; set; }
+    public PDS PDS { get; set; }
+    public Beam Beam { get; set; }
+    public Shutter1 Shutter { get; set; }
+    public ICP ICP { get; set; }
+    public IosGeneral IosGeneral { get; set; }
+    public Solus Solus { get; set; }
+    public GasGeneral GasGeneral { get; set; }
+    public GasIndividual[] GasIndividual { get; set; }
+    public GasIo[] GasIos { get; set; }
+}
+
+public class General4
+{
+    public float IonSrcUsed { get; set; }
+    public Ignition Ignition { get; set; }
+    public Coating Coating { get; set; }
+    public MarkII MarkII { get; set; }
+}
+
+public class Ignition
+{
+    public float Voltage { get; set; }
+    public float Current { get; set; }
+    public float Neutral { get; set; }
+}
+
+public class Coating
+{
+    public float Voltage { get; set; }
+    public float Current { get; set; }
+    public float Neutral { get; set; }
+}
+
+public class MarkII
+{
+    public float AnodeCurrent { get; set; }
+    public float AnodeVoltage { get; set; }
+    public float EmissionCurrent { get; set; }
+    public float CathodeCurrent { get; set; }
+    public float NeutralizeRatio { get; set; }
+    public float NeutralizeCurrent { get; set; }
+}
+
+public class PDS
+{
+    public bool StandbyStep { get; set; }
+}
+
+public class Beam
+{
+    public bool LeadDelay { get; set; }
+    public float OnDelay { get; set; }
+    public string StartStep { get; set; }
+    public float OffDelay { get; set; }
+    public bool GunPermanent { get; set; }
+}
+
+public class Shutter1
+{
+    public bool LeadDelay { get; set; }
+    public float Delay { get; set; }
+}
+
+public class ICP
+{
+    public bool MPSused { get; set; }
+    public float RFPower { get; set; }
+    public float CTValue { get; set; }
+    public float CLValue { get; set; }
+    public float VoltageBias { get; set; }
+    public Current1 Current { get; set; }
+    public FrequencyTuning FrequencyTuning { get; set; }
+    public Matching1 Matching { get; set; }
+}
+
+public class Current1
+{
+    public float InnerCoil { get; set; }
+    public float OuterCoil { get; set; }
+}
+
+public class FrequencyTuning
+{
+    public float StartFrequency { get; set; }
+    public float StartDelay { get; set; }
+    public string Mode { get; set; }
+    public string ChangeState { get; set; }
+}
+
+public class Matching1
+{
+    public bool AutoMode { get; set; }
+    public float ChangeDelay { get; set; }
+    public string ChangeState { get; set; }
+}
+
+public class IosGeneral
+{
+    public float BeamVoltage { get; set; }
+    public float BeamCurrent { get; set; }
+    public float AcceleratorVoltage { get; set; }
+    public float AcceleratorCurrent { get; set; }
+    public float DischargeVoltage { get; set; }
+    public float NeutralizerModuleCurrent { get; set; }
+    public float EmissionCurrent { get; set; }
+    public float EmissionVoltage { get; set; }
+    public float CathodeHeaterCurrent { get; set; }
+    public float CathodeHeaterStartCurrent { get; set; }
+    public float DischargeCurrent { get; set; }
+    public float FilamentHeaterCurrent { get; set; }
+    public float FilamentHeaterStartCurrent { get; set; }
+    public float FilamentHeaterVoltage { get; set; }
+}
+
+public class Solus
+{
+    public float AcceleratorVoltage { get; set; }
+    public float DischargeVoltage { get; set; }
+    public float EmissionToBeamCurrRatio { get; set; }
+    public float PBNBodyCurrent { get; set; }
+    public float CathodeCurrentTarget { get; set; }
+    public float DischargeCurrentTarget { get; set; }
+    public float PBNFilamentCurrTarget { get; set; }
+    public float AcceleratorCurrTarget { get; set; }
+    public float BeamProbeTarget { get; set; }
+}
+
+public class GasGeneral
+{
+    public bool Permanent { get; set; }
+    public bool LeadDelay { get; set; }
+    public float OnDelay { get; set; }
+    public MarkiiGas[] MarkIIGas { get; set; }
+    public MarkiiHECS MarkIIHECS { get; set; }
+}
+
+public class MarkiiHECS
+{
+    public float StartFlow { get; set; }
+    public float RunFlow { get; set; }
+}
+
+public class MarkiiGas
+{
+    public float GasNumber { get; set; }
+    public float StartFlow { get; set; }
+    public float RunFlow { get; set; }
+    public bool MasterChannel { get; set; }
+}
+
+public class MP
+{
+    public float Number { get; set; }
+    public bool Used { get; set; }
+    public float ParameterSet { get; set; }
+    public float WaitParameterSet { get; set; }
+}
+
+public class GasIndividual
+{
+    public float GasNumber { get; set; }
+    public float RVGNumber { get; set; }
+    public float GasSetpofloat { get; set; }
+    public float ResponseTime { get; set; }
+    public float Gain { get; set; }
+    public float StabilizationTime { get; set; }
+}
+
+public class GasIo
+{
+    public float GasNumber { get; set; }
+    public float StartFlow { get; set; }
+}
+
+public class QMG
+{
+    public Identification14 Identification { get; set; }
+    public Parameter14 Parameter { get; set; }
+}
+
+public class Identification14
+{
+    public float ModuleNumber { get; set; }
+    public string ModuleName { get; set; }
+    public string ModuleDefinitionState { get; set; }
+}
+
+public class Parameter14
+{
+    public float Alarm { get; set; }
+    public string HPAMode { get; set; }
+    public float SourceSetting { get; set; }
+    public float GainIndex { get; set; }
+    public float Accuracy { get; set; }
+    public CheckPofloat1[] CheckPofloat { get; set; }
+}
+
+public class CheckPofloat1
+{
+    public float CheckNumber { get; set; }
+    public float Mass1 { get; set; }
+    public float Mass2 { get; set; }
+    public bool LimitCheckHigh { get; set; }
+    public float Limit { get; set; }
+}
+
+public class Sequencer
+{
+    public Identification15 Identification { get; set; }
+    public References8 References { get; set; }
+    public object[] Conditions { get; set; }
+}
+
+public class Identification15
+{
+    public float ModuleNumber { get; set; }
+    public string ModuleName { get; set; }
+    public string ModuleDefinitionState { get; set; }
+}
+
+public class References8
+{
+    public float[] EntryActionModule { get; set; }
+    public object[] Supervision { get; set; }
+}
+
+public class EntryAction
+{
+    public Identification16 Identification { get; set; }
+    public InterfaceDescription InterfaceDescription { get; set; }
+    public Parameter15 Parameter { get; set; }
+}
+
+public class Identification16
+{
+    public float ModuleNumber { get; set; }
+    public string ModuleName { get; set; }
+    public string ModuleDefinitionState { get; set; }
+}
+
+public class InterfaceDescription
+{
+    public string InterfaceType { get; set; }
+    public float SubsystemNumber { get; set; }
+    public float ChannelNumber { get; set; }
+}
+
+public class Parameter15
+{
+    public float Value { get; set; }
+    public float RampTime { get; set; }
+    public float NumberofBits { get; set; }
+}
+
+public class User
+{
+    public Identification17 Identification { get; set; }
+    public References9 References { get; set; }
+    public object[] Parameter { get; set; }
+}
+
+public class Identification17
+{
+    public float ModuleNumber { get; set; }
+    public string ModuleName { get; set; }
+    public string ModuleDefinitionState { get; set; }
+    public string UserName { get; set; }
+}
+
+public class References9
+{
     public float SequencerModule1 { get; set; }
     public float VacuumModule { get; set; }
 }
-
