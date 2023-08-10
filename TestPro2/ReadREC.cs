@@ -111,13 +111,13 @@ public class General
 public class Rotation
 {
     public string Direction { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
 }
 
 public class Flexcalotte
 {
     public string Function { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
     public float Amplitude { get; set; }
     public float Velocity { get; set; }
 }
@@ -267,10 +267,10 @@ public class Identification2
 
 public class Parameter3
 {
-    public float Setpofloat1 { get; set; }
-    public float Setpofloat2 { get; set; }
-    public float Setpofloat3 { get; set; }
-    public float Setpofloat4 { get; set; }
+    public float Setpoint1 { get; set; }
+    public float Setpoint2 { get; set; }
+    public float Setpoint3 { get; set; }
+    public float Setpoint4 { get; set; }
     public float BakeoutTime { get; set; }
     public float BakeDelay { get; set; }
     public float RampTime { get; set; }
@@ -313,7 +313,7 @@ public class Parameter4
     public float CleanTime { get; set; }
     public bool DCClean { get; set; }
     public float EvacuationPressure { get; set; }
-    public float RFSetpofloat { get; set; }
+    public float RFSetpoint { get; set; }
     public float ReflectedPowerLimit { get; set; }
     public bool DependOnQMG { get; set; }
     public float PreCleanTime { get; set; }
@@ -335,7 +335,7 @@ public class Current
 public class Rotation1
 {
     public string Direction { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
 }
 
 public class IonSource
@@ -409,7 +409,7 @@ public class General1
 {
     public float EvaporationTime { get; set; }
     public float RetryStep { get; set; }
-    public bool MafloatainPumpMode { get; set; }
+    public bool MaintainPumpMode { get; set; }
     public float Thickness { get; set; }
     public float CupTemp { get; set; }
     public float DeltaTemp { get; set; }
@@ -429,7 +429,7 @@ public class General1
 public class Rotation2
 {
     public string Direction { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
 }
 
 public class SourceTemperatureControl
@@ -441,7 +441,7 @@ public class SourceTemperatureControl
 public class Flexcalotte1
 {
     public string Function { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
     public float Amplitude { get; set; }
     public float Velocity { get; set; }
 }
@@ -517,7 +517,7 @@ public class General2
 {
     public float Rate { get; set; }
     public float RampTime { get; set; }
-    public float RateStartSetPofloat { get; set; }
+    public float RateStartSetPoint { get; set; }
     public float ControlGain { get; set; }
     public float ToolingFactor { get; set; }
     public float PowerLimit { get; set; }
@@ -551,7 +551,7 @@ public class Sentinel
     public float Density { get; set; }
     public float ZRatio { get; set; }
     public bool XtalMeasurement { get; set; }
-    public float SetpofloatThickness { get; set; }
+    public float SetpointThickness { get; set; }
     public float IODefinitionReference { get; set; }
     public float FilterNumber { get; set; }
     public Calibration Calibration { get; set; }
@@ -787,7 +787,7 @@ public class Flip
 public class Lifter
 {
     public bool Enabled { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
 }
 
 public class Pacman
@@ -799,8 +799,8 @@ public class Pacman
 public class HVValveSC
 {
     public string ControlMode { get; set; }
-    public float SetpofloatPosition { get; set; }
-    public float SetpofloatPressure { get; set; }
+    public float SetpointPosition { get; set; }
+    public float SetpointPressure { get; set; }
 }
 
 public class TURBOPUMP
@@ -853,27 +853,27 @@ public class Parameter11
 public class HVValveSC1
 {
     public string ControlMode { get; set; }
-    public float SetpofloatPosition { get; set; }
-    public float SetpofloatPressure { get; set; }
+    public float SetpointPosition { get; set; }
+    public float SetpointPressure { get; set; }
 }
 
 public class MultipleFlow
 {
     public bool Used { get; set; }
-    public float Setpofloat { get; set; }
+    public float Setpoint { get; set; }
     public RVGModule[] RVGModules { get; set; }
 }
 
 public class RVGModule
 {
     public float Number { get; set; }
-    public float PartialSetpofloat { get; set; }
+    public float PartialSetpoint { get; set; }
 }
 
 public class LimitCheck
 {
     public Identification11 Identification { get; set; }
-    public CheckPofloat[] CheckPofloat { get; set; }
+    public CheckPoint[] CheckPoint { get; set; }
 }
 
 public class Identification11
@@ -883,7 +883,7 @@ public class Identification11
     public string ModuleDefinitionState { get; set; }
 }
 
-public class CheckPofloat
+public class CheckPoint
 {
     public float CheckNumber { get; set; }
     public string ElementType { get; set; }
@@ -1167,7 +1167,7 @@ public class GasIndividual
 {
     public float GasNumber { get; set; }
     public float RVGNumber { get; set; }
-    public float GasSetpofloat { get; set; }
+    public float GasSetpoint { get; set; }
     public float ResponseTime { get; set; }
     public float Gain { get; set; }
     public float StabilizationTime { get; set; }
@@ -1199,10 +1199,10 @@ public class Parameter14
     public float SourceSetting { get; set; }
     public float GainIndex { get; set; }
     public float Accuracy { get; set; }
-    public CheckPofloat1[] CheckPofloat { get; set; }
+    public CheckPoint1[] CheckPoint { get; set; }
 }
 
-public class CheckPofloat1
+public class CheckPoint1
 {
     public float CheckNumber { get; set; }
     public float Mass1 { get; set; }

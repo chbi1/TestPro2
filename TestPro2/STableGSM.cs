@@ -12,7 +12,7 @@ namespace TestPro2
         public string IntensityMin { get; set; } = string.Empty;
         public string StartIntensity { get; set; } = string.Empty;
         public string Threshold { get; set; } = string.Empty;
-        public string Beam { get; set; } = string.Empty;
+        public string Beam { get; set; } = string.Empty;  //Transmission
         public string Glass { get; set; } = string.Empty;
         public string AlgDslay { get; set; } = string.Empty;
         public string AlgTime { get; set; } = string.Empty;

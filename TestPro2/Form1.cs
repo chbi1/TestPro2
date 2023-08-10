@@ -107,6 +107,9 @@ namespace TestPro2
             dgv.DataSource = null;
             dgv.DataSource = jts;
 
+            dgv_gsm.DataSource = null;
+            dgv_gsm.DataSource = jts;
+
             show_file_name.Text = rootobject.Identification.ProcessID.ToString();
             //rootobject.Identification.ProcessID = "1234";
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
@@ -130,29 +133,41 @@ namespace TestPro2
         public JsonTable GetLayer(ProcessSequence ps)
         {
             JsonTable jsontable = new JsonTable();
-            float tempSrcMod = 0;
+            float[] tempRateMod = new float[3] { 0, 0, 0 };
             float tempGSMMod = 0;
-            float tempRateMod = 0;
+            float tempSrcMod = 0;
+            int i;
+            string special;
             jsontable.Sequence = "Layer" + " - " + ps.SequenceNumber.ToString();
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
                 {
-                    tempRateMod = layer.References.RateModule1;
+                    tempRateMod[0] = layer.References.RateModule1;
+                    tempRateMod[1] = layer.References.RateModule2;
+                    tempRateMod[2] = layer.References.RateModule3;
                     tempGSMMod = layer.References.GSMModule;
                     jsontable.ModuleName = layer.Identification.ModuleName;
-                    jsontable.Thickness = layer.Parameter.General.Thickness.ToString() + "\u212B";
+                    float thickness = layer.Parameter.General.Thickness * 10;
+                    jsontable.Thickness = thickness.ToString() + "\u212B";
+                    jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();
                     break;
                 }
             }
+            for (i = 2; i > -1; i--)
+            {
+                if (tempRateMod[i] != 0) break;
+            }
             foreach (Rate rate in rootobject.Rate)
             {
-                if (tempRateMod == rate.Identification.ModuleNumber)
+                if (tempRateMod[i] == rate.Identification.ModuleNumber)
                 {
-                    jsontable.Rate = rate.Parameter.General.Rate.ToString();
+                    float tRate = rate.Parameter.General.Rate * 10;
+                    jsontable.Rate = tRate.ToString();
                     tempSrcMod = rate.References.SourceModule;
                     break;
                 }
+
             }
             foreach (Source source in rootobject.Source)
             {
@@ -170,7 +185,34 @@ namespace TestPro2
                 if (tempGSMMod == gsm.Identification.ModuleNumber)
                 {
                     jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();
-                    
+                    jsontable.IntensityMax = gsm.Parameter.General.Intensity.Minimum.ToString();
+                    jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();
+                    jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();
+                    jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();
+                    jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();
+                    jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();
+                    jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();
+                    jsontable.Name = gsm.Identification.ModuleName;
+
+                    // ------------------- special words --------------------
+                    special = gsm.Parameter.General.Transmission;
+                    special = special.Split('_').Last();
+                    jsontable.Beam = special;
+                    special = gsm.Parameter.General.Glass.Changer;
+                    special = special.Split('_').Last();
+                    jsontable.Monitor = special;
+                    if (gsm.SignalSettings.StopCriterion == "QUARTZ_STOP")
+                    {
+                        jsontable.Cycles = "Layer";
+                    }
+                    else
+                    {
+                        special = gsm.SignalSettings.StopCriterion;
+                        special = special.Split('_').First();
+                        jsontable.Cycles = special + " " + gsm.SignalSettings.NumberofCycles.ToString();
+                    }
+
+
                     break;
                 }
             }
