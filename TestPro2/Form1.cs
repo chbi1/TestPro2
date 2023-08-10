@@ -8,6 +8,7 @@ namespace TestPro2
     public partial class Form1 : Form
     {
         Rootobject rootobject;
+        STableGSM sTableGSM;
         List<JsonTable> jts;
         string jsonData = string.Empty;
         string filePath = string.Empty;
@@ -16,6 +17,7 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
+            sTableGSM = new STableGSM();
             jts = new List<JsonTable>();
         }
 
@@ -168,6 +170,7 @@ namespace TestPro2
                 if (tempGSMMod == gsm.Identification.ModuleNumber)
                 {
                     jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();
+                    
                     break;
                 }
             }
