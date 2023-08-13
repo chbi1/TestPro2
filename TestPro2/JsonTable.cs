@@ -33,8 +33,6 @@ namespace TestPro2
         public string SubCycles { get; set; } = string.Empty;
 
 
-        public bool IsGsm = false;
-
     }
 
 }

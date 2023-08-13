@@ -8,7 +8,6 @@ namespace TestPro2
     public partial class Form1 : Form
     {
         Rootobject rootobject;
-        STableGSM sTableGSM;
         public List<JsonTable> jts;
         public int rowIndex;
         string jsonData = string.Empty;
@@ -18,7 +17,7 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
-            sTableGSM = new STableGSM();
+            
             jts = new List<JsonTable>();
         }
 
@@ -58,6 +57,7 @@ namespace TestPro2
 
             jsonData = Regex.Replace(jsonData, pattern, replacement);
             rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+            show_file_name.Text = rootobject.Identification.ProcessID.ToString();
 
         }
 
@@ -113,7 +113,7 @@ namespace TestPro2
            
             //counter++;
 
-            show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+            
             //rootobject.Identification.ProcessID = "1234";
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
