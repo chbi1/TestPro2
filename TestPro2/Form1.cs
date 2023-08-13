@@ -1,13 +1,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace TestPro2
 {
     public partial class Form1 : Form
     {
         Rootobject rootobject;
-        List<JsonTable> jts;
+        public List<JsonTable> jts; 
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -15,6 +16,7 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
+            
             jts = new List<JsonTable>();
         }
 
@@ -38,22 +40,48 @@ namespace TestPro2
                     jsonData = File.ReadAllText(filePath);
                 }
             }
-            MessageBox.Show("File Content at path: " + filePath);
+            //string pattern = @"(?<![0-9.])-(?![0-9])";
+            //string replacement = "__";
+            //jsonData = Regex.Replace(jsonData, pattern, replacement);
+
+            ///string spacePattern = @"\S \S";
+            //string spaceReplacement = "_";
+            //jsonData = Regex.Replace(jsonData, spacePattern, spaceReplacement);
+
+            rtb.Text = jsonData;
+            jsonData = jsonData.Replace(" ", "");
+            string pattern = @"(?<![0-9.])-(?![0-9])";
+            string replacement = "";
+
+
+            jsonData = Regex.Replace(jsonData, pattern, replacement);
+            rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+            show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+
         }
 
         private void process_btn_Click(object sender, EventArgs e)
         {
+            rtb.Text = string.Empty;
+            if (jsonData == string.Empty) { return; }
             jts.Clear();
 
-            jsonData = jsonData.Replace(" ", "");
-            jsonData = jsonData.Replace("-", "");
 
-            rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
+            foreach (Bake bake in rootobject.Bake)
+            {
+                if (rootobject.Pretreatment.References.BakeModule
+                    == bake.Identification.ModuleNumber)
+                {
+                    jsontable.ModuleName = bake.Identification.ModuleName;
+                    break;
+                }
+            }
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
+
                 jsontable = new JsonTable();
                 switch (sequence.ModuleType)
                 {
@@ -67,12 +95,11 @@ namespace TestPro2
                         break;
 
                     case "L":
-                        s = "Layer";
-                        jsontable= GetLayer(sequence);
+                        jsontable = GetLayer(sequence);
                         break;
 
                     case "V":
-                        jsontable = GetVacume(sequence);
+                        jsontable = GetVacuum(sequence);
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -82,10 +109,15 @@ namespace TestPro2
             dgv.DataSource = null;
             dgv.DataSource = jts;
 
+           
+            //counter++;
+
+            
             //rootobject.Identification.ProcessID = "1234";
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
         }
+
         public JsonTable GetBake(ProcessSequence ps)
         {
             JsonTable jsontable = new JsonTable();
@@ -97,24 +129,102 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Bake" +" "+ ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Bake" + " - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
         public JsonTable GetLayer(ProcessSequence ps)
         {
             JsonTable jsontable = new JsonTable();
+            float[] tempRateMod = new float[3] { 0, 0, 0 };
+            float tempGSMMod = 0;
+            float tempSrcMod = 0;
+            int i;
+            string special;
+            jsontable.Sequence = "Layer" + " - " + ps.SequenceNumber.ToString();
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
                 {
+                    tempRateMod[0] = layer.References.RateModule1;
+                    tempRateMod[1] = layer.References.RateModule2;
+                    tempRateMod[2] = layer.References.RateModule3;
+                    tempGSMMod = layer.References.GSMModule;
                     jsontable.ModuleName = layer.Identification.ModuleName;
+                    float thickness = layer.Parameter.General.Thickness * 10;
+                    jsontable.Thickness = thickness.ToString() + "\u212B";
+                    jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();
                     break;
                 }
             }
-            jsontable.Sequence = "Leyer" +" "+ ps.SequenceNumber.ToString();
+            for (i = 2; i > -1; i--)
+            {
+                if (tempRateMod[i] != 0) break;
+            }
+            foreach (Rate rate in rootobject.Rate)
+            {
+                if (tempRateMod[i] == rate.Identification.ModuleNumber)
+                {
+                    float tRate = rate.Parameter.General.Rate * 10;
+                    jsontable.Rate = tRate.ToString();
+                    tempSrcMod = rate.References.SourceModule;
+                    break;
+                }
+
+            }
+            foreach (Source source in rootobject.Source)
+            {
+                if (tempSrcMod == source.Identification.ModuleNumber)
+                {
+                    if (source.Parameter.SourceNumber == 1)
+                        jsontable.TSource = source.References.EECModule;
+                    else
+                        jsontable.TSource = source.Parameter.SourceNumber.ToString();
+                    break;
+                }
+            }
+            if (tempGSMMod != 0)
+            {
+                jsontable.IsGSM = true;
+                foreach (GSM1 gsm in rootobject.GSM)
+                {
+                    if (tempGSMMod == gsm.Identification.ModuleNumber)
+                    {
+                        jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();            //Main & GSM
+                        jsontable.IntensityMax = gsm.Parameter.General.Intensity.Maximum.ToString();            //GSM
+                        jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();            //GSM
+                        jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();                       //GSM
+                        jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();                            //Main & GSM
+                        jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();                      //GSM
+                        jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
+                        jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
+                        jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
+                        
+
+                        // ------------------- special words --------------------
+                        special = gsm.Parameter.General.Transmission;
+                        special = special.Split('_').Last();
+                        jsontable.Beam = special;                                                               //GSM
+                        special = gsm.Parameter.General.Glass.Changer;
+                        special = special.Split('_').Last();
+                        jsontable.Monitor = special;                                                            //Main & GSM 
+                        special = gsm.SignalSettings.StopCriterion;
+                        special = special.Split('_').First();
+                        jsontable.StopMode = special;                                                            //GSM
+                        if (jsontable.StopMode == "QUARTZ")
+                        {
+                            jsontable.Cycles = "Layer";
+                        }
+                        else
+                        {
+                            jsontable.Cycles = jsontable.StopMode + " " + gsm.SignalSettings.NumberofCycles.ToString();    //Main
+                        }
+                        break;
+                    }
+                }
+            }
             return jsontable;
         }
-        public JsonTable GetVacume(ProcessSequence ps)
+        public JsonTable GetVacuum(ProcessSequence ps)
         {
             JsonTable jsontable = new JsonTable();
             foreach (Vacuum1 vacuum in rootobject.Vacuum)
@@ -125,7 +235,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Vacuum" +" "+ ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Vacuum" + " - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
         public JsonTable GetClean(ProcessSequence ps)
@@ -139,8 +249,21 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Clean" + " " + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Clean" + " - " + ps.SequenceNumber.ToString();
             return jsontable;
+        }
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+
+                int rowIndex = e.RowIndex;
+                int columnIndex = e.ColumnIndex;
+                if (columnIndex > 5 && jts[rowIndex].IsGSM)
+                    new GSMTable(jts[rowIndex]).ShowDialog();
+               
+            }
         }
     }
 }
