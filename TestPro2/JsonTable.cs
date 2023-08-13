@@ -31,7 +31,7 @@ namespace TestPro2
         public string StopMode { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string SubCycles { get; set; } = string.Empty;
-
+        public bool IsGSM { get; set; } = false;
 
     }
 

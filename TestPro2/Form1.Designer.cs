@@ -34,20 +34,20 @@
             jsonTableBindingSource1 = new BindingSource(components);
             open_btn = new Button();
             rtb = new RichTextBox();
-            startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            wavelengthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            cyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            thicknessDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            rateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            rotationDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            moduleNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            sequenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dgv = new DataGridView();
             process_btn = new Button();
             show_file_name = new TextBox();
             label1 = new Label();
+            sequenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            moduleNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            rotationDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            rateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            thicknessDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            cyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            wavelengthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
@@ -78,86 +78,6 @@
             rtb.Size = new Size(1693, 237);
             rtb.TabIndex = 1;
             rtb.Text = "";
-            // 
-            // startIntensityDataGridViewTextBoxColumn
-            // 
-            startIntensityDataGridViewTextBoxColumn.DataPropertyName = "StartIntensity";
-            startIntensityDataGridViewTextBoxColumn.HeaderText = "StartIntensity";
-            startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
-            startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
-            startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // monitorDataGridViewTextBoxColumn
-            // 
-            monitorDataGridViewTextBoxColumn.DataPropertyName = "Monitor";
-            monitorDataGridViewTextBoxColumn.HeaderText = "Monitor";
-            monitorDataGridViewTextBoxColumn.MinimumWidth = 8;
-            monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
-            monitorDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // wavelengthDataGridViewTextBoxColumn
-            // 
-            wavelengthDataGridViewTextBoxColumn.DataPropertyName = "Wavelength";
-            wavelengthDataGridViewTextBoxColumn.HeaderText = "Wavelength";
-            wavelengthDataGridViewTextBoxColumn.MinimumWidth = 8;
-            wavelengthDataGridViewTextBoxColumn.Name = "wavelengthDataGridViewTextBoxColumn";
-            wavelengthDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // cyclesDataGridViewTextBoxColumn
-            // 
-            cyclesDataGridViewTextBoxColumn.DataPropertyName = "Cycles";
-            cyclesDataGridViewTextBoxColumn.HeaderText = "Cycles";
-            cyclesDataGridViewTextBoxColumn.MinimumWidth = 8;
-            cyclesDataGridViewTextBoxColumn.Name = "cyclesDataGridViewTextBoxColumn";
-            cyclesDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // thicknessDataGridViewTextBoxColumn
-            // 
-            thicknessDataGridViewTextBoxColumn.DataPropertyName = "Thickness";
-            thicknessDataGridViewTextBoxColumn.HeaderText = "Thickness";
-            thicknessDataGridViewTextBoxColumn.MinimumWidth = 8;
-            thicknessDataGridViewTextBoxColumn.Name = "thicknessDataGridViewTextBoxColumn";
-            thicknessDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rateDataGridViewTextBoxColumn
-            // 
-            rateDataGridViewTextBoxColumn.DataPropertyName = "Rate";
-            rateDataGridViewTextBoxColumn.HeaderText = "Rate";
-            rateDataGridViewTextBoxColumn.MinimumWidth = 8;
-            rateDataGridViewTextBoxColumn.Name = "rateDataGridViewTextBoxColumn";
-            rateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rotationDataGridViewTextBoxColumn
-            // 
-            rotationDataGridViewTextBoxColumn.DataPropertyName = "Rotation";
-            rotationDataGridViewTextBoxColumn.HeaderText = "Rotation";
-            rotationDataGridViewTextBoxColumn.MinimumWidth = 8;
-            rotationDataGridViewTextBoxColumn.Name = "rotationDataGridViewTextBoxColumn";
-            rotationDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "TSource";
-            dataGridViewTextBoxColumn2.HeaderText = "TSource";
-            dataGridViewTextBoxColumn2.MinimumWidth = 8;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // moduleNameDataGridViewTextBoxColumn
-            // 
-            moduleNameDataGridViewTextBoxColumn.DataPropertyName = "ModuleName";
-            moduleNameDataGridViewTextBoxColumn.HeaderText = "ModuleName";
-            moduleNameDataGridViewTextBoxColumn.MinimumWidth = 8;
-            moduleNameDataGridViewTextBoxColumn.Name = "moduleNameDataGridViewTextBoxColumn";
-            moduleNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // sequenceDataGridViewTextBoxColumn
-            // 
-            sequenceDataGridViewTextBoxColumn.DataPropertyName = "Sequence";
-            sequenceDataGridViewTextBoxColumn.HeaderText = "Sequence";
-            sequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
-            sequenceDataGridViewTextBoxColumn.Name = "sequenceDataGridViewTextBoxColumn";
-            sequenceDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // dgv
             // 
@@ -213,6 +133,86 @@
             label1.TabIndex = 5;
             label1.Text = "File Name";
             // 
+            // sequenceDataGridViewTextBoxColumn
+            // 
+            sequenceDataGridViewTextBoxColumn.DataPropertyName = "Sequence";
+            sequenceDataGridViewTextBoxColumn.HeaderText = "Sequence";
+            sequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
+            sequenceDataGridViewTextBoxColumn.Name = "sequenceDataGridViewTextBoxColumn";
+            sequenceDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // moduleNameDataGridViewTextBoxColumn
+            // 
+            moduleNameDataGridViewTextBoxColumn.DataPropertyName = "ModuleName";
+            moduleNameDataGridViewTextBoxColumn.HeaderText = "Module Name";
+            moduleNameDataGridViewTextBoxColumn.MinimumWidth = 8;
+            moduleNameDataGridViewTextBoxColumn.Name = "moduleNameDataGridViewTextBoxColumn";
+            moduleNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.DataPropertyName = "TSource";
+            dataGridViewTextBoxColumn2.HeaderText = "Source";
+            dataGridViewTextBoxColumn2.MinimumWidth = 8;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // rotationDataGridViewTextBoxColumn
+            // 
+            rotationDataGridViewTextBoxColumn.DataPropertyName = "Rotation";
+            rotationDataGridViewTextBoxColumn.HeaderText = "Rotation";
+            rotationDataGridViewTextBoxColumn.MinimumWidth = 8;
+            rotationDataGridViewTextBoxColumn.Name = "rotationDataGridViewTextBoxColumn";
+            rotationDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rateDataGridViewTextBoxColumn
+            // 
+            rateDataGridViewTextBoxColumn.DataPropertyName = "Rate";
+            rateDataGridViewTextBoxColumn.HeaderText = "Rate";
+            rateDataGridViewTextBoxColumn.MinimumWidth = 8;
+            rateDataGridViewTextBoxColumn.Name = "rateDataGridViewTextBoxColumn";
+            rateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // thicknessDataGridViewTextBoxColumn
+            // 
+            thicknessDataGridViewTextBoxColumn.DataPropertyName = "Thickness";
+            thicknessDataGridViewTextBoxColumn.HeaderText = "Thickness";
+            thicknessDataGridViewTextBoxColumn.MinimumWidth = 8;
+            thicknessDataGridViewTextBoxColumn.Name = "thicknessDataGridViewTextBoxColumn";
+            thicknessDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cyclesDataGridViewTextBoxColumn
+            // 
+            cyclesDataGridViewTextBoxColumn.DataPropertyName = "Cycles";
+            cyclesDataGridViewTextBoxColumn.HeaderText = "Cycles";
+            cyclesDataGridViewTextBoxColumn.MinimumWidth = 8;
+            cyclesDataGridViewTextBoxColumn.Name = "cyclesDataGridViewTextBoxColumn";
+            cyclesDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // wavelengthDataGridViewTextBoxColumn
+            // 
+            wavelengthDataGridViewTextBoxColumn.DataPropertyName = "Wavelength";
+            wavelengthDataGridViewTextBoxColumn.HeaderText = "Wavelength";
+            wavelengthDataGridViewTextBoxColumn.MinimumWidth = 8;
+            wavelengthDataGridViewTextBoxColumn.Name = "wavelengthDataGridViewTextBoxColumn";
+            wavelengthDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // monitorDataGridViewTextBoxColumn
+            // 
+            monitorDataGridViewTextBoxColumn.DataPropertyName = "Monitor";
+            monitorDataGridViewTextBoxColumn.HeaderText = "Monitor";
+            monitorDataGridViewTextBoxColumn.MinimumWidth = 8;
+            monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
+            monitorDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // startIntensityDataGridViewTextBoxColumn
+            // 
+            startIntensityDataGridViewTextBoxColumn.DataPropertyName = "StartIntensity";
+            startIntensityDataGridViewTextBoxColumn.HeaderText = "Start Intensity";
+            startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
+            startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
+            startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -243,19 +243,19 @@
         private BindingSource jsonTableBindingSource1;
         private Button open_btn;
         private RichTextBox rtb;
-        private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn cyclesDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn thicknessDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn rateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn rotationDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn sequenceDataGridViewTextBoxColumn;
         private DataGridView dgv;
         private Button process_btn;
         private TextBox show_file_name;
         private Label label1;
+        private DataGridViewTextBoxColumn sequenceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn rotationDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn rateDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn thicknessDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn cyclesDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
     }
 }

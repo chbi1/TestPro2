@@ -15,7 +15,7 @@ namespace TestPro2
         public GSMTable(JsonTable jt)
         {
             InitializeComponent();
-            
+
             List<JsonTable> list = new List<JsonTable>();
             list.Add(jt);
             dgv_gsm.DataSource = null;

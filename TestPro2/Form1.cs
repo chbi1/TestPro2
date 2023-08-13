@@ -9,7 +9,7 @@ namespace TestPro2
     {
         Rootobject rootobject;
         public List<JsonTable> jts;
-        public int rowIndex;
+
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -17,14 +17,11 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
-            
             jts = new List<JsonTable>();
         }
 
-
         private void open_btn_Click(object sender, EventArgs e)
         {
-
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
@@ -54,7 +51,6 @@ namespace TestPro2
             string pattern = @"(?<![0-9.])-(?![0-9])";
             string replacement = "";
 
-
             jsonData = Regex.Replace(jsonData, pattern, replacement);
             rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
             show_file_name.Text = rootobject.Identification.ProcessID.ToString();
@@ -67,7 +63,6 @@ namespace TestPro2
             if (jsonData == string.Empty) { return; }
             jts.Clear();
             //int counter = 0;
-
 
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
@@ -83,7 +78,6 @@ namespace TestPro2
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
-
                 jsontable = new JsonTable();
                 switch (sequence.ModuleType)
                 {
@@ -109,11 +103,8 @@ namespace TestPro2
 
             dgv.DataSource = null;
             dgv.DataSource = jts;
-
-           
             //counter++;
 
-            
             //rootobject.Identification.ProcessID = "1234";
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
@@ -170,7 +161,6 @@ namespace TestPro2
                     tempSrcMod = rate.References.SourceModule;
                     break;
                 }
-
             }
             foreach (Source source in rootobject.Source)
             {
@@ -185,6 +175,7 @@ namespace TestPro2
             }
             if (tempGSMMod != 0)
             {
+                jsontable.IsGSM = true;
                 foreach (GSM1 gsm in rootobject.GSM)
                 {
                     if (tempGSMMod == gsm.Identification.ModuleNumber)
@@ -198,7 +189,6 @@ namespace TestPro2
                         jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
                         jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
                         jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
-                        
 
                         // ------------------- special words --------------------
                         special = gsm.Parameter.General.Transmission;
@@ -257,11 +247,11 @@ namespace TestPro2
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-
-                rowIndex = e.RowIndex;
+                int rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
-                new GSMTable(jts[rowIndex]).ShowDialog();
-               
+                if (columnIndex > 5 && jts[rowIndex].IsGSM)
+                    new GSMTable(jts[rowIndex]).ShowDialog();
+
             }
         }
     }
