@@ -9,7 +9,8 @@ namespace TestPro2
     {
         Rootobject rootobject;
         STableGSM sTableGSM;
-        List<JsonTable> jts;
+        public List<JsonTable> jts;
+        public int rowIndex;
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -49,8 +50,15 @@ namespace TestPro2
             //string spaceReplacement = "_";
             //jsonData = Regex.Replace(jsonData, spacePattern, spaceReplacement);
 
-            MessageBox.Show("File Content at path: " + filePath);
             rtb.Text = jsonData;
+            jsonData = jsonData.Replace(" ", "");
+            string pattern = @"(?<![0-9.])-(?![0-9])";
+            string replacement = "";
+
+
+            jsonData = Regex.Replace(jsonData, pattern, replacement);
+            rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+
         }
 
         private void process_btn_Click(object sender, EventArgs e)
@@ -58,15 +66,9 @@ namespace TestPro2
             rtb.Text = string.Empty;
             if (jsonData == string.Empty) { return; }
             jts.Clear();
-
-            jsonData = jsonData.Replace(" ", "");
-            string pattern = @"(?<![0-9.])-(?![0-9])";
-            string replacement = "";
+            //int counter = 0;
 
 
-            jsonData = Regex.Replace(jsonData, pattern, replacement);
-
-            rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
             foreach (Bake bake in rootobject.Bake)
@@ -81,6 +83,7 @@ namespace TestPro2
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
+
                 jsontable = new JsonTable();
                 switch (sequence.ModuleType)
                 {
@@ -107,8 +110,8 @@ namespace TestPro2
             dgv.DataSource = null;
             dgv.DataSource = jts;
 
-            dgv_gsm.DataSource = null;
-            dgv_gsm.DataSource = jts;
+           
+            //counter++;
 
             show_file_name.Text = rootobject.Identification.ProcessID.ToString();
             //rootobject.Identification.ProcessID = "1234";
@@ -180,40 +183,43 @@ namespace TestPro2
                     break;
                 }
             }
-            foreach (GSM1 gsm in rootobject.GSM)
+            if (tempGSMMod != 0)
             {
-                if (tempGSMMod == gsm.Identification.ModuleNumber)
+                foreach (GSM1 gsm in rootobject.GSM)
                 {
-                    jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();
-                    jsontable.IntensityMax = gsm.Parameter.General.Intensity.Minimum.ToString();
-                    jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();
-                    jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();
-                    jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();
-                    jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();
-                    jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();
-                    jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();
-                    jsontable.Name = gsm.Identification.ModuleName;
+                    if (tempGSMMod == gsm.Identification.ModuleNumber)
+                    {
+                        jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();            //Main & GSM
+                        jsontable.IntensityMax = gsm.Parameter.General.Intensity.Maximum.ToString();            //GSM
+                        jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();            //GSM
+                        jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();                       //GSM
+                        jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();                            //Main & GSM
+                        jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();                      //GSM
+                        jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
+                        jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
+                        jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
+                        
 
-                    // ------------------- special words --------------------
-                    special = gsm.Parameter.General.Transmission;
-                    special = special.Split('_').Last();
-                    jsontable.Beam = special;
-                    special = gsm.Parameter.General.Glass.Changer;
-                    special = special.Split('_').Last();
-                    jsontable.Monitor = special;
-                    if (gsm.SignalSettings.StopCriterion == "QUARTZ_STOP")
-                    {
-                        jsontable.Cycles = "Layer";
-                    }
-                    else
-                    {
+                        // ------------------- special words --------------------
+                        special = gsm.Parameter.General.Transmission;
+                        special = special.Split('_').Last();
+                        jsontable.Beam = special;                                                               //GSM
+                        special = gsm.Parameter.General.Glass.Changer;
+                        special = special.Split('_').Last();
+                        jsontable.Monitor = special;                                                            //Main & GSM 
                         special = gsm.SignalSettings.StopCriterion;
                         special = special.Split('_').First();
-                        jsontable.Cycles = special + " " + gsm.SignalSettings.NumberofCycles.ToString();
+                        jsontable.StopMode = special;                                                            //GSM
+                        if (jsontable.StopMode == "QUARTZ")
+                        {
+                            jsontable.Cycles = "Layer";
+                        }
+                        else
+                        {
+                            jsontable.Cycles = jsontable.StopMode + " " + gsm.SignalSettings.NumberofCycles.ToString();    //Main
+                        }
+                        break;
                     }
-
-
-                    break;
                 }
             }
             return jsontable;
@@ -245,6 +251,18 @@ namespace TestPro2
             }
             jsontable.Sequence = "Clean" + " - " + ps.SequenceNumber.ToString();
             return jsontable;
+        }
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+
+                rowIndex = e.RowIndex;
+                int columnIndex = e.ColumnIndex;
+                new GSMTable(jts[rowIndex]).ShowDialog();
+               
+            }
         }
     }
 }
