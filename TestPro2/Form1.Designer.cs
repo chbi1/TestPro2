@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             jsonTableBindingSource = new BindingSource(components);
             jsonTableBindingSource1 = new BindingSource(components);
@@ -61,6 +62,7 @@
             // 
             jsonTableBindingSource1.DataSource = typeof(JsonTable);
             // 
+
             // open_btn
             // 
             open_btn.Location = new Point(12, 12);
@@ -73,14 +75,17 @@
             // 
             // rtb
             // 
+
             rtb.Location = new Point(12, 655);
             rtb.Name = "rtb";
             rtb.Size = new Size(1693, 237);
+
             rtb.TabIndex = 1;
             rtb.Text = "";
             // 
             // dgv
             // 
+
             dgv.AllowUserToAddRows = false;
             dgv.AutoGenerateColumns = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -184,6 +189,7 @@
             startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
             startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
             startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
+
             // 
             // process_btn
             // 
@@ -195,6 +201,7 @@
             process_btn.UseVisualStyleBackColor = true;
             process_btn.Click += process_btn_Click;
             // 
+
             // show_file_name
             // 
             show_file_name.Location = new Point(1524, 17);
@@ -212,6 +219,7 @@
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
             label1.Text = "File Name";
+
             // 
             // Form1
             // 
@@ -257,5 +265,6 @@
         private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
+
     }
 }

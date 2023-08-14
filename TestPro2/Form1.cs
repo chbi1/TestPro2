@@ -8,8 +8,10 @@ namespace TestPro2
     public partial class Form1 : Form
     {
         Rootobject rootobject;
+
         public List<JsonTable> jts;
         Queue<char> id;
+
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -17,12 +19,14 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
+
             jts = new List<JsonTable>();
             id = new Queue<char>();
         }
 
         private void open_btn_Click(object sender, EventArgs e)
         {
+
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
@@ -52,6 +56,7 @@ namespace TestPro2
             string pattern = @"(?<![0-9.])-(?![0-9])";
             string replacement = "";
 
+
             jsonData = Regex.Replace(jsonData, pattern, replacement);
             rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
             show_file_name.Text = rootobject.Identification.ProcessID.ToString();
@@ -63,6 +68,7 @@ namespace TestPro2
             rtb.Text = string.Empty;
             if (jsonData == string.Empty) { return; }
             jts.Clear();
+
 
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
@@ -78,27 +84,36 @@ namespace TestPro2
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
+
                 jsontable = new JsonTable();
                 switch (sequence.ModuleType)
                 {
                     case "B":
+
                         jsontable = GetBake(sequence);
                         id.Enqueue('B');
+
                         break;
 
                     case "C":
                         jsontable = GetClean(sequence);
+
                         id.Enqueue('C');
+
                         break;
 
                     case "L":
                         jsontable = GetLayer(sequence);
+
                         id.Enqueue('L');
+
                         break;
 
                     case "V":
                         jsontable = GetVacuum(sequence);
+
                         id.Enqueue('V');
+
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -107,6 +122,7 @@ namespace TestPro2
 
             dgv.DataSource = null;
             dgv.DataSource = jts;
+
             int i = 1;
             dgv.Rows[0].Cells[0].Style.BackColor = Color.Gainsboro;
             while (id.Count > 0)
@@ -128,6 +144,7 @@ namespace TestPro2
                 }
                 i++;
             }
+
 
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
@@ -184,6 +201,7 @@ namespace TestPro2
                     tempSrcMod = rate.References.SourceModule;
                     break;
                 }
+
             }
             foreach (Source source in rootobject.Source)
             {
@@ -213,6 +231,7 @@ namespace TestPro2
                         jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
                         jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
 
+
                         // ------------------- special words --------------------
                         special = gsm.Parameter.General.Transmission;
                         special = special.Split('_').Last();
@@ -222,7 +241,9 @@ namespace TestPro2
                         jsontable.Monitor = special;                                                            //Main & GSM 
                         special = gsm.SignalSettings.StopCriterion;
                         special = special.Split('_').First();
+
                         jsontable.StopMode = special;                                                           //GSM
+
                         if (jsontable.StopMode == "QUARTZ")
                         {
                             jsontable.Cycles = "Layer";
@@ -270,6 +291,7 @@ namespace TestPro2
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
+
                 int rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
                 if (columnIndex > 5 && jts[rowIndex].IsGSM)
