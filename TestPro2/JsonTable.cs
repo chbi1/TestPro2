@@ -31,6 +31,8 @@ namespace TestPro2
         public string StopMode { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string SubCycles { get; set; } = string.Empty;
+        public bool IsGSM { get; set; } = false;
+
 
         //---------Data for Layer
         public string Derivative { get; set; } = string.Empty;
@@ -48,7 +50,6 @@ namespace TestPro2
         public string Delay { get; set; } = string.Empty;
         //public string Rate { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
-
 
 
     }

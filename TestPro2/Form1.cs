@@ -8,8 +8,10 @@ namespace TestPro2
     public partial class Form1 : Form
     {
         Rootobject rootobject;
+
         public List<JsonTable> jts;
-        public int rowIndex;
+        Queue<char> id;
+
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -17,10 +19,10 @@ namespace TestPro2
         {
             InitializeComponent();
             rootobject = new Rootobject();
-            
-            jts = new List<JsonTable>();
-        }
 
+            jts = new List<JsonTable>();
+            id = new Queue<char>();
+        }
 
         private void open_btn_Click(object sender, EventArgs e)
         {
@@ -66,7 +68,6 @@ namespace TestPro2
             rtb.Text = string.Empty;
             if (jsonData == string.Empty) { return; }
             jts.Clear();
-            //int counter = 0;
 
 
             JsonTable jsontable = new JsonTable();
@@ -88,19 +89,31 @@ namespace TestPro2
                 switch (sequence.ModuleType)
                 {
                     case "B":
+
                         jsontable = GetBake(sequence);
+                        id.Enqueue('B');
+
                         break;
 
                     case "C":
                         jsontable = GetClean(sequence);
+
+                        id.Enqueue('C');
+
                         break;
 
                     case "L":
                         jsontable = GetLayer(sequence);
+
+                        id.Enqueue('L');
+
                         break;
 
                     case "V":
                         jsontable = GetVacuum(sequence);
+
+                        id.Enqueue('V');
+
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -110,11 +123,29 @@ namespace TestPro2
             dgv.DataSource = null;
             dgv.DataSource = jts;
 
-           
-            //counter++;
+            int i = 1;
+            dgv.Rows[0].Cells[0].Style.BackColor = Color.Gainsboro;
+            while (id.Count > 0)
+            {
+                switch (id.Dequeue())
+                {
+                    case 'B':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.MistyRose;
+                        break;
+                    case 'C':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
+                        break;
+                    case 'L':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.AliceBlue;
+                        break;
+                    case 'V':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.LightYellow;
+                        break;
+                }
+                i++;
+            }
 
-            
-            //rootobject.Identification.ProcessID = "1234";
+
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
         }
@@ -202,6 +233,7 @@ namespace TestPro2
             }
             if (tempGSMMod != 0)
             {
+                jsontable.IsGSM = true;
                 foreach (GSM1 gsm in rootobject.GSM)
                 {
                     if (tempGSMMod == gsm.Identification.ModuleNumber)
@@ -215,7 +247,7 @@ namespace TestPro2
                         jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
                         jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
                         jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
-                        
+
 
                         // ------------------- special words --------------------
                         special = gsm.Parameter.General.Transmission;
@@ -226,7 +258,9 @@ namespace TestPro2
                         jsontable.Monitor = special;                                                            //Main & GSM 
                         special = gsm.SignalSettings.StopCriterion;
                         special = special.Split('_').First();
-                        jsontable.StopMode = special;                                                            //GSM
+
+                        jsontable.StopMode = special;                                                           //GSM
+
                         if (jsontable.StopMode == "QUARTZ")
                         {
                             jsontable.Cycles = "Layer";
@@ -275,12 +309,14 @@ namespace TestPro2
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
 
-                rowIndex = e.RowIndex;
+                int rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
-                if (columnIndex > 5)
+
+                if (columnIndex > 5 && jts[rowIndex].IsGSM)
                 new GSMTable(jts[rowIndex]).ShowDialog();
                 else if (e.ColumnIndex == 1)
                     new DataForLayer(jts[rowIndex]).ShowDialog();
+
             }
             
 

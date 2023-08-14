@@ -111,7 +111,9 @@ public class General
 public class Rotation
 {
     public string Direction { get; set; }
+
     public float Setpoint { get; set; }
+
 }
 
 public class Flexcalotte
@@ -518,7 +520,7 @@ public class General2
     public float Rate { get; set; }
     public float RampTime { get; set; }
     public float RateStartSetPoint { get; set; }
-    public float ControlGain { get; set; }
+    public double ControlGain { get; set; }
     public float ToolingFactor { get; set; }
     public float PowerLimit { get; set; }
     public float WaitPower { get; set; }
@@ -595,7 +597,7 @@ public class Ramping
 public class Ramp1
 {
     public float Time { get; set; }
-    public float Power { get; set; }
+    public double Power { get; set; }
 }
 
 public class Ramp2
@@ -860,6 +862,7 @@ public class HVValveSC1
 public class MultipleFlow
 {
     public bool Used { get; set; }
+
     public float Setpoint { get; set; }
     public RVGModule[] RVGModules { get; set; }
 }
@@ -1267,6 +1270,7 @@ public class User
 }
 
 public class Identification17
+
 {
     public float ModuleNumber { get; set; }
     public string ModuleName { get; set; }

@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             dgv_gsm = new DataGridView();
-            jsonTableBindingSource = new BindingSource(components);
             intensityMaxDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             intensityMinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             thresholdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -39,11 +38,11 @@
             Monitor = new DataGridViewTextBoxColumn();
             algDalayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             algTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             stopModeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             subCyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Wavelength = new DataGridViewTextBoxColumn();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            jsonTableBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dgv_gsm).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             SuspendLayout();
@@ -54,18 +53,14 @@
             dgv_gsm.AutoGenerateColumns = false;
             dgv_gsm.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_gsm.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_gsm.Columns.AddRange(new DataGridViewColumn[] { intensityMaxDataGridViewTextBoxColumn, intensityMinDataGridViewTextBoxColumn, thresholdDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn, beamDataGridViewTextBoxColumn, Monitor, algDalayDataGridViewTextBoxColumn, algTimeDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, stopModeDataGridViewTextBoxColumn, subCyclesDataGridViewTextBoxColumn, Wavelength, nameDataGridViewTextBoxColumn });
+            dgv_gsm.Columns.AddRange(new DataGridViewColumn[] { intensityMaxDataGridViewTextBoxColumn, intensityMinDataGridViewTextBoxColumn, thresholdDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn, beamDataGridViewTextBoxColumn, Monitor, algDalayDataGridViewTextBoxColumn, algTimeDataGridViewTextBoxColumn, stopModeDataGridViewTextBoxColumn, subCyclesDataGridViewTextBoxColumn, Wavelength, nameDataGridViewTextBoxColumn });
             dgv_gsm.DataSource = jsonTableBindingSource;
             dgv_gsm.Location = new Point(12, 12);
             dgv_gsm.Name = "dgv_gsm";
             dgv_gsm.RowHeadersWidth = 62;
             dgv_gsm.RowTemplate.Height = 33;
-            dgv_gsm.Size = new Size(1645, 151);
+            dgv_gsm.Size = new Size(1728, 151);
             dgv_gsm.TabIndex = 0;
-            // 
-            // jsonTableBindingSource
-            // 
-            jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
             // intensityMaxDataGridViewTextBoxColumn
             // 
@@ -130,14 +125,6 @@
             algTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
             algTimeDataGridViewTextBoxColumn.Name = "algTimeDataGridViewTextBoxColumn";
             // 
-            // monitorDataGridViewTextBoxColumn
-            // 
-            monitorDataGridViewTextBoxColumn.DataPropertyName = "Monitor";
-            monitorDataGridViewTextBoxColumn.FillWeight = 98.30632F;
-            monitorDataGridViewTextBoxColumn.HeaderText = "Monitor";
-            monitorDataGridViewTextBoxColumn.MinimumWidth = 8;
-            monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
-            // 
             // stopModeDataGridViewTextBoxColumn
             // 
             stopModeDataGridViewTextBoxColumn.DataPropertyName = "StopMode";
@@ -169,11 +156,15 @@
             nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             // 
+            // jsonTableBindingSource
+            // 
+            jsonTableBindingSource.DataSource = typeof(JsonTable);
+            // 
             // GSMTable
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1669, 175);
+            ClientSize = new Size(1752, 175);
             Controls.Add(dgv_gsm);
             Name = "GSMTable";
             Text = "GSMTable";
@@ -194,7 +185,6 @@
         private DataGridViewTextBoxColumn Monitor;
         private DataGridViewTextBoxColumn algDalayDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn algTimeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn stopModeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn subCyclesDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn Wavelength;
