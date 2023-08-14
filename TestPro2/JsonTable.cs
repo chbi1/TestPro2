@@ -32,6 +32,24 @@ namespace TestPro2
         public string Name { get; set; } = string.Empty;
         public string SubCycles { get; set; } = string.Empty;
 
+        //---------Data for Layer
+        public string Derivative { get; set; } = string.Empty;
+        public string Derivative2 { get; set; } = string.Empty;
+        public string Response { get; set; } = string.Empty;
+        public string Gain { get; set; } = string.Empty;
+        public string HoldTime { get; set; } = string.Empty;
+        public string PL { get; set; } = string.Empty;
+        public string P3 { get; set; } = string.Empty;
+        public string T3 { get; set; } = string.Empty;
+        public string P2 { get; set; } = string.Empty;
+        public string T2 { get; set; } = string.Empty;
+        public string P1 { get; set; } = string.Empty;
+        public string T1 { get; set; } = string.Empty;
+        public string Delay { get; set; } = string.Empty;
+        //public string Rate { get; set; } = string.Empty;
+        public string Source { get; set; } = string.Empty;
+
+
 
     }
 

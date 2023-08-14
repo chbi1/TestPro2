@@ -154,6 +154,7 @@ namespace TestPro2
                     float thickness = layer.Parameter.General.Thickness * 10;
                     jsontable.Thickness = thickness.ToString() + "\u212B";
                     jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();
+                    
                     break;
                 }
             }
@@ -167,6 +168,19 @@ namespace TestPro2
                 {
                     float tRate = rate.Parameter.General.Rate * 10;
                     jsontable.Rate = tRate.ToString();
+                    jsontable.Derivative = rate.Parameter.PIDController.Derivative.ToString();
+                    jsontable.Gain = rate.Parameter.General.ControlGain.ToString();
+                    jsontable.HoldTime = rate.Ramping.Hold.Time.ToString();
+                    jsontable.PL = rate.Parameter.General.PowerLimit.ToString();
+                    jsontable.P3 = rate.Ramping.Ramp3.Power.ToString();
+                    jsontable.T3 = rate.Ramping.Ramp3.Time.ToString();
+                    jsontable.P2 = rate.Ramping.Ramp2.Power.ToString();
+                    jsontable.T3 = rate.Ramping.Ramp2.Time.ToString();
+                    jsontable.P1 = rate.Ramping.Ramp1.Power.ToString();
+                    jsontable.T3 = rate.Ramping.Ramp1.Time.ToString();
+                    jsontable.Delay = rate.Ramping.RiseDelay.ToString();
+                    jsontable.Source = rate.Identification.ModuleName.ToString()+"_"+ rate.References.SourceModule.ToString();
+
                     tempSrcMod = rate.References.SourceModule;
                     break;
                 }
@@ -174,6 +188,9 @@ namespace TestPro2
             }
             foreach (Source source in rootobject.Source)
             {
+                jsontable.Response = source.Xtal.ResponseTime.ToString();
+                jsontable.Derivative2 = source.Xtal.DerivativeTime.ToString();
+
                 if (tempSrcMod == source.Identification.ModuleNumber)
                 {
                     if (source.Parameter.SourceNumber == 1)
@@ -260,9 +277,14 @@ namespace TestPro2
 
                 rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
+                if (columnIndex > 5)
                 new GSMTable(jts[rowIndex]).ShowDialog();
-               
+                else if (e.ColumnIndex == 1)
+                    new DataForLayer(jts[rowIndex]).ShowDialog();
             }
+            
+
+
         }
     }
 }
