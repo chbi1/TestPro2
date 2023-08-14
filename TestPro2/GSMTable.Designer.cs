@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             dgv_gsm = new DataGridView();
-            jsonTableBindingSource = new BindingSource(components);
             intensityMaxDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             intensityMinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             thresholdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -43,6 +42,7 @@
             subCyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Wavelength = new DataGridViewTextBoxColumn();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            jsonTableBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dgv_gsm).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             SuspendLayout();
@@ -59,12 +59,8 @@
             dgv_gsm.Name = "dgv_gsm";
             dgv_gsm.RowHeadersWidth = 62;
             dgv_gsm.RowTemplate.Height = 33;
-            dgv_gsm.Size = new Size(1645, 151);
+            dgv_gsm.Size = new Size(1728, 151);
             dgv_gsm.TabIndex = 0;
-            // 
-            // jsonTableBindingSource
-            // 
-            jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
             // intensityMaxDataGridViewTextBoxColumn
             // 
@@ -160,11 +156,15 @@
             nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             // 
+            // jsonTableBindingSource
+            // 
+            jsonTableBindingSource.DataSource = typeof(JsonTable);
+            // 
             // GSMTable
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1669, 175);
+            ClientSize = new Size(1752, 175);
             Controls.Add(dgv_gsm);
             Name = "GSMTable";
             Text = "GSMTable";

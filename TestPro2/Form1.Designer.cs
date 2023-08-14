@@ -35,9 +35,6 @@
             open_btn = new Button();
             rtb = new RichTextBox();
             dgv = new DataGridView();
-            process_btn = new Button();
-            show_file_name = new TextBox();
-            label1 = new Label();
             sequenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             moduleNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
@@ -48,6 +45,9 @@
             wavelengthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            process_btn = new Button();
+            show_file_name = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
@@ -104,34 +104,6 @@
             dgv.Size = new Size(1693, 587);
             dgv.TabIndex = 2;
             dgv.CellDoubleClick += dgv_CellClick;
-            // 
-            // process_btn
-            // 
-            process_btn.Location = new Point(153, 12);
-            process_btn.Name = "process_btn";
-            process_btn.Size = new Size(112, 34);
-            process_btn.TabIndex = 3;
-            process_btn.Text = "&Process";
-            process_btn.UseVisualStyleBackColor = true;
-            process_btn.Click += process_btn_Click;
-            // 
-            // show_file_name
-            // 
-            show_file_name.Location = new Point(1524, 17);
-            show_file_name.Name = "show_file_name";
-            show_file_name.ReadOnly = true;
-            show_file_name.Size = new Size(181, 31);
-            show_file_name.TabIndex = 4;
-            show_file_name.TextAlign = HorizontalAlignment.Center;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(1428, 17);
-            label1.Name = "label1";
-            label1.Size = new Size(90, 25);
-            label1.TabIndex = 5;
-            label1.Text = "File Name";
             // 
             // sequenceDataGridViewTextBoxColumn
             // 
@@ -212,6 +184,34 @@
             startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
             startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
             startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // process_btn
+            // 
+            process_btn.Location = new Point(153, 12);
+            process_btn.Name = "process_btn";
+            process_btn.Size = new Size(112, 34);
+            process_btn.TabIndex = 3;
+            process_btn.Text = "&Process";
+            process_btn.UseVisualStyleBackColor = true;
+            process_btn.Click += process_btn_Click;
+            // 
+            // show_file_name
+            // 
+            show_file_name.Location = new Point(1524, 17);
+            show_file_name.Name = "show_file_name";
+            show_file_name.ReadOnly = true;
+            show_file_name.Size = new Size(181, 31);
+            show_file_name.TabIndex = 4;
+            show_file_name.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(1428, 17);
+            label1.Name = "label1";
+            label1.Size = new Size(90, 25);
+            label1.TabIndex = 5;
+            label1.Text = "File Name";
             // 
             // Form1
             // 

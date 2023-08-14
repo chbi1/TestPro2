@@ -9,7 +9,7 @@ namespace TestPro2
     {
         Rootobject rootobject;
         public List<JsonTable> jts;
-
+        Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
 
@@ -18,6 +18,7 @@ namespace TestPro2
             InitializeComponent();
             rootobject = new Rootobject();
             jts = new List<JsonTable>();
+            id = new Queue<char>();
         }
 
         private void open_btn_Click(object sender, EventArgs e)
@@ -62,7 +63,6 @@ namespace TestPro2
             rtb.Text = string.Empty;
             if (jsonData == string.Empty) { return; }
             jts.Clear();
-            //int counter = 0;
 
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
@@ -83,18 +83,22 @@ namespace TestPro2
                 {
                     case "B":
                         jsontable = GetBake(sequence);
+                        id.Enqueue('B');
                         break;
 
                     case "C":
                         jsontable = GetClean(sequence);
+                        id.Enqueue('C');
                         break;
 
                     case "L":
                         jsontable = GetLayer(sequence);
+                        id.Enqueue('L');
                         break;
 
                     case "V":
                         jsontable = GetVacuum(sequence);
+                        id.Enqueue('V');
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -103,9 +107,28 @@ namespace TestPro2
 
             dgv.DataSource = null;
             dgv.DataSource = jts;
-            //counter++;
+            int i = 1;
+            dgv.Rows[0].Cells[0].Style.BackColor = Color.Gainsboro;
+            while (id.Count > 0)
+            {
+                switch (id.Dequeue())
+                {
+                    case 'B':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.MistyRose;
+                        break;
+                    case 'C':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
+                        break;
+                    case 'L':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.AliceBlue;
+                        break;
+                    case 'V':
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.LightYellow;
+                        break;
+                }
+                i++;
+            }
 
-            //rootobject.Identification.ProcessID = "1234";
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
         }
@@ -199,7 +222,7 @@ namespace TestPro2
                         jsontable.Monitor = special;                                                            //Main & GSM 
                         special = gsm.SignalSettings.StopCriterion;
                         special = special.Split('_').First();
-                        jsontable.StopMode = special;                                                            //GSM
+                        jsontable.StopMode = special;                                                           //GSM
                         if (jsontable.StopMode == "QUARTZ")
                         {
                             jsontable.Cycles = "Layer";
