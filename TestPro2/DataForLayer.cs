@@ -30,7 +30,6 @@ namespace TestPro2
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.jsonTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sequenceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.moduleNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tSourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,6 +63,7 @@ namespace TestPro2
             this.t1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.delayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jsonTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jsonTableBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -71,6 +71,7 @@ namespace TestPro2
             // dataGridView1
             // 
             this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sequenceDataGridViewTextBoxColumn,
@@ -114,10 +115,6 @@ namespace TestPro2
             this.dataGridView1.Size = new System.Drawing.Size(1506, 113);
             this.dataGridView1.TabIndex = 0;
             // 
-            // jsonTableBindingSource
-            // 
-            this.jsonTableBindingSource.DataSource = typeof(TestPro2.JsonTable);
-            // 
             // sequenceDataGridViewTextBoxColumn
             // 
             this.sequenceDataGridViewTextBoxColumn.DataPropertyName = "Sequence";
@@ -125,7 +122,6 @@ namespace TestPro2
             this.sequenceDataGridViewTextBoxColumn.MinimumWidth = 4;
             this.sequenceDataGridViewTextBoxColumn.Name = "sequenceDataGridViewTextBoxColumn";
             this.sequenceDataGridViewTextBoxColumn.Visible = false;
-            this.sequenceDataGridViewTextBoxColumn.Width = 50;
             // 
             // moduleNameDataGridViewTextBoxColumn
             // 
@@ -134,7 +130,6 @@ namespace TestPro2
             this.moduleNameDataGridViewTextBoxColumn.MinimumWidth = 4;
             this.moduleNameDataGridViewTextBoxColumn.Name = "moduleNameDataGridViewTextBoxColumn";
             this.moduleNameDataGridViewTextBoxColumn.Visible = false;
-            this.moduleNameDataGridViewTextBoxColumn.Width = 125;
             // 
             // tSourceDataGridViewTextBoxColumn
             // 
@@ -143,7 +138,6 @@ namespace TestPro2
             this.tSourceDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.tSourceDataGridViewTextBoxColumn.Name = "tSourceDataGridViewTextBoxColumn";
             this.tSourceDataGridViewTextBoxColumn.Visible = false;
-            this.tSourceDataGridViewTextBoxColumn.Width = 125;
             // 
             // rotationDataGridViewTextBoxColumn
             // 
@@ -152,7 +146,6 @@ namespace TestPro2
             this.rotationDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.rotationDataGridViewTextBoxColumn.Name = "rotationDataGridViewTextBoxColumn";
             this.rotationDataGridViewTextBoxColumn.Visible = false;
-            this.rotationDataGridViewTextBoxColumn.Width = 125;
             // 
             // rateDataGridViewTextBoxColumn
             // 
@@ -161,7 +154,6 @@ namespace TestPro2
             this.rateDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.rateDataGridViewTextBoxColumn.Name = "rateDataGridViewTextBoxColumn";
             this.rateDataGridViewTextBoxColumn.Visible = false;
-            this.rateDataGridViewTextBoxColumn.Width = 125;
             // 
             // thicknessDataGridViewTextBoxColumn
             // 
@@ -170,7 +162,6 @@ namespace TestPro2
             this.thicknessDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.thicknessDataGridViewTextBoxColumn.Name = "thicknessDataGridViewTextBoxColumn";
             this.thicknessDataGridViewTextBoxColumn.Visible = false;
-            this.thicknessDataGridViewTextBoxColumn.Width = 125;
             // 
             // cyclesDataGridViewTextBoxColumn
             // 
@@ -179,7 +170,6 @@ namespace TestPro2
             this.cyclesDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.cyclesDataGridViewTextBoxColumn.Name = "cyclesDataGridViewTextBoxColumn";
             this.cyclesDataGridViewTextBoxColumn.Visible = false;
-            this.cyclesDataGridViewTextBoxColumn.Width = 125;
             // 
             // wavelengthDataGridViewTextBoxColumn
             // 
@@ -188,7 +178,6 @@ namespace TestPro2
             this.wavelengthDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.wavelengthDataGridViewTextBoxColumn.Name = "wavelengthDataGridViewTextBoxColumn";
             this.wavelengthDataGridViewTextBoxColumn.Visible = false;
-            this.wavelengthDataGridViewTextBoxColumn.Width = 125;
             // 
             // monitorDataGridViewTextBoxColumn
             // 
@@ -197,7 +186,6 @@ namespace TestPro2
             this.monitorDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
             this.monitorDataGridViewTextBoxColumn.Visible = false;
-            this.monitorDataGridViewTextBoxColumn.Width = 125;
             // 
             // startIntensityDataGridViewTextBoxColumn
             // 
@@ -206,7 +194,6 @@ namespace TestPro2
             this.startIntensityDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
             this.startIntensityDataGridViewTextBoxColumn.Visible = false;
-            this.startIntensityDataGridViewTextBoxColumn.Width = 125;
             // 
             // intensityMaxDataGridViewTextBoxColumn
             // 
@@ -215,7 +202,6 @@ namespace TestPro2
             this.intensityMaxDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.intensityMaxDataGridViewTextBoxColumn.Name = "intensityMaxDataGridViewTextBoxColumn";
             this.intensityMaxDataGridViewTextBoxColumn.Visible = false;
-            this.intensityMaxDataGridViewTextBoxColumn.Width = 125;
             // 
             // intensityMinDataGridViewTextBoxColumn
             // 
@@ -224,7 +210,6 @@ namespace TestPro2
             this.intensityMinDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.intensityMinDataGridViewTextBoxColumn.Name = "intensityMinDataGridViewTextBoxColumn";
             this.intensityMinDataGridViewTextBoxColumn.Visible = false;
-            this.intensityMinDataGridViewTextBoxColumn.Width = 125;
             // 
             // thresholdDataGridViewTextBoxColumn
             // 
@@ -233,7 +218,6 @@ namespace TestPro2
             this.thresholdDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.thresholdDataGridViewTextBoxColumn.Name = "thresholdDataGridViewTextBoxColumn";
             this.thresholdDataGridViewTextBoxColumn.Visible = false;
-            this.thresholdDataGridViewTextBoxColumn.Width = 125;
             // 
             // beamDataGridViewTextBoxColumn
             // 
@@ -242,7 +226,6 @@ namespace TestPro2
             this.beamDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.beamDataGridViewTextBoxColumn.Name = "beamDataGridViewTextBoxColumn";
             this.beamDataGridViewTextBoxColumn.Visible = false;
-            this.beamDataGridViewTextBoxColumn.Width = 125;
             // 
             // algDalayDataGridViewTextBoxColumn
             // 
@@ -251,7 +234,6 @@ namespace TestPro2
             this.algDalayDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.algDalayDataGridViewTextBoxColumn.Name = "algDalayDataGridViewTextBoxColumn";
             this.algDalayDataGridViewTextBoxColumn.Visible = false;
-            this.algDalayDataGridViewTextBoxColumn.Width = 125;
             // 
             // algTimeDataGridViewTextBoxColumn
             // 
@@ -260,7 +242,6 @@ namespace TestPro2
             this.algTimeDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.algTimeDataGridViewTextBoxColumn.Name = "algTimeDataGridViewTextBoxColumn";
             this.algTimeDataGridViewTextBoxColumn.Visible = false;
-            this.algTimeDataGridViewTextBoxColumn.Width = 125;
             // 
             // stopModeDataGridViewTextBoxColumn
             // 
@@ -269,7 +250,6 @@ namespace TestPro2
             this.stopModeDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.stopModeDataGridViewTextBoxColumn.Name = "stopModeDataGridViewTextBoxColumn";
             this.stopModeDataGridViewTextBoxColumn.Visible = false;
-            this.stopModeDataGridViewTextBoxColumn.Width = 125;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -278,7 +258,6 @@ namespace TestPro2
             this.nameDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             this.nameDataGridViewTextBoxColumn.Visible = false;
-            this.nameDataGridViewTextBoxColumn.Width = 125;
             // 
             // subCyclesDataGridViewTextBoxColumn
             // 
@@ -287,7 +266,6 @@ namespace TestPro2
             this.subCyclesDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.subCyclesDataGridViewTextBoxColumn.Name = "subCyclesDataGridViewTextBoxColumn";
             this.subCyclesDataGridViewTextBoxColumn.Visible = false;
-            this.subCyclesDataGridViewTextBoxColumn.Width = 125;
             // 
             // derivativeDataGridViewTextBoxColumn
             // 
@@ -295,7 +273,6 @@ namespace TestPro2
             this.derivativeDataGridViewTextBoxColumn.HeaderText = "Derivative";
             this.derivativeDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.derivativeDataGridViewTextBoxColumn.Name = "derivativeDataGridViewTextBoxColumn";
-            this.derivativeDataGridViewTextBoxColumn.Width = 125;
             // 
             // derivative2DataGridViewTextBoxColumn
             // 
@@ -303,7 +280,6 @@ namespace TestPro2
             this.derivative2DataGridViewTextBoxColumn.HeaderText = "Derivative2";
             this.derivative2DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.derivative2DataGridViewTextBoxColumn.Name = "derivative2DataGridViewTextBoxColumn";
-            this.derivative2DataGridViewTextBoxColumn.Width = 125;
             // 
             // responseDataGridViewTextBoxColumn
             // 
@@ -311,7 +287,6 @@ namespace TestPro2
             this.responseDataGridViewTextBoxColumn.HeaderText = "Response";
             this.responseDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.responseDataGridViewTextBoxColumn.Name = "responseDataGridViewTextBoxColumn";
-            this.responseDataGridViewTextBoxColumn.Width = 125;
             // 
             // gainDataGridViewTextBoxColumn
             // 
@@ -319,7 +294,6 @@ namespace TestPro2
             this.gainDataGridViewTextBoxColumn.HeaderText = "Gain";
             this.gainDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.gainDataGridViewTextBoxColumn.Name = "gainDataGridViewTextBoxColumn";
-            this.gainDataGridViewTextBoxColumn.Width = 125;
             // 
             // holdTimeDataGridViewTextBoxColumn
             // 
@@ -327,7 +301,6 @@ namespace TestPro2
             this.holdTimeDataGridViewTextBoxColumn.HeaderText = "HoldTime";
             this.holdTimeDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.holdTimeDataGridViewTextBoxColumn.Name = "holdTimeDataGridViewTextBoxColumn";
-            this.holdTimeDataGridViewTextBoxColumn.Width = 125;
             // 
             // pLDataGridViewTextBoxColumn
             // 
@@ -335,7 +308,6 @@ namespace TestPro2
             this.pLDataGridViewTextBoxColumn.HeaderText = "PL";
             this.pLDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.pLDataGridViewTextBoxColumn.Name = "pLDataGridViewTextBoxColumn";
-            this.pLDataGridViewTextBoxColumn.Width = 125;
             // 
             // p3DataGridViewTextBoxColumn
             // 
@@ -343,7 +315,6 @@ namespace TestPro2
             this.p3DataGridViewTextBoxColumn.HeaderText = "P3";
             this.p3DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.p3DataGridViewTextBoxColumn.Name = "p3DataGridViewTextBoxColumn";
-            this.p3DataGridViewTextBoxColumn.Width = 80;
             // 
             // t3DataGridViewTextBoxColumn
             // 
@@ -351,7 +322,6 @@ namespace TestPro2
             this.t3DataGridViewTextBoxColumn.HeaderText = "T3";
             this.t3DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.t3DataGridViewTextBoxColumn.Name = "t3DataGridViewTextBoxColumn";
-            this.t3DataGridViewTextBoxColumn.Width = 80;
             // 
             // p2DataGridViewTextBoxColumn
             // 
@@ -359,7 +329,6 @@ namespace TestPro2
             this.p2DataGridViewTextBoxColumn.HeaderText = "P2";
             this.p2DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.p2DataGridViewTextBoxColumn.Name = "p2DataGridViewTextBoxColumn";
-            this.p2DataGridViewTextBoxColumn.Width = 80;
             // 
             // t2DataGridViewTextBoxColumn
             // 
@@ -367,7 +336,6 @@ namespace TestPro2
             this.t2DataGridViewTextBoxColumn.HeaderText = "T2";
             this.t2DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.t2DataGridViewTextBoxColumn.Name = "t2DataGridViewTextBoxColumn";
-            this.t2DataGridViewTextBoxColumn.Width = 80;
             // 
             // p1DataGridViewTextBoxColumn
             // 
@@ -375,7 +343,6 @@ namespace TestPro2
             this.p1DataGridViewTextBoxColumn.HeaderText = "P1";
             this.p1DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.p1DataGridViewTextBoxColumn.Name = "p1DataGridViewTextBoxColumn";
-            this.p1DataGridViewTextBoxColumn.Width = 80;
             // 
             // t1DataGridViewTextBoxColumn
             // 
@@ -383,7 +350,6 @@ namespace TestPro2
             this.t1DataGridViewTextBoxColumn.HeaderText = "T1";
             this.t1DataGridViewTextBoxColumn.MinimumWidth = 6;
             this.t1DataGridViewTextBoxColumn.Name = "t1DataGridViewTextBoxColumn";
-            this.t1DataGridViewTextBoxColumn.Width = 80;
             // 
             // delayDataGridViewTextBoxColumn
             // 
@@ -391,7 +357,6 @@ namespace TestPro2
             this.delayDataGridViewTextBoxColumn.HeaderText = "Delay";
             this.delayDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.delayDataGridViewTextBoxColumn.Name = "delayDataGridViewTextBoxColumn";
-            this.delayDataGridViewTextBoxColumn.Width = 80;
             // 
             // sourceDataGridViewTextBoxColumn
             // 
@@ -399,7 +364,10 @@ namespace TestPro2
             this.sourceDataGridViewTextBoxColumn.HeaderText = "Source";
             this.sourceDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
-            this.sourceDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // jsonTableBindingSource
+            // 
+            this.jsonTableBindingSource.DataSource = typeof(TestPro2.JsonTable);
             // 
             // DataForLayer
             // 
