@@ -1,6 +1,6 @@
 ﻿namespace TestPro2
 {
-    public class DateForLayer: Form
+    partial class DataForLayer
     {
         /// <summary>
         /// Required designer variable.
@@ -29,175 +29,172 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            dgv_gsm = new DataGridView();
             jsonTableBindingSource = new BindingSource(components);
-            intensityMaxDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            intensityMinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            thresholdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            beamDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            Monitor = new DataGridViewTextBoxColumn();
-            algDalayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            algTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            stopModeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subCyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            Wavelength = new DataGridViewTextBoxColumn();
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)dgv_gsm).BeginInit();
+            dgv_layer = new DataGridView();
+            derivativeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            derivative2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            responseDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            gainDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            holdTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pLDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            t3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            t2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            t1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            delayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            sourceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_layer).BeginInit();
             SuspendLayout();
-            // 
-            // dgv_gsm
-            // 
-            dgv_gsm.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgv_gsm.AutoGenerateColumns = false;
-            dgv_gsm.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_gsm.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_gsm.Columns.AddRange(new DataGridViewColumn[] { intensityMaxDataGridViewTextBoxColumn, intensityMinDataGridViewTextBoxColumn, thresholdDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn, beamDataGridViewTextBoxColumn, Monitor, algDalayDataGridViewTextBoxColumn, algTimeDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, stopModeDataGridViewTextBoxColumn, subCyclesDataGridViewTextBoxColumn, Wavelength, nameDataGridViewTextBoxColumn });
-            dgv_gsm.DataSource = jsonTableBindingSource;
-            dgv_gsm.Location = new Point(12, 12);
-            dgv_gsm.Name = "dgv_gsm";
-            dgv_gsm.RowHeadersWidth = 62;
-            dgv_gsm.RowTemplate.Height = 33;
-            dgv_gsm.Size = new Size(1645, 151);
-            dgv_gsm.TabIndex = 0;
             // 
             // jsonTableBindingSource
             // 
             jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
-            // intensityMaxDataGridViewTextBoxColumn
+            // dgv_layer
             // 
-            intensityMaxDataGridViewTextBoxColumn.DataPropertyName = "IntensityMax";
-            intensityMaxDataGridViewTextBoxColumn.FillWeight = 104.364326F;
-            intensityMaxDataGridViewTextBoxColumn.HeaderText = "Intensity Max";
-            intensityMaxDataGridViewTextBoxColumn.MinimumWidth = 8;
-            intensityMaxDataGridViewTextBoxColumn.Name = "intensityMaxDataGridViewTextBoxColumn";
+            dgv_layer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgv_layer.AutoGenerateColumns = false;
+            dgv_layer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_layer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_layer.Columns.AddRange(new DataGridViewColumn[] { derivativeDataGridViewTextBoxColumn, derivative2DataGridViewTextBoxColumn, responseDataGridViewTextBoxColumn, gainDataGridViewTextBoxColumn, holdTimeDataGridViewTextBoxColumn, pLDataGridViewTextBoxColumn, p3DataGridViewTextBoxColumn, t3DataGridViewTextBoxColumn, p2DataGridViewTextBoxColumn, t2DataGridViewTextBoxColumn, p1DataGridViewTextBoxColumn, t1DataGridViewTextBoxColumn, delayDataGridViewTextBoxColumn, sourceDataGridViewTextBoxColumn });
+            dgv_layer.DataSource = jsonTableBindingSource;
+            dgv_layer.Location = new Point(12, 12);
+            dgv_layer.Name = "dgv_layer";
+            dgv_layer.RowHeadersWidth = 62;
+            dgv_layer.RowTemplate.Height = 33;
+            dgv_layer.Size = new Size(1728, 151);
+            dgv_layer.TabIndex = 0;
             // 
-            // intensityMinDataGridViewTextBoxColumn
+            // derivativeDataGridViewTextBoxColumn
             // 
-            intensityMinDataGridViewTextBoxColumn.DataPropertyName = "IntensityMin";
-            intensityMinDataGridViewTextBoxColumn.FillWeight = 103.220108F;
-            intensityMinDataGridViewTextBoxColumn.HeaderText = "Intensity Min";
-            intensityMinDataGridViewTextBoxColumn.MinimumWidth = 8;
-            intensityMinDataGridViewTextBoxColumn.Name = "intensityMinDataGridViewTextBoxColumn";
+            derivativeDataGridViewTextBoxColumn.DataPropertyName = "Derivative";
+            derivativeDataGridViewTextBoxColumn.HeaderText = "Derivative";
+            derivativeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            derivativeDataGridViewTextBoxColumn.Name = "derivativeDataGridViewTextBoxColumn";
             // 
-            // thresholdDataGridViewTextBoxColumn
+            // derivative2DataGridViewTextBoxColumn
             // 
-            thresholdDataGridViewTextBoxColumn.DataPropertyName = "Threshold";
-            thresholdDataGridViewTextBoxColumn.FillWeight = 102.184441F;
-            thresholdDataGridViewTextBoxColumn.HeaderText = "Threshold";
-            thresholdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            thresholdDataGridViewTextBoxColumn.Name = "thresholdDataGridViewTextBoxColumn";
+            derivative2DataGridViewTextBoxColumn.DataPropertyName = "Derivative2";
+            derivative2DataGridViewTextBoxColumn.HeaderText = "Derivative2";
+            derivative2DataGridViewTextBoxColumn.MinimumWidth = 8;
+            derivative2DataGridViewTextBoxColumn.Name = "derivative2DataGridViewTextBoxColumn";
             // 
-            // startIntensityDataGridViewTextBoxColumn
+            // responseDataGridViewTextBoxColumn
             // 
-            startIntensityDataGridViewTextBoxColumn.DataPropertyName = "StartIntensity";
-            startIntensityDataGridViewTextBoxColumn.FillWeight = 101.247025F;
-            startIntensityDataGridViewTextBoxColumn.HeaderText = "Start Intensity";
-            startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
-            startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
+            responseDataGridViewTextBoxColumn.DataPropertyName = "Response";
+            responseDataGridViewTextBoxColumn.HeaderText = "Response";
+            responseDataGridViewTextBoxColumn.MinimumWidth = 8;
+            responseDataGridViewTextBoxColumn.Name = "responseDataGridViewTextBoxColumn";
             // 
-            // beamDataGridViewTextBoxColumn
+            // gainDataGridViewTextBoxColumn
             // 
-            beamDataGridViewTextBoxColumn.DataPropertyName = "Beam";
-            beamDataGridViewTextBoxColumn.FillWeight = 100.398567F;
-            beamDataGridViewTextBoxColumn.HeaderText = "Beam";
-            beamDataGridViewTextBoxColumn.MinimumWidth = 8;
-            beamDataGridViewTextBoxColumn.Name = "beamDataGridViewTextBoxColumn";
+            gainDataGridViewTextBoxColumn.DataPropertyName = "Gain";
+            gainDataGridViewTextBoxColumn.HeaderText = "Gain";
+            gainDataGridViewTextBoxColumn.MinimumWidth = 8;
+            gainDataGridViewTextBoxColumn.Name = "gainDataGridViewTextBoxColumn";
             // 
-            // Monitor
+            // holdTimeDataGridViewTextBoxColumn
             // 
-            Monitor.DataPropertyName = "Monitor";
-            Monitor.HeaderText = "Glass";
-            Monitor.MinimumWidth = 8;
-            Monitor.Name = "Monitor";
+            holdTimeDataGridViewTextBoxColumn.DataPropertyName = "HoldTime";
+            holdTimeDataGridViewTextBoxColumn.HeaderText = "HoldTime";
+            holdTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            holdTimeDataGridViewTextBoxColumn.Name = "holdTimeDataGridViewTextBoxColumn";
             // 
-            // algDalayDataGridViewTextBoxColumn
+            // pLDataGridViewTextBoxColumn
             // 
-            algDalayDataGridViewTextBoxColumn.DataPropertyName = "AlgDalay";
-            algDalayDataGridViewTextBoxColumn.FillWeight = 99.63059F;
-            algDalayDataGridViewTextBoxColumn.HeaderText = "Alg Dalay";
-            algDalayDataGridViewTextBoxColumn.MinimumWidth = 8;
-            algDalayDataGridViewTextBoxColumn.Name = "algDalayDataGridViewTextBoxColumn";
+            pLDataGridViewTextBoxColumn.DataPropertyName = "PL";
+            pLDataGridViewTextBoxColumn.HeaderText = "PL";
+            pLDataGridViewTextBoxColumn.MinimumWidth = 8;
+            pLDataGridViewTextBoxColumn.Name = "pLDataGridViewTextBoxColumn";
             // 
-            // algTimeDataGridViewTextBoxColumn
+            // p3DataGridViewTextBoxColumn
             // 
-            algTimeDataGridViewTextBoxColumn.DataPropertyName = "AlgTime";
-            algTimeDataGridViewTextBoxColumn.FillWeight = 98.9354858F;
-            algTimeDataGridViewTextBoxColumn.HeaderText = "Alg Time";
-            algTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            algTimeDataGridViewTextBoxColumn.Name = "algTimeDataGridViewTextBoxColumn";
+            p3DataGridViewTextBoxColumn.DataPropertyName = "P3";
+            p3DataGridViewTextBoxColumn.HeaderText = "P3";
+            p3DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p3DataGridViewTextBoxColumn.Name = "p3DataGridViewTextBoxColumn";
             // 
-            // monitorDataGridViewTextBoxColumn
+            // t3DataGridViewTextBoxColumn
             // 
-            monitorDataGridViewTextBoxColumn.DataPropertyName = "Monitor";
-            monitorDataGridViewTextBoxColumn.FillWeight = 98.30632F;
-            monitorDataGridViewTextBoxColumn.HeaderText = "Monitor";
-            monitorDataGridViewTextBoxColumn.MinimumWidth = 8;
-            monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
+            t3DataGridViewTextBoxColumn.DataPropertyName = "T3";
+            t3DataGridViewTextBoxColumn.HeaderText = "T3";
+            t3DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t3DataGridViewTextBoxColumn.Name = "t3DataGridViewTextBoxColumn";
             // 
-            // stopModeDataGridViewTextBoxColumn
+            // p2DataGridViewTextBoxColumn
             // 
-            stopModeDataGridViewTextBoxColumn.DataPropertyName = "StopMode";
-            stopModeDataGridViewTextBoxColumn.FillWeight = 97.7368851F;
-            stopModeDataGridViewTextBoxColumn.HeaderText = "Stop Mode";
-            stopModeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            stopModeDataGridViewTextBoxColumn.Name = "stopModeDataGridViewTextBoxColumn";
+            p2DataGridViewTextBoxColumn.DataPropertyName = "P2";
+            p2DataGridViewTextBoxColumn.HeaderText = "P2";
+            p2DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p2DataGridViewTextBoxColumn.Name = "p2DataGridViewTextBoxColumn";
             // 
-            // subCyclesDataGridViewTextBoxColumn
+            // t2DataGridViewTextBoxColumn
             // 
-            subCyclesDataGridViewTextBoxColumn.DataPropertyName = "SubCycles";
-            subCyclesDataGridViewTextBoxColumn.FillWeight = 96.75489F;
-            subCyclesDataGridViewTextBoxColumn.HeaderText = "Cycles";
-            subCyclesDataGridViewTextBoxColumn.MinimumWidth = 8;
-            subCyclesDataGridViewTextBoxColumn.Name = "subCyclesDataGridViewTextBoxColumn";
+            t2DataGridViewTextBoxColumn.DataPropertyName = "T2";
+            t2DataGridViewTextBoxColumn.HeaderText = "T2";
+            t2DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t2DataGridViewTextBoxColumn.Name = "t2DataGridViewTextBoxColumn";
             // 
-            // Wavelength
+            // p1DataGridViewTextBoxColumn
             // 
-            Wavelength.DataPropertyName = "Wavelength";
-            Wavelength.HeaderText = "Wavelength";
-            Wavelength.MinimumWidth = 8;
-            Wavelength.Name = "Wavelength";
+            p1DataGridViewTextBoxColumn.DataPropertyName = "P1";
+            p1DataGridViewTextBoxColumn.HeaderText = "P1";
+            p1DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p1DataGridViewTextBoxColumn.Name = "p1DataGridViewTextBoxColumn";
             // 
-            // nameDataGridViewTextBoxColumn
+            // t1DataGridViewTextBoxColumn
             // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.FillWeight = 97.22145F;
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.MinimumWidth = 8;
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            t1DataGridViewTextBoxColumn.DataPropertyName = "T1";
+            t1DataGridViewTextBoxColumn.HeaderText = "T1";
+            t1DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t1DataGridViewTextBoxColumn.Name = "t1DataGridViewTextBoxColumn";
             // 
-            // GSMTable
+            // delayDataGridViewTextBoxColumn
+            // 
+            delayDataGridViewTextBoxColumn.DataPropertyName = "Delay";
+            delayDataGridViewTextBoxColumn.HeaderText = "Delay";
+            delayDataGridViewTextBoxColumn.MinimumWidth = 8;
+            delayDataGridViewTextBoxColumn.Name = "delayDataGridViewTextBoxColumn";
+            // 
+            // sourceDataGridViewTextBoxColumn
+            // 
+            sourceDataGridViewTextBoxColumn.DataPropertyName = "Source";
+            sourceDataGridViewTextBoxColumn.HeaderText = "Source";
+            sourceDataGridViewTextBoxColumn.MinimumWidth = 8;
+            sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
+            // 
+            // DataForLayer
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1669, 175);
-            Controls.Add(dgv_gsm);
-            Name = "GSMTable";
-            Text = "GSMTable";
-            ((System.ComponentModel.ISupportInitialize)dgv_gsm).EndInit();
+            ClientSize = new Size(1752, 175);
+            Controls.Add(dgv_layer);
+            Name = "DataForLayer";
+            Text = "Data for layer";
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_layer).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private DataGridView dgv_gsm;
         private BindingSource jsonTableBindingSource;
-        private DataGridViewTextBoxColumn intensityMaxDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn intensityMinDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn thresholdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn beamDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn Monitor;
-        private DataGridViewTextBoxColumn algDalayDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn algTimeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn stopModeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn subCyclesDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn Wavelength;
-        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private DataGridView dgv_layer;
+        private DataGridViewTextBoxColumn derivativeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn derivative2DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn responseDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn gainDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn holdTimeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn pLDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p3DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn t3DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p2DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn t2DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
     }
 }

@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             jsonTableBindingSource = new BindingSource(components);
-            jsonTableBindingSource1 = new BindingSource(components);
             open_btn = new Button();
             rtb = new RichTextBox();
             dgv = new DataGridView();
@@ -50,7 +48,6 @@
             show_file_name = new TextBox();
             label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -58,11 +55,6 @@
             // 
             jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
-            // jsonTableBindingSource1
-            // 
-            jsonTableBindingSource1.DataSource = typeof(JsonTable);
-            // 
-
             // open_btn
             // 
             open_btn.Location = new Point(12, 12);
@@ -75,20 +67,18 @@
             // 
             // rtb
             // 
-
             rtb.Location = new Point(12, 655);
             rtb.Name = "rtb";
-            rtb.Size = new Size(1693, 237);
-
+            rtb.Size = new Size(1693, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
             // 
             // dgv
             // 
-
             dgv.AllowUserToAddRows = false;
             dgv.AutoGenerateColumns = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.BackgroundColor = SystemColors.InactiveCaption;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, rotationDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, thicknessDataGridViewTextBoxColumn, cyclesDataGridViewTextBoxColumn, wavelengthDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
@@ -189,7 +179,6 @@
             startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
             startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
             startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
-
             // 
             // process_btn
             // 
@@ -201,7 +190,6 @@
             process_btn.UseVisualStyleBackColor = true;
             process_btn.Click += process_btn_Click;
             // 
-
             // show_file_name
             // 
             show_file_name.Location = new Point(1524, 17);
@@ -219,13 +207,12 @@
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
             label1.Text = "File Name";
-
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1717, 904);
+            ClientSize = new Size(1717, 858);
             Controls.Add(label1);
             Controls.Add(show_file_name);
             Controls.Add(process_btn);
@@ -235,7 +222,6 @@
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -248,7 +234,6 @@
         private DataGridViewTextBoxColumn tSourceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private BindingSource jsonTableBindingSource;
-        private BindingSource jsonTableBindingSource1;
         private Button open_btn;
         private RichTextBox rtb;
         private DataGridView dgv;

@@ -89,31 +89,23 @@ namespace TestPro2
                 switch (sequence.ModuleType)
                 {
                     case "B":
-
                         jsontable = GetBake(sequence);
                         id.Enqueue('B');
-
                         break;
 
                     case "C":
                         jsontable = GetClean(sequence);
-
                         id.Enqueue('C');
-
                         break;
 
                     case "L":
                         jsontable = GetLayer(sequence);
-
                         id.Enqueue('L');
-
                         break;
 
                     case "V":
                         jsontable = GetVacuum(sequence);
-
                         id.Enqueue('V');
-
                         break;
                 }
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
@@ -144,8 +136,6 @@ namespace TestPro2
                 }
                 i++;
             }
-
-
             string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             rtb.Text = output;
         }
@@ -185,7 +175,7 @@ namespace TestPro2
                     float thickness = layer.Parameter.General.Thickness * 10;
                     jsontable.Thickness = thickness.ToString() + "\u212B";
                     jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();
-                    
+
                     break;
                 }
             }
@@ -206,11 +196,11 @@ namespace TestPro2
                     jsontable.P3 = rate.Ramping.Ramp3.Power.ToString();
                     jsontable.T3 = rate.Ramping.Ramp3.Time.ToString();
                     jsontable.P2 = rate.Ramping.Ramp2.Power.ToString();
-                    jsontable.T3 = rate.Ramping.Ramp2.Time.ToString();
+                    jsontable.T2 = rate.Ramping.Ramp2.Time.ToString();
                     jsontable.P1 = rate.Ramping.Ramp1.Power.ToString();
-                    jsontable.T3 = rate.Ramping.Ramp1.Time.ToString();
+                    jsontable.T1 = rate.Ramping.Ramp1.Time.ToString();
                     jsontable.Delay = rate.Ramping.RiseDelay.ToString();
-                    jsontable.Source = rate.Identification.ModuleName.ToString()+"_"+ rate.References.SourceModule.ToString();
+                    jsontable.Source = rate.Identification.ModuleName.ToString() + "_" + rate.References.SourceModule.ToString();
 
                     tempSrcMod = rate.References.SourceModule;
                     break;
@@ -219,15 +209,14 @@ namespace TestPro2
             }
             foreach (Source source in rootobject.Source)
             {
-                jsontable.Response = source.Xtal.ResponseTime.ToString();
-                jsontable.Derivative2 = source.Xtal.DerivativeTime.ToString();
-
                 if (tempSrcMod == source.Identification.ModuleNumber)
                 {
                     if (source.Parameter.SourceNumber == 1)
                         jsontable.TSource = source.References.EECModule;
                     else
                         jsontable.TSource = source.Parameter.SourceNumber.ToString();
+                    jsontable.Response = source.Xtal.ResponseTime.ToString();
+                    jsontable.Derivative2 = source.Xtal.DerivativeTime.ToString();
                     break;
                 }
             }
@@ -313,14 +302,11 @@ namespace TestPro2
                 int columnIndex = e.ColumnIndex;
 
                 if (columnIndex > 5 && jts[rowIndex].IsGSM)
-                new GSMTable(jts[rowIndex]).ShowDialog();
+                    new GSMTable(jts[rowIndex]).ShowDialog();
                 else if (e.ColumnIndex == 1)
                     new DataForLayer(jts[rowIndex]).ShowDialog();
 
             }
-            
-
-
         }
     }
 }
