@@ -36,7 +36,6 @@ namespace TestPro2
 
         //---------Data for Layer
         public string Derivative { get; set; } = string.Empty;
-        public string Derivative2 { get; set; } = string.Empty;
         public string Response { get; set; } = string.Empty;
         public string Gain { get; set; } = string.Empty;
         public string HoldTime { get; set; } = string.Empty;
@@ -49,7 +48,7 @@ namespace TestPro2
         public string T1 { get; set; } = string.Empty;
         public string Delay { get; set; } = string.Empty;
         //public string Rate { get; set; } = string.Empty;
-        public string Source { get; set; } = string.Empty;
+        
 
 
     }

@@ -22,6 +22,7 @@ namespace TestPro2
 
             jts = new List<JsonTable>();
             id = new Queue<char>();
+
         }
 
         private void open_btn_Click(object sender, EventArgs e)
@@ -151,7 +152,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Bake" + " - " + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Bake - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
         public JsonTable GetLayer(ProcessSequence ps)
@@ -162,7 +163,7 @@ namespace TestPro2
             float tempSrcMod = 0;
             int i;
             string special;
-            jsontable.Sequence = "Layer" + " - " + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Layer - " + ps.SequenceNumber.ToString();
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
@@ -189,7 +190,6 @@ namespace TestPro2
                 {
                     float tRate = rate.Parameter.General.Rate * 10;
                     jsontable.Rate = tRate.ToString();
-                    jsontable.Derivative = rate.Parameter.PIDController.Derivative.ToString();
                     jsontable.Gain = rate.Parameter.General.ControlGain.ToString();
                     jsontable.HoldTime = rate.Ramping.Hold.Time.ToString();
                     jsontable.PL = rate.Parameter.General.PowerLimit.ToString();
@@ -200,8 +200,6 @@ namespace TestPro2
                     jsontable.P1 = rate.Ramping.Ramp1.Power.ToString();
                     jsontable.T1 = rate.Ramping.Ramp1.Time.ToString();
                     jsontable.Delay = rate.Ramping.RiseDelay.ToString();
-                    jsontable.Source = rate.Identification.ModuleName.ToString() + "_" + rate.References.SourceModule.ToString();
-
                     tempSrcMod = rate.References.SourceModule;
                     break;
                 }
@@ -216,7 +214,7 @@ namespace TestPro2
                     else
                         jsontable.TSource = source.Parameter.SourceNumber.ToString();
                     jsontable.Response = source.Xtal.ResponseTime.ToString();
-                    jsontable.Derivative2 = source.Xtal.DerivativeTime.ToString();
+                    jsontable.Derivative = source.Xtal.DerivativeTime.ToString();
                     break;
                 }
             }
@@ -275,7 +273,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Vacuum" + " - " + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Vacuum - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
         public JsonTable GetClean(ProcessSequence ps)
@@ -289,7 +287,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Clean" + " - " + ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Clean - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
 
@@ -303,7 +301,7 @@ namespace TestPro2
 
                 if (columnIndex > 5 && jts[rowIndex].IsGSM)
                     new GSMTable(jts[rowIndex]).ShowDialog();
-                else if (e.ColumnIndex == 1)
+                else if (e.ColumnIndex < 3)
                     new DataForLayer(jts[rowIndex]).ShowDialog();
 
             }

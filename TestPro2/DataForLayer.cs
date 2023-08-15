@@ -15,6 +15,7 @@ namespace TestPro2
         public DataForLayer(JsonTable jt)
         {
             InitializeComponent();
+            this.Text = "Data for " + jt.Sequence;
             List<JsonTable> list = new List<JsonTable>();
             list.Add(jt);
             dgv_layer.DataSource = null;

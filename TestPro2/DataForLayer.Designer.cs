@@ -32,7 +32,6 @@
             jsonTableBindingSource = new BindingSource(components);
             dgv_layer = new DataGridView();
             derivativeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            derivative2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             responseDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             gainDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             holdTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -44,7 +43,7 @@
             p1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             t1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             delayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            sourceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            TSource = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv_layer).BeginInit();
             SuspendLayout();
@@ -59,13 +58,13 @@
             dgv_layer.AutoGenerateColumns = false;
             dgv_layer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_layer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_layer.Columns.AddRange(new DataGridViewColumn[] { derivativeDataGridViewTextBoxColumn, derivative2DataGridViewTextBoxColumn, responseDataGridViewTextBoxColumn, gainDataGridViewTextBoxColumn, holdTimeDataGridViewTextBoxColumn, pLDataGridViewTextBoxColumn, p3DataGridViewTextBoxColumn, t3DataGridViewTextBoxColumn, p2DataGridViewTextBoxColumn, t2DataGridViewTextBoxColumn, p1DataGridViewTextBoxColumn, t1DataGridViewTextBoxColumn, delayDataGridViewTextBoxColumn, sourceDataGridViewTextBoxColumn });
+            dgv_layer.Columns.AddRange(new DataGridViewColumn[] { derivativeDataGridViewTextBoxColumn,  responseDataGridViewTextBoxColumn, gainDataGridViewTextBoxColumn, holdTimeDataGridViewTextBoxColumn, pLDataGridViewTextBoxColumn, p3DataGridViewTextBoxColumn, t3DataGridViewTextBoxColumn, p2DataGridViewTextBoxColumn, t2DataGridViewTextBoxColumn, p1DataGridViewTextBoxColumn, t1DataGridViewTextBoxColumn, delayDataGridViewTextBoxColumn, TSource });
             dgv_layer.DataSource = jsonTableBindingSource;
             dgv_layer.Location = new Point(12, 12);
             dgv_layer.Name = "dgv_layer";
             dgv_layer.RowHeadersWidth = 62;
             dgv_layer.RowTemplate.Height = 33;
-            dgv_layer.Size = new Size(1728, 151);
+            dgv_layer.Size = new Size(1721, 151);
             dgv_layer.TabIndex = 0;
             // 
             // derivativeDataGridViewTextBoxColumn
@@ -74,13 +73,6 @@
             derivativeDataGridViewTextBoxColumn.HeaderText = "Derivative";
             derivativeDataGridViewTextBoxColumn.MinimumWidth = 8;
             derivativeDataGridViewTextBoxColumn.Name = "derivativeDataGridViewTextBoxColumn";
-            // 
-            // derivative2DataGridViewTextBoxColumn
-            // 
-            derivative2DataGridViewTextBoxColumn.DataPropertyName = "Derivative2";
-            derivative2DataGridViewTextBoxColumn.HeaderText = "Derivative2";
-            derivative2DataGridViewTextBoxColumn.MinimumWidth = 8;
-            derivative2DataGridViewTextBoxColumn.Name = "derivative2DataGridViewTextBoxColumn";
             // 
             // responseDataGridViewTextBoxColumn
             // 
@@ -159,18 +151,18 @@
             delayDataGridViewTextBoxColumn.MinimumWidth = 8;
             delayDataGridViewTextBoxColumn.Name = "delayDataGridViewTextBoxColumn";
             // 
-            // sourceDataGridViewTextBoxColumn
+            // TSource
             // 
-            sourceDataGridViewTextBoxColumn.DataPropertyName = "Source";
-            sourceDataGridViewTextBoxColumn.HeaderText = "Source";
-            sourceDataGridViewTextBoxColumn.MinimumWidth = 8;
-            sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
+            TSource.DataPropertyName = "TSource";
+            TSource.HeaderText = "Source";
+            TSource.MinimumWidth = 8;
+            TSource.Name = "TSource";
             // 
             // DataForLayer
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1752, 175);
+            ClientSize = new Size(1745, 175);
             Controls.Add(dgv_layer);
             Name = "DataForLayer";
             Text = "Data for layer";
@@ -195,6 +187,6 @@
         private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn TSource;
     }
 }
