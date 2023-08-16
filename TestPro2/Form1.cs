@@ -8,12 +8,12 @@ namespace TestPro2
     public partial class Form1 : Form
     {
         Rootobject rootobject;
-
         public List<JsonTable> jts;
         Queue<char> id;
-
         string jsonData = string.Empty;
         string filePath = string.Empty;
+        
+
 
         public Form1()
         {
@@ -22,7 +22,6 @@ namespace TestPro2
 
             jts = new List<JsonTable>();
             id = new Queue<char>();
-
         }
 
         private void open_btn_Click(object sender, EventArgs e)
@@ -79,6 +78,8 @@ namespace TestPro2
                     == bake.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = bake.Identification.ModuleName;
+                    jsontable.Rotation = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
+                    jsontable.Rate = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
                     break;
                 }
             }
@@ -149,6 +150,9 @@ namespace TestPro2
                 if (ps.ModuleNumber == bake.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = bake.Identification.ModuleName;
+                    jsontable.Rotation = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
+                    jsontable.Rate = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
+
                     break;
                 }
             }
@@ -160,10 +164,11 @@ namespace TestPro2
             JsonTable jsontable = new JsonTable();
             float[] tempRateMod = new float[3] { 0, 0, 0 };
             float tempGSMMod = 0;
+            float tempLimMod = 0;
             float tempSrcMod = 0;
-            int i;
             string special;
-            jsontable.Sequence = "Layer - " + ps.SequenceNumber.ToString();
+            int rti;
+            jsontable.Sequence = "Layer - " + ps.SequenceNumber.ToString();                     //main
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
@@ -171,51 +176,77 @@ namespace TestPro2
                     tempRateMod[0] = layer.References.RateModule1;
                     tempRateMod[1] = layer.References.RateModule2;
                     tempRateMod[2] = layer.References.RateModule3;
+                    tempLimMod = layer.References.LimitCheckModule;
                     tempGSMMod = layer.References.GSMModule;
                     jsontable.ModuleName = layer.Identification.ModuleName;
                     float thickness = layer.Parameter.General.Thickness * 10;
-                    jsontable.Thickness = thickness.ToString() + "\u212B";
-                    jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();
+                    jsontable.Thickness = thickness.ToString() + "\u212B";                      //main
+                    jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();  //main
 
                     break;
                 }
             }
-            for (i = 2; i > -1; i--)
+            for (rti = 0; rti < 3; rti++)
             {
-                if (tempRateMod[i] != 0) break;
-            }
-            foreach (Rate rate in rootobject.Rate)
-            {
-                if (tempRateMod[i] == rate.Identification.ModuleNumber)
+                LayerData dfl = new LayerData();
+                if (tempRateMod[rti] == 0) break;                        
+                foreach (Rate rate in rootobject.Rate)
                 {
-                    float tRate = rate.Parameter.General.Rate * 10;
-                    jsontable.Rate = tRate.ToString();
-                    jsontable.Gain = rate.Parameter.General.ControlGain.ToString();
-                    jsontable.HoldTime = rate.Ramping.Hold.Time.ToString();
-                    jsontable.PL = rate.Parameter.General.PowerLimit.ToString();
-                    jsontable.P3 = rate.Ramping.Ramp3.Power.ToString();
-                    jsontable.T3 = rate.Ramping.Ramp3.Time.ToString();
-                    jsontable.P2 = rate.Ramping.Ramp2.Power.ToString();
-                    jsontable.T2 = rate.Ramping.Ramp2.Time.ToString();
-                    jsontable.P1 = rate.Ramping.Ramp1.Power.ToString();
-                    jsontable.T1 = rate.Ramping.Ramp1.Time.ToString();
-                    jsontable.Delay = rate.Ramping.RiseDelay.ToString();
-                    tempSrcMod = rate.References.SourceModule;
-                    break;
-                }
+                    if (tempRateMod[rti] == rate.Identification.ModuleNumber)
+                    {
+                        float tRate = rate.Parameter.General.Rate * 10;
+                        jsontable.Rate = tRate.ToString();                              //main
+                        dfl.Gain = rate.Parameter.General.ControlGain.ToString();       //layer
+                        dfl.HoldTime = rate.Ramping.Hold.Time.ToString();               //layer
+                        dfl.PL = rate.Parameter.General.PowerLimit.ToString();          //layer
+                        dfl.P3 = rate.Ramping.Ramp3.Power.ToString();                   //layer
+                        dfl.T3 = rate.Ramping.Ramp3.Time.ToString();                    //layer
+                        dfl.P2 = rate.Ramping.Ramp2.Power.ToString();                   //layer
+                        dfl.T2 = rate.Ramping.Ramp2.Time.ToString();                    //layer
+                        dfl.P1 = rate.Ramping.Ramp1.Power.ToString();                   //layer
+                        dfl.T1 = rate.Ramping.Ramp1.Time.ToString();                    //layer
+                        dfl.Delay = rate.Ramping.RiseDelay.ToString();                  //layer
+                        tempSrcMod = rate.References.SourceModule;
+                        break;
+                    }
 
-            }
-            foreach (Source source in rootobject.Source)
-            {
-                if (tempSrcMod == source.Identification.ModuleNumber)
+                }
+                foreach (Source source in rootobject.Source)
                 {
-                    if (source.Parameter.SourceNumber == 1)
-                        jsontable.TSource = source.References.EECModule;
-                    else
-                        jsontable.TSource = source.Parameter.SourceNumber.ToString();
-                    jsontable.Response = source.Xtal.ResponseTime.ToString();
-                    jsontable.Derivative = source.Xtal.DerivativeTime.ToString();
-                    break;
+                    if (tempSrcMod == source.Identification.ModuleNumber)
+                    {
+                        if (source.Parameter.SourceNumber == 1)
+                            jsontable.TSource = source.References.EECModule;                //main & layer
+                        else
+                            jsontable.TSource = source.Parameter.SourceNumber.ToString();   //main & layer
+                        dfl.Source = jsontable.TSource;
+                        dfl.Response = source.Xtal.ResponseTime.ToString();           //layer
+                        dfl.Derivative = source.Xtal.DerivativeTime.ToString();       //layer
+                        break;
+                    }
+                }
+                jsontable.LayersData.Add(dfl);
+            }
+            if (tempLimMod != 0)
+            {
+                jsontable.IsMCC = true;
+                foreach(LimitCheck check in rootobject.LimitCheck)
+                {
+                    if (tempLimMod == check.Identification.ModuleNumber)
+                    {
+                        foreach (CheckPoint checkPoint in check.CheckPoint)
+                        {
+                            MCC mCC = new MCC();
+                            mCC.LowLimit = checkPoint.LowLimit.ToString();
+                            mCC.HighLimit = checkPoint.HighLimit.ToString();
+                            mCC.Alarm = checkPoint.AlarmCategory.ToString();
+                            mCC.State = checkPoint.Substate.ToString();
+                            mCC.Element = checkPoint.ElementType.ToString();
+                            mCC.Name = check.Identification.ModuleName.ToString();
+                            jsontable.MCCs.Add(mCC);
+                        }
+                        break;
+                    }
                 }
             }
             if (tempGSMMod != 0)
@@ -250,7 +281,7 @@ namespace TestPro2
 
                         if (jsontable.StopMode == "QUARTZ")
                         {
-                            jsontable.Cycles = "Layer";
+                            jsontable.Cycles = "Layer";                                                         //Main
                         }
                         else
                         {
@@ -302,7 +333,9 @@ namespace TestPro2
                 if (columnIndex > 5 && jts[rowIndex].IsGSM)
                     new GSMTable(jts[rowIndex]).ShowDialog();
                 else if (e.ColumnIndex < 3)
-                    new DataForLayer(jts[rowIndex]).ShowDialog();
+                    new DataForLayer(jts[rowIndex].LayersData).ShowDialog();
+                else if(columnIndex == 5 && jts[rowIndex].IsMCC) 
+                    new MCCData(jts[rowIndex].MCCs).ShowDialog();
 
             }
         }

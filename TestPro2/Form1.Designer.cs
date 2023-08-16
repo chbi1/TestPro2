@@ -67,6 +67,7 @@
             // 
             // rtb
             // 
+            rtb.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtb.Location = new Point(12, 655);
             rtb.Name = "rtb";
             rtb.Size = new Size(1693, 194);
@@ -76,6 +77,7 @@
             // dgv
             // 
             dgv.AllowUserToAddRows = false;
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.AutoGenerateColumns = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.BackgroundColor = SystemColors.InactiveCaption;

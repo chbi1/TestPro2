@@ -29,28 +29,24 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            jsonTableBindingSource = new BindingSource(components);
             dgv_layer = new DataGridView();
-            derivativeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            responseDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            gainDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            holdTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pLDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            p3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            t3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            p2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            t2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            p1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            t1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            delayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            TSource = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
+            layerDataBindingSource = new BindingSource(components);
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn9 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn10 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
+            sourceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgv_layer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
-            // 
-            // jsonTableBindingSource
-            // 
-            jsonTableBindingSource.DataSource = typeof(JsonTable);
             // 
             // dgv_layer
             // 
@@ -58,8 +54,8 @@
             dgv_layer.AutoGenerateColumns = false;
             dgv_layer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_layer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_layer.Columns.AddRange(new DataGridViewColumn[] { derivativeDataGridViewTextBoxColumn,  responseDataGridViewTextBoxColumn, gainDataGridViewTextBoxColumn, holdTimeDataGridViewTextBoxColumn, pLDataGridViewTextBoxColumn, p3DataGridViewTextBoxColumn, t3DataGridViewTextBoxColumn, p2DataGridViewTextBoxColumn, t2DataGridViewTextBoxColumn, p1DataGridViewTextBoxColumn, t1DataGridViewTextBoxColumn, delayDataGridViewTextBoxColumn, TSource });
-            dgv_layer.DataSource = jsonTableBindingSource;
+            dgv_layer.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10, dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12, sourceDataGridViewTextBoxColumn });
+            dgv_layer.DataSource = layerDataBindingSource;
             dgv_layer.Location = new Point(12, 12);
             dgv_layer.Name = "dgv_layer";
             dgv_layer.RowHeadersWidth = 62;
@@ -67,96 +63,100 @@
             dgv_layer.Size = new Size(1721, 151);
             dgv_layer.TabIndex = 0;
             // 
-            // derivativeDataGridViewTextBoxColumn
+            // layerDataBindingSource
             // 
-            derivativeDataGridViewTextBoxColumn.DataPropertyName = "Derivative";
-            derivativeDataGridViewTextBoxColumn.HeaderText = "Derivative";
-            derivativeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            derivativeDataGridViewTextBoxColumn.Name = "derivativeDataGridViewTextBoxColumn";
+            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
-            // responseDataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn1
             // 
-            responseDataGridViewTextBoxColumn.DataPropertyName = "Response";
-            responseDataGridViewTextBoxColumn.HeaderText = "Response";
-            responseDataGridViewTextBoxColumn.MinimumWidth = 8;
-            responseDataGridViewTextBoxColumn.Name = "responseDataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn1.DataPropertyName = "Derivative";
+            dataGridViewTextBoxColumn1.HeaderText = "Derivative";
+            dataGridViewTextBoxColumn1.MinimumWidth = 8;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             // 
-            // gainDataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn2
             // 
-            gainDataGridViewTextBoxColumn.DataPropertyName = "Gain";
-            gainDataGridViewTextBoxColumn.HeaderText = "Gain";
-            gainDataGridViewTextBoxColumn.MinimumWidth = 8;
-            gainDataGridViewTextBoxColumn.Name = "gainDataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn2.DataPropertyName = "Response";
+            dataGridViewTextBoxColumn2.HeaderText = "Response";
+            dataGridViewTextBoxColumn2.MinimumWidth = 8;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
-            // holdTimeDataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn3
             // 
-            holdTimeDataGridViewTextBoxColumn.DataPropertyName = "HoldTime";
-            holdTimeDataGridViewTextBoxColumn.HeaderText = "HoldTime";
-            holdTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            holdTimeDataGridViewTextBoxColumn.Name = "holdTimeDataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn3.DataPropertyName = "Gain";
+            dataGridViewTextBoxColumn3.HeaderText = "Gain";
+            dataGridViewTextBoxColumn3.MinimumWidth = 8;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
-            // pLDataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn4
             // 
-            pLDataGridViewTextBoxColumn.DataPropertyName = "PL";
-            pLDataGridViewTextBoxColumn.HeaderText = "PL";
-            pLDataGridViewTextBoxColumn.MinimumWidth = 8;
-            pLDataGridViewTextBoxColumn.Name = "pLDataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn4.DataPropertyName = "HoldTime";
+            dataGridViewTextBoxColumn4.HeaderText = "HoldTime";
+            dataGridViewTextBoxColumn4.MinimumWidth = 8;
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
-            // p3DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn5
             // 
-            p3DataGridViewTextBoxColumn.DataPropertyName = "P3";
-            p3DataGridViewTextBoxColumn.HeaderText = "P3";
-            p3DataGridViewTextBoxColumn.MinimumWidth = 8;
-            p3DataGridViewTextBoxColumn.Name = "p3DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn5.DataPropertyName = "PL";
+            dataGridViewTextBoxColumn5.HeaderText = "PL";
+            dataGridViewTextBoxColumn5.MinimumWidth = 8;
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             // 
-            // t3DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn6
             // 
-            t3DataGridViewTextBoxColumn.DataPropertyName = "T3";
-            t3DataGridViewTextBoxColumn.HeaderText = "T3";
-            t3DataGridViewTextBoxColumn.MinimumWidth = 8;
-            t3DataGridViewTextBoxColumn.Name = "t3DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn6.DataPropertyName = "P3";
+            dataGridViewTextBoxColumn6.HeaderText = "P3";
+            dataGridViewTextBoxColumn6.MinimumWidth = 8;
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             // 
-            // p2DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn7
             // 
-            p2DataGridViewTextBoxColumn.DataPropertyName = "P2";
-            p2DataGridViewTextBoxColumn.HeaderText = "P2";
-            p2DataGridViewTextBoxColumn.MinimumWidth = 8;
-            p2DataGridViewTextBoxColumn.Name = "p2DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn7.DataPropertyName = "T3";
+            dataGridViewTextBoxColumn7.HeaderText = "T3";
+            dataGridViewTextBoxColumn7.MinimumWidth = 8;
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
-            // t2DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn8
             // 
-            t2DataGridViewTextBoxColumn.DataPropertyName = "T2";
-            t2DataGridViewTextBoxColumn.HeaderText = "T2";
-            t2DataGridViewTextBoxColumn.MinimumWidth = 8;
-            t2DataGridViewTextBoxColumn.Name = "t2DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn8.DataPropertyName = "P2";
+            dataGridViewTextBoxColumn8.HeaderText = "P2";
+            dataGridViewTextBoxColumn8.MinimumWidth = 8;
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             // 
-            // p1DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn9
             // 
-            p1DataGridViewTextBoxColumn.DataPropertyName = "P1";
-            p1DataGridViewTextBoxColumn.HeaderText = "P1";
-            p1DataGridViewTextBoxColumn.MinimumWidth = 8;
-            p1DataGridViewTextBoxColumn.Name = "p1DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn9.DataPropertyName = "T2";
+            dataGridViewTextBoxColumn9.HeaderText = "T2";
+            dataGridViewTextBoxColumn9.MinimumWidth = 8;
+            dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             // 
-            // t1DataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn10
             // 
-            t1DataGridViewTextBoxColumn.DataPropertyName = "T1";
-            t1DataGridViewTextBoxColumn.HeaderText = "T1";
-            t1DataGridViewTextBoxColumn.MinimumWidth = 8;
-            t1DataGridViewTextBoxColumn.Name = "t1DataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn10.DataPropertyName = "P1";
+            dataGridViewTextBoxColumn10.HeaderText = "P1";
+            dataGridViewTextBoxColumn10.MinimumWidth = 8;
+            dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             // 
-            // delayDataGridViewTextBoxColumn
+            // dataGridViewTextBoxColumn11
             // 
-            delayDataGridViewTextBoxColumn.DataPropertyName = "Delay";
-            delayDataGridViewTextBoxColumn.HeaderText = "Delay";
-            delayDataGridViewTextBoxColumn.MinimumWidth = 8;
-            delayDataGridViewTextBoxColumn.Name = "delayDataGridViewTextBoxColumn";
+            dataGridViewTextBoxColumn11.DataPropertyName = "T1";
+            dataGridViewTextBoxColumn11.HeaderText = "T1";
+            dataGridViewTextBoxColumn11.MinimumWidth = 8;
+            dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             // 
-            // TSource
+            // dataGridViewTextBoxColumn12
             // 
-            TSource.DataPropertyName = "TSource";
-            TSource.HeaderText = "Source";
-            TSource.MinimumWidth = 8;
-            TSource.Name = "TSource";
+            dataGridViewTextBoxColumn12.DataPropertyName = "Delay";
+            dataGridViewTextBoxColumn12.HeaderText = "Delay";
+            dataGridViewTextBoxColumn12.MinimumWidth = 8;
+            dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            // 
+            // sourceDataGridViewTextBoxColumn
+            // 
+            sourceDataGridViewTextBoxColumn.DataPropertyName = "Source";
+            sourceDataGridViewTextBoxColumn.HeaderText = "Source";
+            sourceDataGridViewTextBoxColumn.MinimumWidth = 8;
+            sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
             // 
             // DataForLayer
             // 
@@ -166,13 +166,12 @@
             Controls.Add(dgv_layer);
             Name = "DataForLayer";
             Text = "Data for layer";
-            ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv_layer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private BindingSource jsonTableBindingSource;
         private DataGridView dgv_layer;
         private DataGridViewTextBoxColumn derivativeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn derivative2DataGridViewTextBoxColumn;
@@ -187,6 +186,19 @@
         private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn TSource;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
+        private BindingSource layerDataBindingSource;
     }
 }

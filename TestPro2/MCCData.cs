@@ -10,15 +10,13 @@ using System.Windows.Forms;
 
 namespace TestPro2
 {
-    public partial class DataForLayer : Form
+    public partial class MCCData : Form
     {
-        public DataForLayer(List<LayerData> jt)
+        public MCCData(List<MCC> mCCs)
         {
             InitializeComponent();
-            this.Text = "Data for ";
-            dgv_layer.DataSource = null;
-            dgv_layer.DataSource = jt;
+            this.Text = "MCC for - " + mCCs[0].Name;
+            mcc_dgv.DataSource = mCCs;
         }
-
     }
 }
