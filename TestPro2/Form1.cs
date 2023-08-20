@@ -22,6 +22,7 @@ namespace TestPro2
 
         private void open_btn_Click(object sender, EventArgs e)
         {
+            machine.Text = string.Empty;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
@@ -113,7 +114,7 @@ namespace TestPro2
             if (rootobject.Posttreatment.Parameter.VentStop)
                 jsontable.TSource = "Vent Stop: Yes";
             else jsontable.TSource = "Vent Stop: No";
-            jsontable.Rate = "Temp: "+ rootobject.Posttreatment.Parameter.VacuumCool.Temperature.ToString();
+            jsontable.Rate = "Temp: " + rootobject.Posttreatment.Parameter.VacuumCool.Temperature.ToString();
             jsontable.Thickness = "H Delay: " + rootobject.Posttreatment.Parameter.VacuumCool.HeatDelay.ToString();
             jsontable.Cycles = "Time: " + rootobject.Posttreatment.Parameter.VacuumCool.Time.ToString() + " sec";
 
@@ -225,7 +226,6 @@ namespace TestPro2
                             if (rate.Parameter.General.ToolingFactor != 100)
                             {
                                 jsontable.ErrorFlag = true;
-
                                 rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
                                     jsontable.ModuleName + " Tooling Factor must be 100\r\n";
                             }
@@ -330,12 +330,12 @@ namespace TestPro2
                         }
 
                         //----------------------------error check-------------------------
-                        if(machine.Text=="E" || machine.Text == "X" || machine.Text == "P")
+                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
                         {
                             if (gsm.Parameter.General.Glass.Changer == "GL_NEW" && gsm.Parameter.General.Intensity.Start != 47)
                             {
                                 jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in "+ jsontable.Sequence + " " +jsontable.ModuleName +" Start Intensity must be 47% with NEW monitor\r\n";
+                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Start Intensity must be 47% with NEW monitor\r\n";
                             }
                             if (gsm.Parameter.General.Intensity.Maximum != 100)
                             {

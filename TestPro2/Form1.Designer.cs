@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
@@ -49,6 +49,7 @@
             show_file_name = new TextBox();
             label1 = new Label();
             machine = new ComboBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
@@ -59,7 +60,7 @@
             // 
             // open_btn
             // 
-            open_btn.Location = new Point(12, 12);
+            open_btn.Location = new Point(17, 13);
             open_btn.Name = "open_btn";
             open_btn.Size = new Size(112, 34);
             open_btn.TabIndex = 0;
@@ -70,7 +71,9 @@
             // rtb
             // 
             rtb.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rtb.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             rtb.Location = new Point(12, 655);
+            rtb.Margin = new Padding(10, 3, 3, 3);
             rtb.Name = "rtb";
             rtb.Size = new Size(1483, 194);
             rtb.TabIndex = 1;
@@ -86,14 +89,14 @@
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, rotationDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, thicknessDataGridViewTextBoxColumn, cyclesDataGridViewTextBoxColumn, wavelengthDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgv.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dgv.DefaultCellStyle = dataGridViewCellStyle1;
             dgv.Location = new Point(12, 62);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
@@ -187,7 +190,7 @@
             // 
             // process_btn
             // 
-            process_btn.Location = new Point(234, 13);
+            process_btn.Location = new Point(381, 15);
             process_btn.Name = "process_btn";
             process_btn.Size = new Size(112, 34);
             process_btn.TabIndex = 3;
@@ -197,6 +200,7 @@
             // 
             // show_file_name
             // 
+            show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             show_file_name.Location = new Point(1314, 15);
             show_file_name.Name = "show_file_name";
             show_file_name.ReadOnly = true;
@@ -206,6 +210,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Location = new Point(1218, 18);
             label1.Name = "label1";
@@ -217,16 +222,26 @@
             // 
             machine.FormattingEnabled = true;
             machine.Items.AddRange(new object[] { "E", "P", "X" });
-            machine.Location = new Point(144, 15);
+            machine.Location = new Point(283, 15);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(148, 18);
+            label2.Name = "label2";
+            label2.Size = new Size(129, 25);
+            label2.TabIndex = 7;
+            label2.Text = "Select machine";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1507, 858);
+            Controls.Add(label2);
             Controls.Add(machine);
             Controls.Add(label1);
             Controls.Add(show_file_name);
@@ -267,5 +282,6 @@
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
         private ComboBox machine;
+        private Label label2;
     }
 }
