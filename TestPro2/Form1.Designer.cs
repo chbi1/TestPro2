@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
             rtb = new RichTextBox();
@@ -47,6 +48,7 @@
             process_btn = new Button();
             show_file_name = new TextBox();
             label1 = new Label();
+            comboBox1 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
@@ -70,7 +72,7 @@
             rtb.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtb.Location = new Point(12, 655);
             rtb.Name = "rtb";
-            rtb.Size = new Size(1693, 194);
+            rtb.Size = new Size(1483, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
             // 
@@ -98,9 +100,10 @@
             dgv.RightToLeft = RightToLeft.Yes;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
-            dgv.Size = new Size(1693, 587);
+            dgv.Size = new Size(1483, 587);
             dgv.TabIndex = 2;
             dgv.CellDoubleClick += dgv_CellClick;
+            dgv.CellMouseEnter += dgv_CellMouseEnter;
             // 
             // sequenceDataGridViewTextBoxColumn
             // 
@@ -184,7 +187,7 @@
             // 
             // process_btn
             // 
-            process_btn.Location = new Point(153, 12);
+            process_btn.Location = new Point(234, 13);
             process_btn.Name = "process_btn";
             process_btn.Size = new Size(112, 34);
             process_btn.TabIndex = 3;
@@ -194,7 +197,7 @@
             // 
             // show_file_name
             // 
-            show_file_name.Location = new Point(1524, 17);
+            show_file_name.Location = new Point(1314, 15);
             show_file_name.Name = "show_file_name";
             show_file_name.ReadOnly = true;
             show_file_name.Size = new Size(181, 31);
@@ -204,25 +207,36 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(1428, 17);
+            label1.Location = new Point(1218, 18);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
             label1.Text = "File Name";
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "E", "P", "X" });
+            comboBox1.Location = new Point(144, 15);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(66, 33);
+            comboBox1.TabIndex = 6;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1717, 858);
+            ClientSize = new Size(1507, 858);
+            Controls.Add(comboBox1);
             Controls.Add(label1);
             Controls.Add(show_file_name);
             Controls.Add(process_btn);
             Controls.Add(dgv);
             Controls.Add(rtb);
             Controls.Add(open_btn);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Form1";
+            Text = "Test Pro";
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
@@ -252,6 +266,6 @@
         private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-
+        private ComboBox comboBox1;
     }
 }

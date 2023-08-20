@@ -30,13 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             mcc_dgv = new DataGridView();
-            mCCBindingSource = new BindingSource(components);
             elementDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lowLimitDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             highLimitDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             alarmDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             stateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            mCCBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)mcc_dgv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)mCCBindingSource).BeginInit();
             SuspendLayout();
@@ -55,10 +55,6 @@
             mcc_dgv.RowTemplate.Height = 33;
             mcc_dgv.Size = new Size(991, 200);
             mcc_dgv.TabIndex = 0;
-            // 
-            // mCCBindingSource
-            // 
-            mCCBindingSource.DataSource = typeof(MCC);
             // 
             // elementDataGridViewTextBoxColumn
             // 
@@ -101,6 +97,10 @@
             nameDataGridViewTextBoxColumn.HeaderText = "Name";
             nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // mCCBindingSource
+            // 
+            mCCBindingSource.DataSource = typeof(MCC);
             // 
             // MCCData
             // 

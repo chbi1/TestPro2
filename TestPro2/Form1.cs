@@ -12,33 +12,26 @@ namespace TestPro2
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
-        
-
-
         public Form1()
         {
             InitializeComponent();
             rootobject = new Rootobject();
-
             jts = new List<JsonTable>();
             id = new Queue<char>();
         }
 
         private void open_btn_Click(object sender, EventArgs e)
         {
-
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
                 openFileDialog.Filter = "json REC files (*.REC)|*.REC";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
-
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
-
                     //Read the contents of the file into a stream
                     jsonData = File.ReadAllText(filePath);
                 }
@@ -56,11 +49,9 @@ namespace TestPro2
             string pattern = @"(?<![0-9.])-(?![0-9])";
             string replacement = "";
 
-
             jsonData = Regex.Replace(jsonData, pattern, replacement);
             rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
             show_file_name.Text = rootobject.Identification.ProcessID.ToString();
-
         }
 
         private void process_btn_Click(object sender, EventArgs e)
@@ -68,7 +59,6 @@ namespace TestPro2
             rtb.Text = string.Empty;
             if (jsonData == string.Empty) { return; }
             jts.Clear();
-
 
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
@@ -113,6 +103,9 @@ namespace TestPro2
                 //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
                 jts.Add(jsontable);
             }
+            jsontable = new JsonTable();
+            jsontable.Sequence = "Posttreatment";
+            jts.Add(jsontable);
 
             dgv.DataSource = null;
             dgv.DataSource = jts;
@@ -189,7 +182,7 @@ namespace TestPro2
             for (rti = 0; rti < 3; rti++)
             {
                 LayerData dfl = new LayerData();
-                if (tempRateMod[rti] == 0) break;                        
+                if (tempRateMod[rti] == 0) break;
                 foreach (Rate rate in rootobject.Rate)
                 {
                     if (tempRateMod[rti] == rate.Identification.ModuleNumber)
@@ -230,7 +223,7 @@ namespace TestPro2
             if (tempLimMod != 0)
             {
                 jsontable.IsMCC = true;
-                foreach(LimitCheck check in rootobject.LimitCheck)
+                foreach (LimitCheck check in rootobject.LimitCheck)
                 {
                     if (tempLimMod == check.Identification.ModuleNumber)
                     {
@@ -326,7 +319,6 @@ namespace TestPro2
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-
                 int rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
 
@@ -334,9 +326,32 @@ namespace TestPro2
                     new GSMTable(jts[rowIndex]).ShowDialog();
                 else if (e.ColumnIndex < 3)
                     new DataForLayer(jts[rowIndex].LayersData).ShowDialog();
-                else if(columnIndex == 5 && jts[rowIndex].IsMCC) 
+                else if (columnIndex == 5 && jts[rowIndex].IsMCC)
                     new MCCData(jts[rowIndex].MCCs).ShowDialog();
+            }
+        }
 
+        private void dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                int rowIndex = e.RowIndex;
+                int columnIndex = e.ColumnIndex;
+                if (jts[rowIndex].IsGSM)
+                {
+                    if (columnIndex == 9)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " +  jts[rowIndex].Name +
+                            "\nIntensity Max:" + jts[rowIndex].IntensityMax + "\nIntensity Min: " + jts[rowIndex].IntensityMin;
+                    else if (columnIndex == 8)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nBeam: " + jts[rowIndex].Beam + "\nThreshold: " + jts[rowIndex].Threshold;
+                    else if (columnIndex == 7)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nAlgorithm Time: " + jts[rowIndex].AlgTime + "\nAlgorithm Delay: " + jts[rowIndex].AlgDalay;
+                    else if (columnIndex == 6)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode;
+                }
             }
         }
     }
