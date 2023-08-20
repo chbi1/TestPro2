@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
@@ -48,7 +48,7 @@
             process_btn = new Button();
             show_file_name = new TextBox();
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            machine = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
@@ -86,14 +86,14 @@
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, rotationDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, thicknessDataGridViewTextBoxColumn, cyclesDataGridViewTextBoxColumn, wavelengthDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dgv.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgv.DefaultCellStyle = dataGridViewCellStyle2;
             dgv.Location = new Point(12, 62);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
@@ -213,21 +213,21 @@
             label1.TabIndex = 5;
             label1.Text = "File Name";
             // 
-            // comboBox1
+            // machine
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "E", "P", "X" });
-            comboBox1.Location = new Point(144, 15);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(66, 33);
-            comboBox1.TabIndex = 6;
+            machine.FormattingEnabled = true;
+            machine.Items.AddRange(new object[] { "E", "P", "X" });
+            machine.Location = new Point(144, 15);
+            machine.Name = "machine";
+            machine.Size = new Size(66, 33);
+            machine.TabIndex = 6;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1507, 858);
-            Controls.Add(comboBox1);
+            Controls.Add(machine);
             Controls.Add(label1);
             Controls.Add(show_file_name);
             Controls.Add(process_btn);
@@ -266,6 +266,6 @@
         private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-        private ComboBox comboBox1;
+        private ComboBox machine;
     }
 }

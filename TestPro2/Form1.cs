@@ -26,7 +26,6 @@ namespace TestPro2
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
                 openFileDialog.Filter = "json REC files (*.REC)|*.REC";
-                openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -57,7 +56,7 @@ namespace TestPro2
         private void process_btn_Click(object sender, EventArgs e)
         {
             rtb.Text = string.Empty;
-            if (jsonData == string.Empty) { return; }
+            if (jsonData == string.Empty || machine.Text == string.Empty) { return; }
             jts.Clear();
 
             JsonTable jsontable = new JsonTable();
@@ -68,11 +67,14 @@ namespace TestPro2
                     == bake.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = bake.Identification.ModuleName;
-                    jsontable.Rotation = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
-                    jsontable.Rate = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
+
+                    jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
+                    jsontable.Thickness = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
+                    jsontable.Cycles = "Time: " + bake.Parameter.BakeoutTime.ToString() + " sec";
                     break;
                 }
             }
+            jsontable.Rotation = rootobject.Pretreatment.Parameter.General.Rotation.Setpoint.ToString();
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
             {
@@ -92,7 +94,10 @@ namespace TestPro2
 
                     case "L":
                         jsontable = GetLayer(sequence);
-                        id.Enqueue('L');
+                        if (jsontable.ErrorFlag)
+                            id.Enqueue('E');
+                        else
+                            id.Enqueue('L');
                         break;
 
                     case "V":
@@ -105,6 +110,13 @@ namespace TestPro2
             }
             jsontable = new JsonTable();
             jsontable.Sequence = "Posttreatment";
+            if (rootobject.Posttreatment.Parameter.VentStop)
+                jsontable.TSource = "Vent Stop: Yes";
+            else jsontable.TSource = "Vent Stop: No";
+            jsontable.Rate = "Temp: "+ rootobject.Posttreatment.Parameter.VacuumCool.Temperature.ToString();
+            jsontable.Thickness = "H Delay: " + rootobject.Posttreatment.Parameter.VacuumCool.HeatDelay.ToString();
+            jsontable.Cycles = "Time: " + rootobject.Posttreatment.Parameter.VacuumCool.Time.ToString() + " sec";
+
             jts.Add(jsontable);
 
             dgv.DataSource = null;
@@ -128,11 +140,16 @@ namespace TestPro2
                     case 'V':
                         dgv.Rows[i].Cells[0].Style.BackColor = Color.LightYellow;
                         break;
+                    case 'E':
+                        dgv.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
+                        dgv.Rows[i].Cells[0].Style.BackColor = Color.AliceBlue;
+                        break;
                 }
                 i++;
             }
-            string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
-            rtb.Text = output;
+            dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
+            //string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
+            //rtb.Text = output;
         }
 
         public JsonTable GetBake(ProcessSequence ps)
@@ -143,9 +160,9 @@ namespace TestPro2
                 if (ps.ModuleNumber == bake.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = bake.Identification.ModuleName;
-                    jsontable.Rotation = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
-                    jsontable.Rate = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
-
+                    jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
+                    jsontable.Thickness = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
+                    jsontable.Cycles = "Time: " + bake.Parameter.BakeoutTime.ToString() + " sec";
                     break;
                 }
             }
@@ -181,6 +198,7 @@ namespace TestPro2
             }
             for (rti = 0; rti < 3; rti++)
             {
+                int showRM = rti + 1;
                 LayerData dfl = new LayerData();
                 if (tempRateMod[rti] == 0) break;
                 foreach (Rate rate in rootobject.Rate)
@@ -200,6 +218,26 @@ namespace TestPro2
                         dfl.T1 = rate.Ramping.Ramp1.Time.ToString();                    //layer
                         dfl.Delay = rate.Ramping.RiseDelay.ToString();                  //layer
                         tempSrcMod = rate.References.SourceModule;
+
+                        //----------------------------error check-------------------------
+                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
+                        {
+                            if (rate.Parameter.General.ToolingFactor != 100)
+                            {
+                                jsontable.ErrorFlag = true;
+
+                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                                    jsontable.ModuleName + " Tooling Factor must be 100\r\n";
+                            }
+                            if (rate.Ramping.Hold.Time < 1)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                                    jsontable.ModuleName + " Hold Time must be more than 1\r\n";
+                            }
+
+                        }
+
                         break;
                     }
 
@@ -215,7 +253,18 @@ namespace TestPro2
                         dfl.Source = jsontable.TSource;
                         dfl.Response = source.Xtal.ResponseTime.ToString();           //layer
                         dfl.Derivative = source.Xtal.DerivativeTime.ToString();       //layer
-                        break;
+
+                        //----------------------------error check-------------------------
+                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
+                        {
+                            if (source.Xtal.Density != 2)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                                    jsontable.ModuleName + " Density must be 2\r\n";
+                            }
+                            break;
+                        }
                     }
                 }
                 jsontable.LayersData.Add(dfl);
@@ -259,7 +308,6 @@ namespace TestPro2
                         jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
                         jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
 
-
                         // ------------------- special words --------------------
                         special = gsm.Parameter.General.Transmission;
                         special = special.Split('_').Last();
@@ -279,6 +327,31 @@ namespace TestPro2
                         else
                         {
                             jsontable.Cycles = jsontable.StopMode + " " + gsm.SignalSettings.NumberofCycles.ToString();    //Main
+                        }
+
+                        //----------------------------error check-------------------------
+                        if(machine.Text=="E" || machine.Text == "X" || machine.Text == "P")
+                        {
+                            if (gsm.Parameter.General.Glass.Changer == "GL_NEW" && gsm.Parameter.General.Intensity.Start != 47)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in "+ jsontable.Sequence + " " +jsontable.ModuleName +" Start Intensity must be 47% with NEW monitor\r\n";
+                            }
+                            if (gsm.Parameter.General.Intensity.Maximum != 100)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Max must be 100%\r\n";
+                            }
+                            if (gsm.Parameter.General.Intensity.Minimum != 0)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Min must be 0\r\n";
+                            }
+                            if (gsm.Parameter.General.HTemp != 150)
+                            {
+                                jsontable.ErrorFlag = true;
+                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " HTemp must be 150\r\n";
+                            }
                         }
                         break;
                     }
@@ -308,6 +381,7 @@ namespace TestPro2
                 if (ps.ModuleNumber == clean.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = clean.Identification.ModuleName;
+                    jsontable.Cycles = "Time: " + clean.Parameter.CleanTime.ToString() + " sec";
                     break;
                 }
             }
@@ -340,17 +414,21 @@ namespace TestPro2
                 if (jts[rowIndex].IsGSM)
                 {
                     if (columnIndex == 9)
-                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " +  jts[rowIndex].Name +
-                            "\nIntensity Max:" + jts[rowIndex].IntensityMax + "\nIntensity Min: " + jts[rowIndex].IntensityMin;
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nIntensity Max:" + jts[rowIndex].IntensityMax + "\nIntensity Min: " + jts[rowIndex].IntensityMin
+                            + "\n--double click for GSM table--";
                     else if (columnIndex == 8)
                         dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nBeam: " + jts[rowIndex].Beam + "\nThreshold: " + jts[rowIndex].Threshold;
+                            "\nBeam: " + jts[rowIndex].Beam + "\nThreshold: " + jts[rowIndex].Threshold
+                            + "\n--double click for GSM table--";
                     else if (columnIndex == 7)
                         dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nAlgorithm Time: " + jts[rowIndex].AlgTime + "\nAlgorithm Delay: " + jts[rowIndex].AlgDalay;
+                            "\nAlgorithm Time: " + jts[rowIndex].AlgTime + "\nAlgorithm Delay: " + jts[rowIndex].AlgDalay
+                            + "\n--double click for GSM table--";
                     else if (columnIndex == 6)
                         dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode;
+                            "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode
+                            + "\n--double click for GSM table--";
                 }
             }
         }
