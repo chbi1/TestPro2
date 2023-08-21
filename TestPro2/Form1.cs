@@ -61,7 +61,7 @@ namespace TestPro2
                     jsonData = File.ReadAllText(filePath);
 
                     dgv.DataSource = null;
-                    machine.Text = string.Empty;
+                    //machine.Text = string.Empty;
                 }
             }
             //string pattern = @"(?<![0-9.])-(?![0-9])";
