@@ -222,11 +222,12 @@
             // machine
             // 
             machine.FormattingEnabled = true;
-            machine.Items.AddRange(new object[] { "E", "P", "X" });
+            machine.Items.AddRange(new object[] { "E", "N", "X", "P", "W" });
             machine.Location = new Point(283, 15);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
+            machine.SelectedIndexChanged += machine_SelectedIndexChanged;
             // 
             // label2
             // 

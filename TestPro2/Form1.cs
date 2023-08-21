@@ -1,7 +1,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace TestPro2
 {
@@ -12,21 +14,45 @@ namespace TestPro2
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
+        string initialDirectory = string.Empty;
         public TestPro()
         {
             InitializeComponent();
             rootobject = new Rootobject();
             jts = new List<JsonTable>();
             id = new Queue<char>();
+            initialDirectory = "c:\\Users\\user\\Desktop";
         }
+        private void machine_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (machine.Text)
+            {
+                case "E":
+                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\E\\in\\PCB32\\rec";
+                    break;
+                case "X":
+                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\X\\IN\\REC";
+                    break;
+                case "N":
+                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\N\\IN\\rec";
+                    break;
+                case "P":
+                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\P\\IN\\rec";
+                    break;
+                case "W":
+                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\X\\IN\\REC";
+                    break;
 
+            }
+        }
         private void open_btn_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
+
+                openFileDialog.InitialDirectory = initialDirectory;
                 openFileDialog.Filter = "json REC files (*.REC)|*.REC";
-                openFileDialog.RestoreDirectory = true;
+                openFileDialog.RestoreDirectory = false;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     //Get the path of specified file
@@ -227,7 +253,7 @@ namespace TestPro2
                         tempSrcMod = rate.References.SourceModule;
 
                         //----------------------------error check-------------------------
-                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
+                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
                         {
                             if (rate.Parameter.General.ToolingFactor != 100)
                             {
@@ -261,7 +287,7 @@ namespace TestPro2
                         dfl.Derivative = source.Xtal.DerivativeTime.ToString();       //layer
 
                         //----------------------------error check-------------------------
-                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
+                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
                         {
                             if (source.Xtal.Density != 2)
                             {
@@ -350,7 +376,7 @@ namespace TestPro2
                         }
 
                         //----------------------------error check-------------------------
-                        if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
+                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
                         {
                             if (gsm.Parameter.General.Glass.Changer == "GL_NEW" && gsm.Parameter.General.Intensity.Start != 47)
                             {
@@ -463,5 +489,6 @@ namespace TestPro2
                 }
             }
         }
+
     }
 }
