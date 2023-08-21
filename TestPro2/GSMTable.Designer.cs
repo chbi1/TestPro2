@@ -164,10 +164,11 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1752, 175);
             Controls.Add(dgv_gsm);
             Name = "GSMTable";
-            Text = "GSMTable";
+            Text = "GSM Data";
             ((System.ComponentModel.ISupportInitialize)dgv_gsm).EndInit();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
             ResumeLayout(false);

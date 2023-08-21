@@ -32,11 +32,16 @@ namespace TestPro2
         public string Name { get; set; } = string.Empty;
         public string SubCycles { get; set; } = string.Empty;
         public bool IsGSM { get; set; } = false;
+        public bool IsMCC { get; set; } = false;
+        public bool ErrorFlag { get; set; } = false;
 
+        public List<LayerData> LayersData { get; set; } = new List<LayerData>();
+        public List<MCC> MCCs { get; set; } = new List<MCC>();
 
-        //---------Data for Layer
+    }
+    public class LayerData
+    {
         public string Derivative { get; set; } = string.Empty;
-        public string Derivative2 { get; set; } = string.Empty;
         public string Response { get; set; } = string.Empty;
         public string Gain { get; set; } = string.Empty;
         public string HoldTime { get; set; } = string.Empty;
@@ -48,11 +53,16 @@ namespace TestPro2
         public string P1 { get; set; } = string.Empty;
         public string T1 { get; set; } = string.Empty;
         public string Delay { get; set; } = string.Empty;
-        //public string Rate { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
-
-
     }
-
+    public class MCC
+    {
+        public string Element { get; set; } = string.Empty;
+        public string LowLimit { get; set; } = string.Empty;
+        public string HighLimit { get; set; } = string.Empty;
+        public string Alarm { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+    }
 }
 
