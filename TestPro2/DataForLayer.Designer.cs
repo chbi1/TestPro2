@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             dgv_layer = new DataGridView();
-            layerDataBindingSource = new BindingSource(components);
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
@@ -44,6 +43,7 @@
             dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
             sourceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            layerDataBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dgv_layer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
@@ -58,14 +58,11 @@
             dgv_layer.DataSource = layerDataBindingSource;
             dgv_layer.Location = new Point(12, 12);
             dgv_layer.Name = "dgv_layer";
+            dgv_layer.RowHeadersVisible = false;
             dgv_layer.RowHeadersWidth = 62;
             dgv_layer.RowTemplate.Height = 33;
             dgv_layer.Size = new Size(1721, 151);
             dgv_layer.TabIndex = 0;
-            // 
-            // layerDataBindingSource
-            // 
-            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -157,6 +154,10 @@
             sourceDataGridViewTextBoxColumn.HeaderText = "Source";
             sourceDataGridViewTextBoxColumn.MinimumWidth = 8;
             sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
+            // 
+            // layerDataBindingSource
+            // 
+            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
             // DataForLayer
             // 

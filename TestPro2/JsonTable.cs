@@ -33,6 +33,7 @@ namespace TestPro2
         public string SubCycles { get; set; } = string.Empty;
         public bool IsGSM { get; set; } = false;
         public bool IsMCC { get; set; } = false;
+        public bool IsLayer { get; set; } = false;
         public bool ErrorFlag { get; set; } = false;
 
         public List<LayerData> LayersData { get; set; } = new List<LayerData>();

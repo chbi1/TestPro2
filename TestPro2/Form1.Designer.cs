@@ -1,6 +1,6 @@
 ﻿namespace TestPro2
 {
-    partial class Form1
+    partial class TestPro
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,7 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestPro));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
             rtb = new RichTextBox();
@@ -101,6 +101,7 @@
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RightToLeft = RightToLeft.Yes;
+            dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
             dgv.Size = new Size(1483, 587);
@@ -236,7 +237,7 @@
             label2.TabIndex = 7;
             label2.Text = "Select machine";
             // 
-            // Form1
+            // TestPro
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -250,7 +251,7 @@
             Controls.Add(rtb);
             Controls.Add(open_btn);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
+            Name = "TestPro";
             Text = "Test Pro";
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();

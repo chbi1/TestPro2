@@ -57,6 +57,7 @@
             dgv_gsm.DataSource = jsonTableBindingSource;
             dgv_gsm.Location = new Point(12, 12);
             dgv_gsm.Name = "dgv_gsm";
+            dgv_gsm.RowHeadersVisible = false;
             dgv_gsm.RowHeadersWidth = 62;
             dgv_gsm.RowTemplate.Height = 33;
             dgv_gsm.Size = new Size(1728, 151);

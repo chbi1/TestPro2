@@ -51,6 +51,7 @@
             mcc_dgv.DataSource = mCCBindingSource;
             mcc_dgv.Location = new Point(12, 12);
             mcc_dgv.Name = "mcc_dgv";
+            mcc_dgv.RowHeadersVisible = false;
             mcc_dgv.RowHeadersWidth = 62;
             mcc_dgv.RowTemplate.Height = 33;
             mcc_dgv.Size = new Size(991, 200);

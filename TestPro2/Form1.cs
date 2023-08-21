@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace TestPro2
 {
-    public partial class Form1 : Form
+    public partial class TestPro : Form
     {
         Rootobject rootobject;
         public List<JsonTable> jts;
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
-        public Form1()
+        public TestPro()
         {
             InitializeComponent();
             rootobject = new Rootobject();
@@ -22,7 +22,6 @@ namespace TestPro2
 
         private void open_btn_Click(object sender, EventArgs e)
         {
-            machine.Text = string.Empty;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\Users\\user\\Desktop";
@@ -34,6 +33,9 @@ namespace TestPro2
                     filePath = openFileDialog.FileName;
                     //Read the contents of the file into a stream
                     jsonData = File.ReadAllText(filePath);
+
+                    dgv.DataSource = null;
+                    machine.Text = string.Empty;
                 }
             }
             //string pattern = @"(?<![0-9.])-(?![0-9])";
@@ -44,14 +46,17 @@ namespace TestPro2
             //string spaceReplacement = "_";
             //jsonData = Regex.Replace(jsonData, spacePattern, spaceReplacement);
 
-            rtb.Text = jsonData;
-            jsonData = jsonData.Replace(" ", "");
-            string pattern = @"(?<![0-9.])-(?![0-9])";
-            string replacement = "";
+            //rtb.Text = jsonData;
+            if (jsonData != string.Empty)
+            {
+                jsonData = jsonData.Replace(" ", "");
+                string pattern = @"(?<![0-9.])-(?![0-9])";
+                string replacement = "";
 
-            jsonData = Regex.Replace(jsonData, pattern, replacement);
-            rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
-            show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+                jsonData = Regex.Replace(jsonData, pattern, replacement);
+                rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+                show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+            }
         }
 
         private void process_btn_Click(object sender, EventArgs e)
@@ -184,6 +189,7 @@ namespace TestPro2
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
                 {
+                    jsontable.IsLayer = true;
                     tempRateMod[0] = layer.References.RateModule1;
                     tempRateMod[1] = layer.References.RateModule2;
                     tempRateMod[2] = layer.References.RateModule3;
@@ -281,7 +287,21 @@ namespace TestPro2
                             MCC mCC = new MCC();
                             mCC.LowLimit = checkPoint.LowLimit.ToString();
                             mCC.HighLimit = checkPoint.HighLimit.ToString();
-                            mCC.Alarm = checkPoint.AlarmCategory.ToString();
+                            switch (checkPoint.AlarmCategory)
+                            {
+                                case 1:
+                                    mCC.Alarm = "Information";
+                                    break;
+                                case 2:
+                                    mCC.Alarm = "Warning";
+                                    break;
+                                case 3:
+                                    mCC.Alarm = "Fatal";
+                                    break;
+                                default:
+                                    mCC.Alarm = checkPoint.AlarmCategory.ToString();
+                                    break;
+                            }
                             mCC.State = checkPoint.Substate.ToString();
                             mCC.Element = checkPoint.ElementType.ToString();
                             mCC.Name = check.Identification.ModuleName.ToString();
@@ -381,6 +401,7 @@ namespace TestPro2
                 if (ps.ModuleNumber == clean.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = clean.Identification.ModuleName;
+                    jsontable.Thickness = "Gas ST: " + clean.Parameter.GasStabilizationTime.ToString() + " sec";
                     jsontable.Cycles = "Time: " + clean.Parameter.CleanTime.ToString() + " sec";
                     break;
                 }
@@ -396,12 +417,12 @@ namespace TestPro2
                 int rowIndex = e.RowIndex;
                 int columnIndex = e.ColumnIndex;
 
-                if (columnIndex > 5 && jts[rowIndex].IsGSM)
-                    new GSMTable(jts[rowIndex]).ShowDialog();
-                else if (e.ColumnIndex < 3)
-                    new DataForLayer(jts[rowIndex].LayersData).ShowDialog();
+                if (e.ColumnIndex < 3 && jts[rowIndex].IsLayer)
+                    new DataForLayer(jts[rowIndex].LayersData, jts[rowIndex].Sequence).ShowDialog();
                 else if (columnIndex == 5 && jts[rowIndex].IsMCC)
                     new MCCData(jts[rowIndex].MCCs).ShowDialog();
+                else if (columnIndex > 5 && jts[rowIndex].IsGSM)
+                    new GSMTable(jts[rowIndex]).ShowDialog();
             }
         }
 
@@ -429,6 +450,16 @@ namespace TestPro2
                         dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
                             "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode
                             + "\n--double click for GSM table--";
+                }
+                if (jts[rowIndex].IsLayer)
+                {
+                    if (columnIndex == 5)
+                    {
+                        if (jts[rowIndex].IsMCC)
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--double click for MCC table--";
+                        else
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no MCC data available--";
+                    }
                 }
             }
         }

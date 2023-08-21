@@ -12,10 +12,10 @@ namespace TestPro2
 {
     public partial class DataForLayer : Form
     {
-        public DataForLayer(List<LayerData> jt)
+        public DataForLayer(List<LayerData> jt, string title)
         {
             InitializeComponent();
-            this.Text = "Data for ";
+            this.Text = "Data for " + title;
             dgv_layer.DataSource = null;
             dgv_layer.DataSource = jt;
         }
