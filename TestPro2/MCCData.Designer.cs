@@ -56,6 +56,7 @@
             mcc_dgv.DataSource = mCCBindingSource;
             mcc_dgv.Location = new Point(12, 12);
             mcc_dgv.Name = "mcc_dgv";
+            mcc_dgv.ReadOnly = true;
             mcc_dgv.RowHeadersVisible = false;
             mcc_dgv.RowHeadersWidth = 62;
             mcc_dgv.RowTemplate.Height = 33;
@@ -68,6 +69,7 @@
             elementDataGridViewTextBoxColumn.HeaderText = "Element";
             elementDataGridViewTextBoxColumn.MinimumWidth = 170;
             elementDataGridViewTextBoxColumn.Name = "elementDataGridViewTextBoxColumn";
+            elementDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // lowLimitDataGridViewTextBoxColumn
             // 
@@ -75,6 +77,7 @@
             lowLimitDataGridViewTextBoxColumn.HeaderText = "LowLimit";
             lowLimitDataGridViewTextBoxColumn.MinimumWidth = 8;
             lowLimitDataGridViewTextBoxColumn.Name = "lowLimitDataGridViewTextBoxColumn";
+            lowLimitDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // highLimitDataGridViewTextBoxColumn
             // 
@@ -82,6 +85,7 @@
             highLimitDataGridViewTextBoxColumn.HeaderText = "HighLimit";
             highLimitDataGridViewTextBoxColumn.MinimumWidth = 8;
             highLimitDataGridViewTextBoxColumn.Name = "highLimitDataGridViewTextBoxColumn";
+            highLimitDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // alarmDataGridViewTextBoxColumn
             // 
@@ -89,6 +93,7 @@
             alarmDataGridViewTextBoxColumn.HeaderText = "Alarm";
             alarmDataGridViewTextBoxColumn.MinimumWidth = 8;
             alarmDataGridViewTextBoxColumn.Name = "alarmDataGridViewTextBoxColumn";
+            alarmDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // stateDataGridViewTextBoxColumn
             // 
@@ -96,6 +101,7 @@
             stateDataGridViewTextBoxColumn.HeaderText = "State";
             stateDataGridViewTextBoxColumn.MinimumWidth = 200;
             stateDataGridViewTextBoxColumn.Name = "stateDataGridViewTextBoxColumn";
+            stateDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -103,6 +109,7 @@
             nameDataGridViewTextBoxColumn.HeaderText = "Name";
             nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // mCCBindingSource
             // 

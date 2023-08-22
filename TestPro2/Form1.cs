@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using static System.Windows.Forms.Design.AxImporter;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace TestPro2
 {
@@ -89,7 +91,11 @@ namespace TestPro2
         {
             //stopwatch.Start();
             //rtb.Text = string.Empty;
-            if (jsonData == string.Empty || machine.Text == string.Empty) { return; }
+            if (jsonData == string.Empty || machine.Text == string.Empty) 
+            {
+                MessageBox.Show("No machine slected");
+                return;
+            }
             jts.Clear();
 
             JsonTable jsontable = new JsonTable();

@@ -62,6 +62,7 @@
             dgv_gsm.DataSource = jsonTableBindingSource;
             dgv_gsm.Location = new Point(12, 12);
             dgv_gsm.Name = "dgv_gsm";
+            dgv_gsm.ReadOnly = true;
             dgv_gsm.RowHeadersVisible = false;
             dgv_gsm.RowHeadersWidth = 62;
             dgv_gsm.RowTemplate.Height = 33;
@@ -75,6 +76,7 @@
             intensityMaxDataGridViewTextBoxColumn.HeaderText = "Intensity Max";
             intensityMaxDataGridViewTextBoxColumn.MinimumWidth = 8;
             intensityMaxDataGridViewTextBoxColumn.Name = "intensityMaxDataGridViewTextBoxColumn";
+            intensityMaxDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // intensityMinDataGridViewTextBoxColumn
             // 
@@ -83,6 +85,7 @@
             intensityMinDataGridViewTextBoxColumn.HeaderText = "Intensity Min";
             intensityMinDataGridViewTextBoxColumn.MinimumWidth = 8;
             intensityMinDataGridViewTextBoxColumn.Name = "intensityMinDataGridViewTextBoxColumn";
+            intensityMinDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // thresholdDataGridViewTextBoxColumn
             // 
@@ -91,6 +94,7 @@
             thresholdDataGridViewTextBoxColumn.HeaderText = "Threshold";
             thresholdDataGridViewTextBoxColumn.MinimumWidth = 8;
             thresholdDataGridViewTextBoxColumn.Name = "thresholdDataGridViewTextBoxColumn";
+            thresholdDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // startIntensityDataGridViewTextBoxColumn
             // 
@@ -99,6 +103,7 @@
             startIntensityDataGridViewTextBoxColumn.HeaderText = "Start Intensity";
             startIntensityDataGridViewTextBoxColumn.MinimumWidth = 8;
             startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
+            startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // beamDataGridViewTextBoxColumn
             // 
@@ -107,6 +112,7 @@
             beamDataGridViewTextBoxColumn.HeaderText = "Beam";
             beamDataGridViewTextBoxColumn.MinimumWidth = 8;
             beamDataGridViewTextBoxColumn.Name = "beamDataGridViewTextBoxColumn";
+            beamDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // Monitor
             // 
@@ -114,6 +120,7 @@
             Monitor.HeaderText = "Glass";
             Monitor.MinimumWidth = 8;
             Monitor.Name = "Monitor";
+            Monitor.ReadOnly = true;
             // 
             // algDalayDataGridViewTextBoxColumn
             // 
@@ -122,6 +129,7 @@
             algDalayDataGridViewTextBoxColumn.HeaderText = "Alg Dalay";
             algDalayDataGridViewTextBoxColumn.MinimumWidth = 8;
             algDalayDataGridViewTextBoxColumn.Name = "algDalayDataGridViewTextBoxColumn";
+            algDalayDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // algTimeDataGridViewTextBoxColumn
             // 
@@ -130,6 +138,7 @@
             algTimeDataGridViewTextBoxColumn.HeaderText = "Alg Time";
             algTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
             algTimeDataGridViewTextBoxColumn.Name = "algTimeDataGridViewTextBoxColumn";
+            algTimeDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // stopModeDataGridViewTextBoxColumn
             // 
@@ -138,6 +147,7 @@
             stopModeDataGridViewTextBoxColumn.HeaderText = "Stop Mode";
             stopModeDataGridViewTextBoxColumn.MinimumWidth = 8;
             stopModeDataGridViewTextBoxColumn.Name = "stopModeDataGridViewTextBoxColumn";
+            stopModeDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // subCyclesDataGridViewTextBoxColumn
             // 
@@ -146,6 +156,7 @@
             subCyclesDataGridViewTextBoxColumn.HeaderText = "Cycles";
             subCyclesDataGridViewTextBoxColumn.MinimumWidth = 8;
             subCyclesDataGridViewTextBoxColumn.Name = "subCyclesDataGridViewTextBoxColumn";
+            subCyclesDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // Wavelength
             // 
@@ -153,6 +164,7 @@
             Wavelength.HeaderText = "Wavelength";
             Wavelength.MinimumWidth = 8;
             Wavelength.Name = "Wavelength";
+            Wavelength.ReadOnly = true;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -161,6 +173,7 @@
             nameDataGridViewTextBoxColumn.HeaderText = "Name";
             nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // jsonTableBindingSource
             // 

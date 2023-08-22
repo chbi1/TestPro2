@@ -63,6 +63,7 @@
             dgv_layer.DataSource = layerDataBindingSource;
             dgv_layer.Location = new Point(12, 12);
             dgv_layer.Name = "dgv_layer";
+            dgv_layer.ReadOnly = true;
             dgv_layer.RowHeadersVisible = false;
             dgv_layer.RowHeadersWidth = 62;
             dgv_layer.RowTemplate.Height = 33;
@@ -75,6 +76,7 @@
             dataGridViewTextBoxColumn1.HeaderText = "Derivative";
             dataGridViewTextBoxColumn1.MinimumWidth = 8;
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -82,6 +84,7 @@
             dataGridViewTextBoxColumn2.HeaderText = "Response";
             dataGridViewTextBoxColumn2.MinimumWidth = 8;
             dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -89,6 +92,7 @@
             dataGridViewTextBoxColumn3.HeaderText = "Gain";
             dataGridViewTextBoxColumn3.MinimumWidth = 8;
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -96,6 +100,7 @@
             dataGridViewTextBoxColumn4.HeaderText = "HoldTime";
             dataGridViewTextBoxColumn4.MinimumWidth = 8;
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -103,6 +108,7 @@
             dataGridViewTextBoxColumn5.HeaderText = "PL";
             dataGridViewTextBoxColumn5.MinimumWidth = 8;
             dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -110,6 +116,7 @@
             dataGridViewTextBoxColumn6.HeaderText = "P3";
             dataGridViewTextBoxColumn6.MinimumWidth = 8;
             dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn7
             // 
@@ -117,6 +124,7 @@
             dataGridViewTextBoxColumn7.HeaderText = "T3";
             dataGridViewTextBoxColumn7.MinimumWidth = 8;
             dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn8
             // 
@@ -124,6 +132,7 @@
             dataGridViewTextBoxColumn8.HeaderText = "P2";
             dataGridViewTextBoxColumn8.MinimumWidth = 8;
             dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn9
             // 
@@ -131,6 +140,7 @@
             dataGridViewTextBoxColumn9.HeaderText = "T2";
             dataGridViewTextBoxColumn9.MinimumWidth = 8;
             dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            dataGridViewTextBoxColumn9.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn10
             // 
@@ -138,6 +148,7 @@
             dataGridViewTextBoxColumn10.HeaderText = "P1";
             dataGridViewTextBoxColumn10.MinimumWidth = 8;
             dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            dataGridViewTextBoxColumn10.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn11
             // 
@@ -145,6 +156,7 @@
             dataGridViewTextBoxColumn11.HeaderText = "T1";
             dataGridViewTextBoxColumn11.MinimumWidth = 8;
             dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            dataGridViewTextBoxColumn11.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -152,6 +164,7 @@
             dataGridViewTextBoxColumn12.HeaderText = "Delay";
             dataGridViewTextBoxColumn12.MinimumWidth = 8;
             dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            dataGridViewTextBoxColumn12.ReadOnly = true;
             // 
             // sourceDataGridViewTextBoxColumn
             // 
@@ -159,6 +172,7 @@
             sourceDataGridViewTextBoxColumn.HeaderText = "Source";
             sourceDataGridViewTextBoxColumn.MinimumWidth = 8;
             sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
+            sourceDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // layerDataBindingSource
             // 
