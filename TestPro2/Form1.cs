@@ -16,7 +16,6 @@ namespace TestPro2
         string jsonData = string.Empty;
         string filePath = string.Empty;
         string initialDirectory = string.Empty;
-        Stopwatch stopwatch = new Stopwatch();
         public TestPro()
         {
             InitializeComponent();
@@ -65,8 +64,6 @@ namespace TestPro2
                     //machine.Text = string.Empty;
                 }
             }
-            stopwatch.Start();
-
             //string pattern = @"(?<![0-9.])-(?![0-9])";
             //string replacement = "__";
             //jsonData = Regex.Replace(jsonData, pattern, replacement);
@@ -86,8 +83,6 @@ namespace TestPro2
                 rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
                 show_file_name.Text = rootobject.Identification.ProcessID.ToString();
             }
-            stopwatch.Stop();
-            rtb.Text = stopwatch.ElapsedMilliseconds.ToString();
         }
 
         private void process_btn_Click(object sender, EventArgs e)
@@ -97,8 +92,6 @@ namespace TestPro2
             if (jsonData == string.Empty || machine.Text == string.Empty) { return; }
             jts.Clear();
 
-            stopwatch.Reset();
-            stopwatch.Start();
             JsonTable jsontable = new JsonTable();
             jsontable.Sequence = "Pretreatment";
             foreach (Bake bake in rootobject.Bake)
@@ -188,10 +181,6 @@ namespace TestPro2
                 i++;
             }
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
-            //string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
-            //rtb.Text = output;
-            stopwatch.Stop();
-            rtb.Text += "\n" + stopwatch.ElapsedMilliseconds.ToString();
         }
 
         public JsonTable GetBake(ProcessSequence ps)
