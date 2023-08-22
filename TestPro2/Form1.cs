@@ -191,7 +191,7 @@ namespace TestPro2
             //string output = JsonConvert.SerializeObject(rootobject, Formatting.Indented);
             //rtb.Text = output;
             stopwatch.Stop();
-            rtb.Text +=  "\n" + stopwatch.ElapsedMilliseconds.ToString();
+            rtb.Text += "\n" + stopwatch.ElapsedMilliseconds.ToString();
         }
 
         public JsonTable GetBake(ProcessSequence ps)
