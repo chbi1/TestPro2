@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GSMTable));
             dgv_gsm = new DataGridView();
             intensityMaxDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             intensityMinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -49,6 +50,10 @@
             // 
             // dgv_gsm
             // 
+            dgv_gsm.AllowUserToAddRows = false;
+            dgv_gsm.AllowUserToDeleteRows = false;
+            dgv_gsm.AllowUserToResizeColumns = false;
+            dgv_gsm.AllowUserToResizeRows = false;
             dgv_gsm.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv_gsm.AutoGenerateColumns = false;
             dgv_gsm.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -168,6 +173,7 @@
             BackColor = SystemColors.Control;
             ClientSize = new Size(1752, 175);
             Controls.Add(dgv_gsm);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "GSMTable";
             Text = "GSM Data";
             ((System.ComponentModel.ISupportInitialize)dgv_gsm).EndInit();

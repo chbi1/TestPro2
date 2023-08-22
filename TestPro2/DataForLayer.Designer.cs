@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataForLayer));
             dgv_layer = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
@@ -50,6 +51,10 @@
             // 
             // dgv_layer
             // 
+            dgv_layer.AllowUserToAddRows = false;
+            dgv_layer.AllowUserToDeleteRows = false;
+            dgv_layer.AllowUserToResizeColumns = false;
+            dgv_layer.AllowUserToResizeRows = false;
             dgv_layer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv_layer.AutoGenerateColumns = false;
             dgv_layer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -165,6 +170,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1745, 175);
             Controls.Add(dgv_layer);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DataForLayer";
             Text = "Data for layer";
             ((System.ComponentModel.ISupportInitialize)dgv_layer).EndInit();

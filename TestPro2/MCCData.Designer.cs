@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MCCData));
             mcc_dgv = new DataGridView();
             elementDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lowLimitDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -43,6 +44,10 @@
             // 
             // mcc_dgv
             // 
+            mcc_dgv.AllowUserToAddRows = false;
+            mcc_dgv.AllowUserToDeleteRows = false;
+            mcc_dgv.AllowUserToResizeColumns = false;
+            mcc_dgv.AllowUserToResizeRows = false;
             mcc_dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             mcc_dgv.AutoGenerateColumns = false;
             mcc_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -109,6 +114,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1015, 224);
             Controls.Add(mcc_dgv);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MCCData";
             Text = "MCCData";
             ((System.ComponentModel.ISupportInitialize)mcc_dgv).EndInit();
