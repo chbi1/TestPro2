@@ -75,6 +75,7 @@
             rtb.Location = new Point(12, 655);
             rtb.Margin = new Padding(10, 3, 3, 3);
             rtb.Name = "rtb";
+            rtb.ReadOnly = true;
             rtb.Size = new Size(1483, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
