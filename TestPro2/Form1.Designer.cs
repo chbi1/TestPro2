@@ -50,6 +50,7 @@
             label1 = new Label();
             machine = new ComboBox();
             label2 = new Label();
+            save_btn = new Button();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
@@ -110,7 +111,7 @@
             dgv.RowTemplate.Height = 33;
             dgv.Size = new Size(1483, 587);
             dgv.TabIndex = 2;
-            dgv.CellDoubleClick += dgv_CellClick;
+            dgv.CellDoubleClick += dgv_CellDoubleClick;
             dgv.CellMouseEnter += dgv_CellMouseEnter;
             // 
             // sequenceDataGridViewTextBoxColumn
@@ -242,11 +243,22 @@
             label2.TabIndex = 7;
             label2.Text = "Select machine";
             // 
+            // save_btn
+            // 
+            save_btn.Location = new Point(1060, 14);
+            save_btn.Name = "save_btn";
+            save_btn.Size = new Size(112, 34);
+            save_btn.TabIndex = 8;
+            save_btn.Text = "&Save";
+            save_btn.UseVisualStyleBackColor = true;
+            save_btn.Click += save_btn_Click;
+            // 
             // TestPro
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1507, 858);
+            Controls.Add(save_btn);
             Controls.Add(label2);
             Controls.Add(machine);
             Controls.Add(label1);
@@ -289,5 +301,6 @@
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
         private ComboBox machine;
         private Label label2;
+        private Button save_btn;
     }
 }
