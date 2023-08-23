@@ -82,8 +82,11 @@ namespace TestPro2
                 string replacement = "";
 
                 jsonData = Regex.Replace(jsonData, pattern, replacement);
-                rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
-                show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+                if (jsonData != null)
+                {
+                    rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+                    show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+                }
             }
         }
 
