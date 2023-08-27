@@ -15,7 +15,7 @@ namespace TestPro2
         public MCCData(List<MCC> mCCs)
         {
             InitializeComponent();
-            this.Text = "MCC for - " + mCCs[0].Name;
+            this.Text = "Limits - " + mCCs[0].Name;
             mcc_dgv.DataSource = mCCs;
         }
     }

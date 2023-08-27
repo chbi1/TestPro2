@@ -84,7 +84,7 @@ namespace TestPro2
                 jsonData = Regex.Replace(jsonData, pattern, replacement);
                 if (jsonData != null)
                 {
-                    rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData);
+                    rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData)!;
                     show_file_name.Text = rootobject.Identification.ProcessID.ToString();
                 }
             }
@@ -94,7 +94,7 @@ namespace TestPro2
         {
             //stopwatch.Start();
             //rtb.Text = string.Empty;
-            if (jsonData == string.Empty || machine.Text == string.Empty) 
+            if (jsonData == string.Empty  /*|| machine.Text == string.Empty*/) 
             {
                 MessageBox.Show("No machine slected");
                 return;
@@ -218,7 +218,8 @@ namespace TestPro2
             float tempSrcMod = 0;
             string special;
             int rti;
-            jsontable.Sequence = "Layer - " + ps.SequenceNumber.ToString();                     //main
+            jsontable.SequenceNum = ps.SequenceNumber.ToString();
+            jsontable.Sequence = "Layer - " + jsontable.SequenceNum;                            //main
             foreach (Layer layer in rootobject.Layer)
             {
                 if (ps.ModuleNumber == layer.Identification.ModuleNumber)
@@ -452,7 +453,7 @@ namespace TestPro2
                 int columnIndex = e.ColumnIndex;
 
                 if (e.ColumnIndex < 3 && jts[rowIndex].IsLayer)
-                    new DataForLayer(jts[rowIndex].LayersData, jts[rowIndex].Sequence).ShowDialog();
+                    new DataForLayer(jts[rowIndex].LayersData, jts[rowIndex].SequenceNum).ShowDialog();
                 else if (columnIndex == 5 && jts[rowIndex].IsMCC)
                     new MCCData(jts[rowIndex].MCCs).ShowDialog();
                 else if (columnIndex > 5 && jts[rowIndex].IsGSM)
@@ -490,9 +491,9 @@ namespace TestPro2
                     if (columnIndex == 5)
                     {
                         if (jts[rowIndex].IsMCC)
-                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--double click for MCC table--";
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--double click for Limits table--";
                         else
-                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no MCC data available--";
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no Limits data available--";
                     }
                 }
             }

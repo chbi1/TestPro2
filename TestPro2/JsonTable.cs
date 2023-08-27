@@ -9,6 +9,7 @@ namespace TestPro2
     public class JsonTable
     {
         public string Sequence { get; set; } = string.Empty;
+        public string SequenceNum { get; set; } = string.Empty;
         public string ModuleName { get; set; } = string.Empty;
         public string TSource { get; set; } = string.Empty;
         public string Rotation { get; set; } = string.Empty;
