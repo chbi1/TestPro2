@@ -43,7 +43,7 @@
             thicknessDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cyclesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             wavelengthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            monitorDataGridViewTextBoxColumn = new DataGridViewComboBoxColumn();
             startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             process_btn = new Button();
             show_file_name = new TextBox();
@@ -51,6 +51,7 @@
             machine = new ComboBox();
             label2 = new Label();
             save_btn = new Button();
+            edit = new Button();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
@@ -77,7 +78,7 @@
             rtb.Margin = new Padding(10, 3, 3, 3);
             rtb.Name = "rtb";
             rtb.ReadOnly = true;
-            rtb.Size = new Size(1483, 194);
+            rtb.Size = new Size(1529, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
             // 
@@ -109,7 +110,7 @@
             dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
-            dgv.Size = new Size(1483, 587);
+            dgv.Size = new Size(1529, 587);
             dgv.TabIndex = 2;
             dgv.CellDoubleClick += dgv_CellDoubleClick;
             dgv.CellMouseEnter += dgv_CellMouseEnter;
@@ -182,9 +183,12 @@
             // 
             monitorDataGridViewTextBoxColumn.DataPropertyName = "Monitor";
             monitorDataGridViewTextBoxColumn.HeaderText = "Monitor";
+            monitorDataGridViewTextBoxColumn.Items.AddRange(new object[] { "GL_NEW", "GL_OLD" });
             monitorDataGridViewTextBoxColumn.MinimumWidth = 8;
             monitorDataGridViewTextBoxColumn.Name = "monitorDataGridViewTextBoxColumn";
             monitorDataGridViewTextBoxColumn.ReadOnly = true;
+            monitorDataGridViewTextBoxColumn.Resizable = DataGridViewTriState.True;
+            monitorDataGridViewTextBoxColumn.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // startIntensityDataGridViewTextBoxColumn
             // 
@@ -207,7 +211,7 @@
             // show_file_name
             // 
             show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            show_file_name.Location = new Point(1314, 15);
+            show_file_name.Location = new Point(1360, 15);
             show_file_name.Name = "show_file_name";
             show_file_name.ReadOnly = true;
             show_file_name.Size = new Size(181, 31);
@@ -218,7 +222,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1218, 18);
+            label1.Location = new Point(1264, 18);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
@@ -253,11 +257,22 @@
             save_btn.UseVisualStyleBackColor = true;
             save_btn.Click += save_btn_Click;
             // 
+            // edit
+            // 
+            edit.Location = new Point(821, 12);
+            edit.Name = "edit";
+            edit.Size = new Size(112, 34);
+            edit.TabIndex = 9;
+            edit.Text = "&Edit";
+            edit.UseVisualStyleBackColor = true;
+            edit.Click += edit_Click;
+            // 
             // TestPro
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1507, 858);
+            ClientSize = new Size(1553, 858);
+            Controls.Add(edit);
             Controls.Add(save_btn);
             Controls.Add(label2);
             Controls.Add(machine);
@@ -289,6 +304,9 @@
         private Button process_btn;
         private TextBox show_file_name;
         private Label label1;
+        private ComboBox machine;
+        private Label label2;
+        private Button save_btn;
         private DataGridViewTextBoxColumn sequenceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -297,10 +315,8 @@
         private DataGridViewTextBoxColumn thicknessDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn cyclesDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
+        private DataGridViewComboBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-        private ComboBox machine;
-        private Label label2;
-        private Button save_btn;
+        private Button edit;
     }
 }

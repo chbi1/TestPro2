@@ -57,10 +57,10 @@ public class Pretreatment
 
 public class References
 {
-    public float Bake__Module { get; set; }
-    public float Sequencer__Module { get; set; }
-    public float QMG__Module { get; set; }
-    public float Limit__Module { get; set; }
+    public int Bake__Module { get; set; }
+    public int Sequencer__Module { get; set; }
+    public int QMG__Module { get; set; }
+    public int Limit__Module { get; set; }
 }
 
 public class Parameter
@@ -163,10 +163,10 @@ public class Posttreatment
 
 public class References1
 {
-    public float Partial__Vent__1 { get; set; }
-    public float Partial__Vent__2 { get; set; }
-    public float Partial__Vent__3 { get; set; }
-    public float Sequencer__Module { get; set; }
+    public int Partial__Vent__1 { get; set; }
+    public int Partial__Vent__2 { get; set; }
+    public int Partial__Vent__3 { get; set; }
+    public int Sequencer__Module { get; set; }
 }
 
 public class Parameter1
@@ -223,9 +223,9 @@ public class Partial__Vent__3
 
 public class Process__Sequence
 {
-    public float Sequence__Number { get; set; }
+    public int Sequence__Number { get; set; }
     public string Module__Type { get; set; } = string.Empty;
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
 }
 
 public class Heater
@@ -236,7 +236,7 @@ public class Heater
 
 public class Identification1
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
 }
 
 public class Parameter2
@@ -261,7 +261,7 @@ public class Bake
 
 public class Identification2
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -294,18 +294,18 @@ public class Clean
 
 public class Identification3
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
 
 public class References2
 {
-    public float RVG__Module { get; set; }
-    public float QMG__Module { get; set; }
-    public float Sequencer__Module { get; set; }
-    public float Limit__Check__Module { get; set; }
-    public float Ion__Source__Module { get; set; }
+    public int RVG__Module { get; set; }
+    public int QMG__Module { get; set; }
+    public int Sequencer__Module { get; set; }
+    public int Limit__Check__Module { get; set; }
+    public int Ion__Source__Module { get; set; }
 }
 
 public class Parameter4
@@ -369,35 +369,35 @@ public class Layer
 
 public class Identification4
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
 
 public class References3
 {
-    public float Rate__Module__1 { get; set; }
-    public float Rate__Module__2 { get; set; }
-    public float Rate__Module__3 { get; set; }
-    public float Rate__Module__4 { get; set; }
-    public float Rate__Module__5 { get; set; }
-    public float Rate__Module__6 { get; set; }
-    public float Rate__Module__7 { get; set; }
-    public float Rate__Module__8 { get; set; }
-    public float Rate__Module__9 { get; set; }
-    public float Rate__Module__10 { get; set; }
-    public float Rate__Module__11 { get; set; }
-    public float Rate__Module__12 { get; set; }
-    public float RVG__Module__1 { get; set; }
-    public float RVG__Module__2 { get; set; }
-    public float RVG__Module__3 { get; set; }
-    public float RVG__Module__4 { get; set; }
-    public float Bake__Module { get; set; }
-    public float Sequencer__Module { get; set; }
-    public float GSM__Module { get; set; }
-    public float QMG__Module { get; set; }
-    public float Limit__Check__Module { get; set; }
-    public float Ion__Source__Module { get; set; }
+    public int Rate__Module__1 { get; set; }
+    public int Rate__Module__2 { get; set; }
+    public int Rate__Module__3 { get; set; }
+    public int Rate__Module__4 { get; set; }
+    public int Rate__Module__5 { get; set; }
+    public int Rate__Module__6 { get; set; }
+    public int Rate__Module__7 { get; set; }
+    public int Rate__Module__8 { get; set; }
+    public int Rate__Module__9 { get; set; }
+    public int Rate__Module__10 { get; set; }
+    public int Rate__Module__11 { get; set; }
+    public int Rate__Module__12 { get; set; }
+    public int RVG__Module__1 { get; set; }
+    public int RVG__Module__2 { get; set; }
+    public int RVG__Module__3 { get; set; }
+    public int RVG__Module__4 { get; set; }
+    public int Bake__Module { get; set; }
+    public int Sequencer__Module { get; set; }
+    public int GSM__Module { get; set; }
+    public int QMG__Module { get; set; }
+    public int Limit__Check__Module { get; set; }
+    public int Ion__Source__Module { get; set; }
 }
 
 public class Parameter5
@@ -496,14 +496,14 @@ public class Rate
 
 public class Identification5
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
 
 public class References4
 {
-    public float Source__Module { get; set; }
+    public int Source__Module { get; set; }
 }
 
 public class Parameter6
@@ -639,7 +639,7 @@ public class Deposition__Paramset
 
 public class Identification6
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Type { get; set; } = string.Empty;
 }
@@ -662,7 +662,7 @@ public class Source
 
 public class Identification7
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -742,19 +742,19 @@ public class Vacuum1
 
 public class Identification8
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
 
 public class References6
 {
-    public float RVG__Module__1 { get; set; }
-    public float RVG__Module__2 { get; set; }
-    public float RVG__Module__3 { get; set; }
-    public float RVG__Module__4 { get; set; }
-    public float QMG__Module { get; set; }
-    public float Limit__Check__Module { get; set; }
+    public int RVG__Module__1 { get; set; }
+    public int RVG__Module__2 { get; set; }
+    public int RVG__Module__3 { get; set; }
+    public int RVG__Module__4 { get; set; }
+    public int QMG__Module { get; set; }
+    public int Limit__Check__Module { get; set; }
 }
 
 public class Parameter9
@@ -830,7 +830,7 @@ public class RVG
 
 public class Identification10
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -879,7 +879,7 @@ public class Limit__Check
 
 public class Identification11
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -910,7 +910,7 @@ public class GSM1
 
 public class Identification12
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -990,7 +990,7 @@ public class Ion__Source1
 
 public class Identification13
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -1188,7 +1188,7 @@ public class QMG
 
 public class Identification14
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -1221,7 +1221,7 @@ public class Sequencer
 
 public class Identification15
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -1241,7 +1241,7 @@ public class Entry__Action
 
 public class Identification16
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
 }
@@ -1269,7 +1269,7 @@ public class User
 
 public class Identification17
 {
-    public float Module__Number { get; set; }
+    public int Module__Number { get; set; }
     public string Module__Name { get; set; } = string.Empty;
     public string Module__Definition__State { get; set; } = string.Empty;
     public string User__Name { get; set; } = string.Empty;
@@ -1277,6 +1277,6 @@ public class Identification17
 
 public class References9
 {
-    public float Sequencer__Module__1 { get; set; }
-    public float Vacuum__Module { get; set; }
+    public int Sequencer__Module__1 { get; set; }
+    public int Vacuum__Module { get; set; }
 }

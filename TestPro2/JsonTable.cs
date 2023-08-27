@@ -65,5 +65,9 @@ namespace TestPro2
         public string State { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
     }
+    public class BoxData
+    {
+        public string[] Changer { get; set; } = { "GL_OLD", "GL_NEW" };
+    }
 }
 

@@ -5,6 +5,6 @@
     Renaming the file extension or editing the content of this file may   
     cause the file to be unrecognizable by the program.
 -->
-<GenericObjectDataSource DisplayName="MCC" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-  <TypeInfo>TestPro2.MCC, TestPro2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+<GenericObjectDataSource DisplayName="BoxData" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+  <TypeInfo>TestPro2.BoxData, TestPro2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>

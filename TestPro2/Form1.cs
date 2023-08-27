@@ -3,10 +3,13 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Text.Encodings;
 using static System.Windows.Forms.Design.AxImporter;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Text.Unicode;
 
 namespace TestPro2
 {
@@ -18,6 +21,7 @@ namespace TestPro2
         string jsonData = string.Empty;
         string filePath = string.Empty;
         string initialDirectory = string.Empty;
+
         public TestPro()
         {
             InitializeComponent();
@@ -25,6 +29,8 @@ namespace TestPro2
             jts = new List<JsonTable>();
             id = new Queue<char>();
             initialDirectory = "c:\\Users\\user\\Desktop";
+
+
         }
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -53,7 +59,7 @@ namespace TestPro2
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = initialDirectory;
-                openFileDialog.Filter = "json REC files (*.REC)|*.REC";
+                openFileDialog.Filter = "json REC files (*.REC)|*.REC|json files (*.json)|*.json";
                 openFileDialog.RestoreDirectory = false;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -66,22 +72,9 @@ namespace TestPro2
                     //machine.Text = string.Empty;
                 }
             }
-            //string pattern = @"(?<![0-9.])-(?![0-9])";
-            //string replacement = "__";
-            //jsonData = Regex.Replace(jsonData, pattern, replacement);
 
-            ///string spacePattern = @"\S \S";
-            //string spaceReplacement = "_";
-            //jsonData = Regex.Replace(jsonData, spacePattern, spaceReplacement);
-
-            //rtb.Text = jsonData;
-            if (jsonData != string.Empty)
+            if (!string.IsNullOrEmpty(jsonData))
             {
-                //    jsonData = jsonData.Replace(" ", "");
-                //    string pattern = @"(?<![0-9.])-(?![0-9])";
-                //    string replacement = "";
-                //    jsonData = Regex.Replace(jsonData, pattern, replacement);
-
                 string pattern = @"(?<![0-9.])-(?![0-9])";
                 string replacement = "___";
                 jsonData = Regex.Replace(jsonData, pattern, replacement);
@@ -93,15 +86,16 @@ namespace TestPro2
                 rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData)!;
                 show_file_name.Text = rootobject.Identification.Process__ID.ToString();
             }
+
         }
 
         private void process_btn_Click(object sender, EventArgs e)
         {
             //stopwatch.Start();
-            //rtb.Text = string.Empty;
-            if (jsonData == string.Empty || machine.Text == string.Empty)
+            rtb.Text = string.Empty;
+            if (jsonData == string.Empty /*|| machine.Text == string.Empty*/)
             {
-                MessageBox.Show("No machine slected");
+                MessageBox.Show("No file slected");
                 return;
             }
             jts.Clear();
@@ -371,9 +365,9 @@ namespace TestPro2
                         special = gsm.Parameter.General.Transmission;
                         special = special.Split('_').Last();
                         jsontable.Beam = special;                                                               //GSM
-                        special = gsm.Parameter.General.Glass.Changer;
-                        special = special.Split('_').Last();
-                        jsontable.Monitor = special;                                                            //Main & GSM 
+                        jsontable.Monitor = gsm.Parameter.General.Glass.Changer;
+                        //special = special.Split('_').Last();
+                        //jsontable.Monitor = special;                                                            //Main & GSM 
                         special = gsm.Signal__Settings.Stop__Criterion;
                         special = special.Split('_').First();
 
@@ -519,6 +513,30 @@ namespace TestPro2
             //output = Regex.Replace(jsonData, floatPattern, floatReplacement);
 
             rtb.Text = output;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.InitialDirectory = initialDirectory;
+            saveFileDialog1.Filter = "json REC files (*.REC)|*.REC|json files (*.json)|*.json";
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Get the selected file name from the dialog
+
+                string selectedFileName = saveFileDialog1.FileName;
+
+                // Code to generate or retrieve the 'output' content goes here.
+                // ...
+
+                // Write the content directly to the selected file using File.WriteAllText
+                File.WriteAllText(selectedFileName, output);
+            }
+
+        }
+
+        private void edit_Click(object sender, EventArgs e)
+        {
+            dgv.ReadOnly = false;
         }
     }
 }
