@@ -86,36 +86,23 @@ namespace TestPro2
                 {
                     rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData)!;
                     show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+                    process_btn_Click(sender, e);
                 }
             }
         }
-
         private void process_btn_Click(object sender, EventArgs e)
         {
-            //stopwatch.Start();
-            //rtb.Text = string.Empty;
-            if (jsonData == string.Empty  /*|| machine.Text == string.Empty*/)
+            rtb.Text = string.Empty;
+            if (jsonData == string.Empty)
             {
-                MessageBox.Show("No machine slected");
+                MessageBox.Show("No file slected");
                 return;
             }
             jts.Clear();
 
             JsonTable jsontable = new JsonTable();
+            jsontable = GetBake(rootobject.Pretreatment.References.BakeModule);
             jsontable.Sequence = "Pretreatment";
-            foreach (Bake bake in rootobject.Bake)
-            {
-                if (rootobject.Pretreatment.References.BakeModule
-                    == bake.Identification.ModuleNumber)
-                {
-                    jsontable.ModuleName = bake.Identification.ModuleName;
-
-                    jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
-                    jsontable.Thickness = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
-                    jsontable.Cycles = "Time: " + bake.Parameter.BakeoutTime.ToString() + " sec";
-                    break;
-                }
-            }
             jsontable.Rotation = rootobject.Pretreatment.Parameter.General.Rotation.Setpoint.ToString();
             jts.Add(jsontable);
             foreach (ProcessSequence sequence in rootobject.ProcessSequence)
@@ -125,17 +112,21 @@ namespace TestPro2
                 switch (sequence.ModuleType)
                 {
                     case "B":
-                        jsontable = GetBake(sequence);
+                        jsontable = GetBake(sequence.ModuleNumber);
+                        jsontable.Sequence = "Bake - " + sequence.SequenceNumber.ToString();
                         id.Enqueue('B');
                         break;
 
                     case "C":
-                        jsontable = GetClean(sequence);
+                        jsontable = GetClean(sequence.ModuleNumber);
+                        jsontable.Sequence = "Clean - " + sequence.SequenceNumber.ToString();
                         id.Enqueue('C');
                         break;
 
                     case "L":
-                        jsontable = GetLayer(sequence);
+                        jsontable = GetLayer(sequence.ModuleNumber);
+                        jsontable.SequenceNum = sequence.SequenceNumber.ToString();
+                        jsontable.Sequence = "Layer - " + jsontable.SequenceNum;                            //main
                         if (jsontable.ErrorFlag)
                             id.Enqueue('E');
                         else
@@ -143,11 +134,11 @@ namespace TestPro2
                         break;
 
                     case "V":
-                        jsontable = GetVacuum(sequence);
+                        jsontable = GetVacuum(sequence.ModuleNumber);
+                        jsontable.Sequence = "Vacuum - " + sequence.SequenceNumber.ToString();
                         id.Enqueue('V');
                         break;
                 }
-                //jsontable.Sequence = sequence.SequenceNumber.ToString() + "  " + s;
                 jts.Add(jsontable);
             }
             jsontable = new JsonTable();
@@ -191,13 +182,65 @@ namespace TestPro2
             }
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
         }
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                int rowIndex = e.RowIndex;
+                int columnIndex = e.ColumnIndex;
 
-        public JsonTable GetBake(ProcessSequence ps)
+                if (e.ColumnIndex < 3 && jts[rowIndex].IsLayer)
+                    new DataForLayer(jts[rowIndex].LayersData, jts[rowIndex].SequenceNum).ShowDialog();
+                else if (columnIndex == 5 && jts[rowIndex].IsMCC)
+                    new MCCData(jts[rowIndex].MCCs).ShowDialog();
+                else if (columnIndex > 5 && jts[rowIndex].IsGSM)
+                    new GSMTable(jts[rowIndex]).ShowDialog();
+            }
+        }
+        private void dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                int rowIndex = e.RowIndex;
+                int columnIndex = e.ColumnIndex;
+                if (jts[rowIndex].IsGSM)
+                {
+                    if (columnIndex == 9)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nIntensity Max:" + jts[rowIndex].IntensityMax + "\nIntensity Min: " + jts[rowIndex].IntensityMin
+                            + "\n--double click for GSM table--";
+                    else if (columnIndex == 8)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nBeam: " + jts[rowIndex].Beam + "\nThreshold: " + jts[rowIndex].Threshold
+                            + "\n--double click for GSM table--";
+                    else if (columnIndex == 7)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nAlgorithm Time: " + jts[rowIndex].AlgTime + "\nAlgorithm Delay: " + jts[rowIndex].AlgDalay
+                            + "\n--double click for GSM table--";
+                    else if (columnIndex == 6)
+                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
+                            "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode
+                            + "\n--double click for GSM table--";
+                }
+                if (jts[rowIndex].IsLayer)
+                {
+                    if (columnIndex == 5)
+                    {
+                        if (jts[rowIndex].IsMCC)
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--double click for Limits table--";
+                        else
+                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no Limits data available--";
+                    }
+                }
+            }
+        }
+
+        public JsonTable GetBake(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
             foreach (Bake bake in rootobject.Bake)
             {
-                if (ps.ModuleNumber == bake.Identification.ModuleNumber)
+                if (moduleNumber == bake.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = bake.Identification.ModuleName;
                     jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
@@ -206,10 +249,9 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Bake - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
-        public JsonTable GetLayer(ProcessSequence ps)
+        public JsonTable GetLayer(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
             float[] tempRateMod = new float[3] { 0, 0, 0 };
@@ -218,11 +260,10 @@ namespace TestPro2
             float tempSrcMod = 0;
             string special;
             int rti;
-            jsontable.SequenceNum = ps.SequenceNumber.ToString();
-            jsontable.Sequence = "Layer - " + jsontable.SequenceNum;                            //main
+
             foreach (Layer layer in rootobject.Layer)
             {
-                if (ps.ModuleNumber == layer.Identification.ModuleNumber)
+                if (moduleNumber == layer.Identification.ModuleNumber)
                 {
                     jsontable.IsLayer = true;
                     tempRateMod[0] = layer.References.RateModule1;
@@ -414,26 +455,25 @@ namespace TestPro2
             }
             return jsontable;
         }
-        public JsonTable GetVacuum(ProcessSequence ps)
+        public JsonTable GetVacuum(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
             foreach (Vacuum1 vacuum in rootobject.Vacuum)
             {
-                if (ps.ModuleNumber == vacuum.Identification.ModuleNumber)
+                if (moduleNumber == vacuum.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = vacuum.Identification.ModuleName;
                     break;
                 }
             }
-            jsontable.Sequence = "Vacuum - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
-        public JsonTable GetClean(ProcessSequence ps)
+        public JsonTable GetClean(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
             foreach (Clean clean in rootobject.Clean)
             {
-                if (ps.ModuleNumber == clean.Identification.ModuleNumber)
+                if (moduleNumber == clean.Identification.ModuleNumber)
                 {
                     jsontable.ModuleName = clean.Identification.ModuleName;
                     jsontable.Thickness = "Gas ST: " + clean.Parameter.GasStabilizationTime.ToString() + " sec";
@@ -441,63 +481,7 @@ namespace TestPro2
                     break;
                 }
             }
-            jsontable.Sequence = "Clean - " + ps.SequenceNumber.ToString();
             return jsontable;
         }
-
-        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                int rowIndex = e.RowIndex;
-                int columnIndex = e.ColumnIndex;
-
-                if (e.ColumnIndex < 3 && jts[rowIndex].IsLayer)
-                    new DataForLayer(jts[rowIndex].LayersData, jts[rowIndex].SequenceNum).ShowDialog();
-                else if (columnIndex == 5 && jts[rowIndex].IsMCC)
-                    new MCCData(jts[rowIndex].MCCs).ShowDialog();
-                else if (columnIndex > 5 && jts[rowIndex].IsGSM)
-                    new GSMTable(jts[rowIndex]).ShowDialog();
-            }
-        }
-
-        private void dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                int rowIndex = e.RowIndex;
-                int columnIndex = e.ColumnIndex;
-                if (jts[rowIndex].IsGSM)
-                {
-                    if (columnIndex == 9)
-                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nIntensity Max:" + jts[rowIndex].IntensityMax + "\nIntensity Min: " + jts[rowIndex].IntensityMin
-                            + "\n--double click for GSM table--";
-                    else if (columnIndex == 8)
-                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nBeam: " + jts[rowIndex].Beam + "\nThreshold: " + jts[rowIndex].Threshold
-                            + "\n--double click for GSM table--";
-                    else if (columnIndex == 7)
-                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nAlgorithm Time: " + jts[rowIndex].AlgTime + "\nAlgorithm Delay: " + jts[rowIndex].AlgDalay
-                            + "\n--double click for GSM table--";
-                    else if (columnIndex == 6)
-                        dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "Name: " + jts[rowIndex].Name +
-                            "\nCycles: " + jts[rowIndex].SubCycles + "\nStopMode: " + jts[rowIndex].StopMode
-                            + "\n--double click for GSM table--";
-                }
-                if (jts[rowIndex].IsLayer)
-                {
-                    if (columnIndex == 5)
-                    {
-                        if (jts[rowIndex].IsMCC)
-                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--double click for Limits table--";
-                        else
-                            dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no Limits data available--";
-                    }
-                }
-            }
-        }
-
     }
 }

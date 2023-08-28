@@ -62,7 +62,7 @@
             // 
             // open_btn
             // 
-            open_btn.Location = new Point(17, 13);
+            open_btn.Location = new Point(236, 14);
             open_btn.Name = "open_btn";
             open_btn.Size = new Size(112, 34);
             open_btn.TabIndex = 0;
@@ -213,11 +213,11 @@
             // 
             // process_btn
             // 
-            process_btn.Location = new Point(381, 15);
+            process_btn.Location = new Point(1005, 15);
             process_btn.Name = "process_btn";
             process_btn.Size = new Size(112, 34);
             process_btn.TabIndex = 3;
-            process_btn.Text = "&Process";
+            process_btn.Text = "&Refresh";
             process_btn.UseVisualStyleBackColor = true;
             process_btn.Click += process_btn_Click;
             // 
@@ -245,7 +245,7 @@
             // 
             machine.FormattingEnabled = true;
             machine.Items.AddRange(new object[] { "E", "N", "X", "P", "W" });
-            machine.Location = new Point(283, 15);
+            machine.Location = new Point(147, 15);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
@@ -254,7 +254,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(148, 18);
+            label2.Location = new Point(12, 18);
             label2.Name = "label2";
             label2.Size = new Size(129, 25);
             label2.TabIndex = 7;
