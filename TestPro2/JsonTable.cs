@@ -67,7 +67,7 @@ namespace TestPro2
     }
     public class BoxData
     {
-        public string[] Changer { get; set; } = { "GL_OLD", "GL_NEW" };
+        public string[] Changer { get; set; } = { };
     }
 }
 

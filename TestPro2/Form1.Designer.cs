@@ -285,6 +285,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "TestPro";
             Text = "Test Pro";
+            Load += TestPro_Load;
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);

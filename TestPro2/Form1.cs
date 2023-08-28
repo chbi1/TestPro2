@@ -10,6 +10,7 @@ using System.Text.Encodings;
 using static System.Windows.Forms.Design.AxImporter;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using System.Text.Unicode;
+using System.Threading.Channels;
 
 namespace TestPro2
 {
@@ -18,6 +19,7 @@ namespace TestPro2
         Rootobject rootobject;
         public List<JsonTable> jts;
         Queue<char> id;
+        BoxData boxData;
         string jsonData = string.Empty;
         string filePath = string.Empty;
         string initialDirectory = string.Empty;
@@ -29,8 +31,7 @@ namespace TestPro2
             jts = new List<JsonTable>();
             id = new Queue<char>();
             initialDirectory = "c:\\Users\\user\\Desktop";
-
-
+            boxData = new BoxData();
         }
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -537,6 +538,12 @@ namespace TestPro2
         private void edit_Click(object sender, EventArgs e)
         {
             dgv.ReadOnly = false;
+        }
+
+        private void TestPro_Load(object sender, EventArgs e)
+        {
+            string jsonBox = File.ReadAllText("data.json");
+            boxData = JsonConvert.DeserializeObject<BoxData>(jsonBox);
         }
     }
 }
