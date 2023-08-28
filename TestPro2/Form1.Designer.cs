@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestPro));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
@@ -77,7 +78,7 @@
             rtb.Margin = new Padding(10, 3, 3, 3);
             rtb.Name = "rtb";
             rtb.ReadOnly = true;
-            rtb.Size = new Size(1483, 194);
+            rtb.Size = new Size(1388, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
             // 
@@ -114,10 +115,18 @@
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RightToLeft = RightToLeft.Yes;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
-            dgv.Size = new Size(1483, 587);
+            dgv.Size = new Size(1388, 587);
             dgv.TabIndex = 2;
             dgv.CellDoubleClick += dgv_CellClick;
             dgv.CellMouseEnter += dgv_CellMouseEnter;
@@ -215,7 +224,7 @@
             // show_file_name
             // 
             show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            show_file_name.Location = new Point(1314, 15);
+            show_file_name.Location = new Point(1219, 15);
             show_file_name.Name = "show_file_name";
             show_file_name.ReadOnly = true;
             show_file_name.Size = new Size(181, 31);
@@ -226,7 +235,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1218, 18);
+            label1.Location = new Point(1123, 18);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
@@ -255,7 +264,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1507, 858);
+            ClientSize = new Size(1412, 858);
             Controls.Add(label2);
             Controls.Add(machine);
             Controls.Add(label1);

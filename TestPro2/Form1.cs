@@ -94,7 +94,7 @@ namespace TestPro2
         {
             //stopwatch.Start();
             //rtb.Text = string.Empty;
-            if (jsonData == string.Empty  /*|| machine.Text == string.Empty*/) 
+            if (jsonData == string.Empty  /*|| machine.Text == string.Empty*/)
             {
                 MessageBox.Show("No machine slected");
                 return;

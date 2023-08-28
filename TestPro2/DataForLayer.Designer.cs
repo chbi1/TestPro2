@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataForLayer));
             dgv_layer = new DataGridView();
+            layerDataBindingSource = new BindingSource(components);
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
@@ -44,7 +45,6 @@
             dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
             sourceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            layerDataBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dgv_layer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
@@ -67,8 +67,12 @@
             dgv_layer.RowHeadersVisible = false;
             dgv_layer.RowHeadersWidth = 62;
             dgv_layer.RowTemplate.Height = 33;
-            dgv_layer.Size = new Size(1721, 151);
+            dgv_layer.Size = new Size(1322, 151);
             dgv_layer.TabIndex = 0;
+            // 
+            // layerDataBindingSource
+            // 
+            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -97,7 +101,7 @@
             // dataGridViewTextBoxColumn4
             // 
             dataGridViewTextBoxColumn4.DataPropertyName = "HoldTime";
-            dataGridViewTextBoxColumn4.HeaderText = "HoldTime";
+            dataGridViewTextBoxColumn4.HeaderText = "Hold Time";
             dataGridViewTextBoxColumn4.MinimumWidth = 8;
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -174,15 +178,11 @@
             sourceDataGridViewTextBoxColumn.Name = "sourceDataGridViewTextBoxColumn";
             sourceDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // layerDataBindingSource
-            // 
-            layerDataBindingSource.DataSource = typeof(LayerData);
-            // 
             // DataForLayer
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1745, 175);
+            ClientSize = new Size(1346, 175);
             Controls.Add(dgv_layer);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DataForLayer";
@@ -207,6 +207,7 @@
         private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
+        private BindingSource layerDataBindingSource;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -220,6 +221,5 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
-        private BindingSource layerDataBindingSource;
     }
 }

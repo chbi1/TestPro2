@@ -66,7 +66,7 @@
             dgv_gsm.RowHeadersVisible = false;
             dgv_gsm.RowHeadersWidth = 62;
             dgv_gsm.RowTemplate.Height = 33;
-            dgv_gsm.Size = new Size(1728, 151);
+            dgv_gsm.Size = new Size(1400, 151);
             dgv_gsm.TabIndex = 0;
             // 
             // intensityMaxDataGridViewTextBoxColumn
@@ -184,7 +184,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1752, 175);
+            ClientSize = new Size(1424, 175);
             Controls.Add(dgv_gsm);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "GSMTable";
