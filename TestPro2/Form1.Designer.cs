@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestPro));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
@@ -55,17 +55,16 @@
             monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             src_tab = new TabPage();
-            dgv_sip = new DataGridView();
-            layerDataBindingSource = new BindingSource(components);
-            label3 = new Label();
+            sours_sip = new DataGridView();
             open_sip_btn = new Button();
+            layerDataBindingSource = new BindingSource(components);
             machine_box = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             tabs.SuspendLayout();
             REC_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             src_tab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_sip).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)sours_sip).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -75,7 +74,7 @@
             // 
             // open_btn
             // 
-            open_btn.Location = new Point(262, 18);
+            open_btn.Location = new Point(367, 23);
             open_btn.Name = "open_btn";
             open_btn.Size = new Size(112, 34);
             open_btn.TabIndex = 0;
@@ -129,7 +128,7 @@
             // 
             machine.FormattingEnabled = true;
             machine.Items.AddRange(new object[] { "E", "N", "X", "P" });
-            machine.Location = new Point(162, 20);
+            machine.Location = new Point(147, 20);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
@@ -138,7 +137,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(27, 20);
+            label2.Location = new Point(12, 23);
             label2.Name = "label2";
             label2.Size = new Size(129, 25);
             label2.TabIndex = 7;
@@ -179,37 +178,37 @@
             dgv.AutoGenerateColumns = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.BackgroundColor = SystemColors.InactiveCaption;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, rotationDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, thicknessDataGridViewTextBoxColumn, cyclesDataGridViewTextBoxColumn, wavelengthDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgv.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = SystemColors.Window;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            dgv.DefaultCellStyle = dataGridViewCellStyle5;
             dgv.Location = new Point(8, 10);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RightToLeft = RightToLeft.Yes;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
@@ -300,8 +299,7 @@
             // 
             // src_tab
             // 
-            src_tab.Controls.Add(dgv_sip);
-            src_tab.Controls.Add(label3);
+            src_tab.Controls.Add(sours_sip);
             src_tab.Controls.Add(open_sip_btn);
             src_tab.Location = new Point(4, 34);
             src_tab.Name = "src_tab";
@@ -311,33 +309,20 @@
             src_tab.Text = "Source processor";
             src_tab.UseVisualStyleBackColor = true;
             // 
-            // dgv_sip
+            // sours_sip
             // 
-            dgv_sip.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_sip.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_sip.Location = new Point(7, 74);
-            dgv_sip.Name = "dgv_sip";
-            dgv_sip.RowHeadersWidth = 62;
-            dgv_sip.RowTemplate.Height = 33;
-            dgv_sip.Size = new Size(1575, 350);
-            dgv_sip.TabIndex = 9;
-            // 
-            // layerDataBindingSource
-            // 
-            layerDataBindingSource.DataSource = typeof(LayerData);
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(7, 17);
-            label3.Name = "label3";
-            label3.Size = new Size(129, 25);
-            label3.TabIndex = 8;
-            label3.Text = "Select machine";
+            sours_sip.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            sours_sip.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            sours_sip.Location = new Point(420, 6);
+            sours_sip.Name = "sours_sip";
+            sours_sip.RowHeadersWidth = 62;
+            sours_sip.RowTemplate.Height = 33;
+            sours_sip.Size = new Size(1162, 350);
+            sours_sip.TabIndex = 9;
             // 
             // open_sip_btn
             // 
-            open_sip_btn.Location = new Point(262, 12);
+            open_sip_btn.Location = new Point(55, 54);
             open_sip_btn.Name = "open_sip_btn";
             open_sip_btn.Size = new Size(112, 34);
             open_sip_btn.TabIndex = 0;
@@ -345,11 +330,15 @@
             open_sip_btn.UseVisualStyleBackColor = true;
             open_sip_btn.Click += open_sip_btn_Click;
             // 
+            // layerDataBindingSource
+            // 
+            layerDataBindingSource.DataSource = typeof(LayerData);
+            // 
             // machine_box
             // 
             machine_box.FormattingEnabled = true;
             machine_box.Items.AddRange(new object[] { "E", "N", "X", "P" });
-            machine_box.Location = new Point(393, 19);
+            machine_box.Location = new Point(506, 22);
             machine_box.Name = "machine_box";
             machine_box.Size = new Size(94, 33);
             machine_box.TabIndex = 1;
@@ -376,8 +365,7 @@
             REC_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             src_tab.ResumeLayout(false);
-            src_tab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_sip).EndInit();
+            ((System.ComponentModel.ISupportInitialize)sours_sip).EndInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -414,7 +402,7 @@
         private Button open_sip_btn;
         private Label label3;
         private ComboBox machine_box;
-        private DataGridView dgv_sip;
+        private DataGridView sours_sip;
         private BindingSource layerDataBindingSource;
         private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;

@@ -226,7 +226,7 @@ public class ProcessSequence
 {
     public float SequenceNumber { get; set; }
     public string ModuleType { get; set; } = string.Empty;
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
 }
 
 public class Heater
@@ -237,7 +237,7 @@ public class Heater
 
 public class Identification1
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
 }
 
 public class Parameter2
@@ -262,7 +262,7 @@ public class Bake
 
 public class Identification2
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -295,7 +295,7 @@ public class Clean
 
 public class Identification3
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -370,25 +370,25 @@ public class Layer
 
 public class Identification4
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
 
 public class References3
 {
-    public float RateModule1 { get; set; }
-    public float RateModule2 { get; set; }
-    public float RateModule3 { get; set; }
-    public float RateModule4 { get; set; }
-    public float RateModule5 { get; set; }
-    public float RateModule6 { get; set; }
-    public float RateModule7 { get; set; }
-    public float RateModule8 { get; set; }
-    public float RateModule9 { get; set; }
-    public float RateModule10 { get; set; }
-    public float RateModule11 { get; set; }
-    public float RateModule12 { get; set; }
+    public int RateModule1 { get; set; }
+    public int RateModule2 { get; set; }
+    public int RateModule3 { get; set; }
+    public int RateModule4 { get; set; }
+    public int RateModule5 { get; set; }
+    public int RateModule6 { get; set; }
+    public int RateModule7 { get; set; }
+    public int RateModule8 { get; set; }
+    public int RateModule9 { get; set; }
+    public int RateModule10 { get; set; }
+    public int RateModule11 { get; set; }
+    public int RateModule12 { get; set; }
     public float RVGModule1 { get; set; }
     public float RVGModule2 { get; set; }
     public float RVGModule3 { get; set; }
@@ -497,7 +497,7 @@ public class Rate
 
 public class Identification5
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -640,7 +640,7 @@ public class DepositionParamset
 
 public class Identification6
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleType { get; set; } = string.Empty;
 }
@@ -663,7 +663,7 @@ public class Source
 
 public class Identification7
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -743,7 +743,7 @@ public class Vacuum1
 
 public class Identification8
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -831,7 +831,7 @@ public class RVG
 
 public class Identification10
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -881,7 +881,7 @@ public class LimitCheck
 
 public class Identification11
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -912,7 +912,7 @@ public class GSM1
 
 public class Identification12
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -1243,7 +1243,7 @@ public class EntryAction
 
 public class Identification16
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
 }
@@ -1272,7 +1272,7 @@ public class User
 public class Identification17
 
 {
-    public float ModuleNumber { get; set; }
+    public int ModuleNumber { get; set; }
     public string ModuleName { get; set; } = string.Empty;
     public string ModuleDefinitionState { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;

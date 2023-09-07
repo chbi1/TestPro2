@@ -14,7 +14,7 @@ namespace TestPro2
         public string TSource { get; set; } = string.Empty;
         public string Rotation { get; set; } = string.Empty;
         public string Rate { get; set; } = string.Empty;
-        public float RateModule { get; set; }
+        public int RateModule { get; set; }
         public string Thickness { get; set; } = string.Empty;
         public string Cycles { get; set; } = string.Empty;              // GSM & Main
         public string Wavelength { get; set; } = string.Empty;          // GSM & Main
@@ -47,7 +47,7 @@ namespace TestPro2
         public string ModuleName { get; set; } = string.Empty;
         public int Pos { get; set; }
         public float Rate { get; set; }
-        public float RateModule { get; set; }
+        public int RateModule { get; set; }
         public float Derivative { get; set; }
         public float Response { get; set; }
         public float Gain { get; set; }
@@ -61,7 +61,9 @@ namespace TestPro2
         public int T1 { get; set; }
         public string Delay { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
+        public string Scan { get; set; } = string.Empty;
         public List<string> Src { get; set; } = new List<string>();
+        
 
     }
     

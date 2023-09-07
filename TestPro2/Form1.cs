@@ -14,27 +14,29 @@ namespace TestPro2
 {
     public partial class TestPro : Form
     {
-        Rootobject rootobject;
+        Rootobject? rootobject;
         public List<JsonTable> jts;
         List<Evaporators>? evaporators;
-        LayerData[] layerData;
-        Evaporators[] evapArr;
-        List<string>? Matters;
+        List<LayerData> RateList;
+        LayerData[] layerArr;
+        Evaporators[] evapArr;                  //SIP
+        List<string>? Matters;                  //SIP
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
-        string[]? sipData;
-        string sipFilePath = string.Empty;
+        string[]? sipData;                      //SIP
+        string sipFilePath = string.Empty;      //SIP
         string initialDirectory;
         public TestPro()
         {
             InitializeComponent();
-            rootobject = new Rootobject();
             jts = new List<JsonTable>();
             id = new Queue<char>();
-            Matters = new List<string>();
-            evapArr = new Evaporators[9];
-            layerData = new LayerData[9];
+            Matters = new List<string>();       //SIP
+            RateList = new List<LayerData>();
+            evapArr = new Evaporators[9];       //SIP
+            layerArr = new LayerData[9];
+
             initialDirectory = "c:\\Users\\user\\Desktop";
         }
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
@@ -192,9 +194,7 @@ namespace TestPro2
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
 
             //dgv_sip.DataSource = layerData;
-            GetComboBox(dgv_sip);
-
-
+            GetComboBox(sours_sip);
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -267,7 +267,7 @@ namespace TestPro2
         public JsonTable GetLayer(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            float[] tempRateMod = new float[3] { 0, 0, 0 };
+            int[] tempRateMod = new int[3] { 0, 0, 0 };
             float tempGSMMod = 0;
             float tempLimMod = 0;
             float tempSrcMod = 0;
@@ -299,6 +299,7 @@ namespace TestPro2
                 LayerData dfl = new LayerData();
                 if (tempRateMod[rti] == 0) break;
 
+                
                 Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
                 if (rate != null)
                 {
@@ -364,7 +365,11 @@ namespace TestPro2
                 }
 
                 jsontable.LayersData.Add(dfl);
+
+
             }
+            AddToTable(tempRateMod[rti - 1]);
+
             if (tempLimMod != 0)
             {
                 jsontable.IsMCC = true;
@@ -498,12 +503,11 @@ namespace TestPro2
             }
             return jsontable;
         }
-        public LayerData[] GetRate()
+        public void GetRate()
         {
-            layerData = new LayerData[9];
+            layerArr = new LayerData[9];
             foreach (Rate rate in rootobject.Rate.ToList())
             {
-                int arrPos = -1;
                 LayerData layer = new LayerData();
                 float tRate = rate.Parameter.General.Rate * 10;
                 layer.Rate = tRate;
@@ -523,66 +527,80 @@ namespace TestPro2
                 if (source != null)
                 {
                     layer.Pos = source.Parameter.SourceNumber;
-                    char getPos = source.References.EECModule[source.References.EECModule.Length - 1];
                     if (layer.Pos == 1)
                     {
-                        int.TryParse(getPos.ToString(), out arrPos);
-                        arrPos--;
-                        layer.Source = source.References.EECModule.Split('_').First();
+                        layer.Scan = source.References.EECModule.Split('_').First();
+                        layer.Source = source.References.EECModule;
                     }
-                    else
-                        arrPos = layer.Pos + 4;
+                    
                     layer.Response = source.Xtal.ResponseTime;           //layer
                     layer.Derivative = source.Xtal.DerivativeTime;       //layer
-                    List<Evaporators> temp = evaporators.FindAll(e => e.Matter.ToLower() == layer.ModuleName.ToLower());
+                    List<Evaporators> temp = evaporators.FindAll(e => e.Matter.ToLower().Contains(layer.ModuleName.ToLower()));
                     foreach (Evaporators evp in temp)
                     {
                         layer.Src.Add(evp.Src);
                     }
-
+                    layer.Src = layer.Src.Distinct().ToList();
                 }
-                if (arrPos > -1)
-                {
-                    layerData[arrPos] = layer;
-                }
+                RateList.Add(layer);
             }
-
-            return layerData;
+        }
+        public void AddToTable (int module)
+        {
+            int arrPos = -1;
+            LayerData added = RateList.Find(r => r.RateModule == module);
+            if (added != null)
+            {
+                if (added.Pos == 1)
+                {
+                    char getPos = added.Source[added.Source.Length - 1];
+                    int.TryParse(getPos.ToString(), out arrPos);
+                    arrPos--;
+                }
+                else
+                    arrPos = added.Pos + 4;
+            }
+            if (arrPos > -1)
+            {
+                layerArr[arrPos] = added;
+            }
         }
         public DataGridView GetComboBox(DataGridView dataGrid)
         {
             dataGrid.ColumnCount = 5;
             dataGrid.Columns[0].Name = "position";
             dataGrid.Columns[1].Name = "Matter";
-            dataGrid.Columns[2].Name = "Sorce";
+            dataGrid.Columns[2].Name = "Source";
             dataGrid.Columns[3].Name = "Rate";
             dataGrid.Columns[4].Name = "Scan";
-            for (int i = 0; i < layerData.Length; i++)
+            dataGrid.RowCount = layerArr.Length;
+            for (int i = 0; i < layerArr.Length; i++)
             {
-                if (layerData[i] != null)
-                {
-                    // Create a new row
-                    DataGridViewRow row = new DataGridViewRow();
+                int po;
+                if (i < 6)
+                    po = i + 1;
+                else
+                    po = i - 4;
 
+                if (layerArr[i] != null)
+                {
                     // Add cells to the row
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = i.ToString() });
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].ModuleName });
+                    dataGrid.Rows[i].Cells[0].Value = po;
+                    dataGrid.Rows[i].Cells[1].Value = layerArr[i].ModuleName;
 
                     // Assuming CreateComboBoxColumn() creates a combo box column
                     DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
-                    comboBoxCell.DataSource = layerData[i].Src; // Assuming Src is a list or data source
-                    row.Cells.Add(comboBoxCell);
+                    comboBoxCell.DataSource = layerArr[i].Src; // Assuming Src is a list or data source
+                    dataGrid.Rows[i].Cells[2] = comboBoxCell;
 
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].Rate });
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].Source });
+                    dataGrid.Rows[i].Cells[3].Value = layerArr[i].Rate;
+                    dataGrid.Rows[i].Cells[4].Value = layerArr[i].Scan;
 
-                    // Add the row to the DataGridView
-                    dataGrid.Rows.Add(row);
                 }
                 else
                 {
                     // If layerData[i] is null, add a row with just the "position" column
-                    dataGrid.Rows.Add(i.ToString());
+                    dataGrid.Rows[i].Cells[0].Value = po;
                 }
             }
             return dataGrid;
@@ -676,8 +694,8 @@ namespace TestPro2
                 }
                 line += 6;
             }
-            dgv_sip.DataSource = null;
-            dgv_sip.DataSource = evapArr;
+            sours_sip.DataSource = null;
+            sours_sip.DataSource = evapArr;
         }
         private void machine_box_SelectedIndexChanged(object sender, EventArgs e)
         {
