@@ -2,7 +2,9 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static System.Windows.Forms.Design.AxImporter;
@@ -14,16 +16,25 @@ namespace TestPro2
     {
         Rootobject rootobject;
         public List<JsonTable> jts;
+        List<Evaporators>? evaporators;
+        LayerData[] layerData;
+        Evaporators[] evapArr;
+        List<string>? Matters;
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
-        string initialDirectory = string.Empty;
+        string[]? sipData;
+        string sipFilePath = string.Empty;
+        string initialDirectory;
         public TestPro()
         {
             InitializeComponent();
             rootobject = new Rootobject();
             jts = new List<JsonTable>();
             id = new Queue<char>();
+            Matters = new List<string>();
+            evapArr = new Evaporators[9];
+            layerData = new LayerData[9];
             initialDirectory = "c:\\Users\\user\\Desktop";
         }
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,9 +52,6 @@ namespace TestPro2
                     break;
                 case "P":
                     initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\P\\IN\\rec";
-                    break;
-                case "W":
-                    initialDirectory = "\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\X\\IN\\REC";
                     break;
 
             }
@@ -92,6 +100,7 @@ namespace TestPro2
         }
         private void process_btn_Click(object sender, EventArgs e)
         {
+            GetRate();
             rtb.Text = string.Empty;
             if (jsonData == string.Empty)
             {
@@ -181,6 +190,11 @@ namespace TestPro2
                 i++;
             }
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
+
+            //dgv_sip.DataSource = layerData;
+            GetComboBox(dgv_sip);
+
+
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -238,17 +252,16 @@ namespace TestPro2
         public JsonTable GetBake(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            foreach (Bake bake in rootobject.Bake)
+            Bake bake = rootobject.Bake.ToList().Find(b => b.Identification.ModuleNumber == moduleNumber)!;
+            if (bake != null)
             {
-                if (moduleNumber == bake.Identification.ModuleNumber)
-                {
-                    jsontable.ModuleName = bake.Identification.ModuleName;
-                    jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
-                    jsontable.Thickness = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
-                    jsontable.Cycles = "Time: " + bake.Parameter.BakeoutTime.ToString() + " sec";
-                    break;
-                }
+                jsontable.ModuleName = bake.Identification.ModuleName;
+                jsontable.Rate = "Temp-1: " + bake.Parameter.Setpoint1.ToString();
+                jsontable.Thickness = "Temp-2: " + bake.Parameter.Setpoint2.ToString();
+                jsontable.Cycles = "Time: " + bake.Parameter.BakeoutTime.ToString() + " sec";
             }
+            else
+                MessageBox.Show("Error in bake, Module not found");
             return jsontable;
         }
         public JsonTable GetLayer(float moduleNumber)
@@ -261,196 +274,199 @@ namespace TestPro2
             string special;
             int rti;
 
-            foreach (Layer layer in rootobject.Layer)
+            Layer layer;
+            layer = rootobject.Layer.ToList().Find(l => l.Identification.ModuleNumber == moduleNumber)!;
+            if (layer != null)
             {
-                if (moduleNumber == layer.Identification.ModuleNumber)
-                {
-                    jsontable.IsLayer = true;
-                    tempRateMod[0] = layer.References.RateModule1;
-                    tempRateMod[1] = layer.References.RateModule2;
-                    tempRateMod[2] = layer.References.RateModule3;
-                    tempLimMod = layer.References.LimitCheckModule;
-                    tempGSMMod = layer.References.GSMModule;
-                    jsontable.ModuleName = layer.Identification.ModuleName;
-                    float thickness = layer.Parameter.General.Thickness * 10;
-                    jsontable.Thickness = thickness.ToString() + "\u212B";                      //main
-                    jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();  //main
-
-                    break;
-                }
+                jsontable.IsLayer = true;
+                tempRateMod[0] = layer.References.RateModule1;
+                tempRateMod[1] = layer.References.RateModule2;
+                tempRateMod[2] = layer.References.RateModule3;
+                tempLimMod = layer.References.LimitCheckModule;
+                tempGSMMod = layer.References.GSMModule;
+                jsontable.ModuleName = layer.Identification.ModuleName;
+                float thickness = layer.Parameter.General.Thickness * 10;
+                jsontable.Thickness = thickness.ToString() + "\u212B";                      //main
+                jsontable.Rotation = layer.Parameter.General.Rotation.Setpoint.ToString();  //main
+            }
+            else
+            {
+                MessageBox.Show("Error in layer, Module not found");
             }
             for (rti = 0; rti < 3; rti++)
             {
                 int showRM = rti + 1;
                 LayerData dfl = new LayerData();
                 if (tempRateMod[rti] == 0) break;
-                foreach (Rate rate in rootobject.Rate)
+
+                Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
+                if (rate != null)
                 {
-                    if (tempRateMod[rti] == rate.Identification.ModuleNumber)
+                    jsontable.RateModule = tempRateMod[rti];
+                    float tRate = rate.Parameter.General.Rate * 10;
+                    jsontable.Rate = tRate.ToString();                              //main
+                    dfl.Gain = rate.Parameter.General.ControlGain;       //layer
+                    dfl.HoldTime = rate.Ramping.Hold.Time;               //layer
+                    dfl.PL = rate.Parameter.General.PowerLimit;          //layer
+                    dfl.P3 = rate.Ramping.Ramp3.Power;                   //layer
+                    dfl.T3 = rate.Ramping.Ramp3.Time;                    //layer
+                    dfl.P2 = rate.Ramping.Ramp2.Power;                   //layer
+                    dfl.T2 = rate.Ramping.Ramp2.Time;                    //layer
+                    dfl.P1 = rate.Ramping.Ramp1.Power;                   //layer
+                    dfl.T1 = rate.Ramping.Ramp1.Time;                    //layer
+                    dfl.Delay = rate.Ramping.RiseDelay.ToString();                  //layer
+                    tempSrcMod = rate.References.SourceModule;
+
+                    //----------------------------error check-------------------------
+
+                    if (rate.Parameter.General.ToolingFactor != 100)
                     {
-                        float tRate = rate.Parameter.General.Rate * 10;
-                        jsontable.Rate = tRate.ToString();                              //main
-                        dfl.Gain = rate.Parameter.General.ControlGain.ToString();       //layer
-                        dfl.HoldTime = rate.Ramping.Hold.Time.ToString();               //layer
-                        dfl.PL = rate.Parameter.General.PowerLimit.ToString();          //layer
-                        dfl.P3 = rate.Ramping.Ramp3.Power.ToString();                   //layer
-                        dfl.T3 = rate.Ramping.Ramp3.Time.ToString();                    //layer
-                        dfl.P2 = rate.Ramping.Ramp2.Power.ToString();                   //layer
-                        dfl.T2 = rate.Ramping.Ramp2.Time.ToString();                    //layer
-                        dfl.P1 = rate.Ramping.Ramp1.Power.ToString();                   //layer
-                        dfl.T1 = rate.Ramping.Ramp1.Time.ToString();                    //layer
-                        dfl.Delay = rate.Ramping.RiseDelay.ToString();                  //layer
-                        tempSrcMod = rate.References.SourceModule;
-
-                        //----------------------------error check-------------------------
-                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
-                        {
-                            if (rate.Parameter.General.ToolingFactor != 100)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
-                                    jsontable.ModuleName + " Tooling Factor must be 100\r\n";
-                            }
-                            if (rate.Ramping.Hold.Time < 1)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
-                                    jsontable.ModuleName + " Hold Time must be more than 1\r\n";
-                            }
-
-                        }
-
-                        break;
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                            jsontable.ModuleName + " Tooling Factor must be 100\r\n";
+                    }
+                    if (rate.Ramping.Hold.Time < 1)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                            jsontable.ModuleName + " Hold Time must be more than 1\r\n";
                     }
 
                 }
-                foreach (Source source in rootobject.Source)
+                else
                 {
-                    if (tempSrcMod == source.Identification.ModuleNumber)
-                    {
-                        if (source.Parameter.SourceNumber == 1)
-                            jsontable.TSource = source.References.EECModule;                //main & layer
-                        else
-                            jsontable.TSource = source.Parameter.SourceNumber.ToString();   //main & layer
-                        dfl.Source = jsontable.TSource;
-                        dfl.Response = source.Xtal.ResponseTime.ToString();           //layer
-                        dfl.Derivative = source.Xtal.DerivativeTime.ToString();       //layer
-
-                        //----------------------------error check-------------------------
-                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
-                        {
-                            if (source.Xtal.Density != 2)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
-                                    jsontable.ModuleName + " Density must be 2\r\n";
-                            }
-                            break;
-                        }
-                    }
+                    MessageBox.Show("Error in rate, Module not found");
                 }
+
+                Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
+                if (source != null)
+                {
+                    if (source.Parameter.SourceNumber == 1)
+                        jsontable.TSource = source.References.EECModule;                //main & layer
+                    else
+                        jsontable.TSource = source.Parameter.SourceNumber.ToString();   //main & layer
+                    dfl.Source = jsontable.TSource;
+                    dfl.Response = source.Xtal.ResponseTime;           //layer
+                    dfl.Derivative = source.Xtal.DerivativeTime;       //layer
+
+                    //----------------------------error check-------------------------
+                    if (source.Xtal.Density != 2)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                            jsontable.ModuleName + " Density must be 2\r\n";
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Error in source, Module not found");
+                }
+
                 jsontable.LayersData.Add(dfl);
             }
             if (tempLimMod != 0)
             {
                 jsontable.IsMCC = true;
-                foreach (LimitCheck check in rootobject.LimitCheck)
+                LimitCheck check = rootobject.LimitCheck.ToList().Find(c => c.Identification.ModuleNumber == tempLimMod)!;
+                if (check != null)
                 {
-                    if (tempLimMod == check.Identification.ModuleNumber)
+                    foreach (CheckPoint checkPoint in check.CheckPoint)
                     {
-                        foreach (CheckPoint checkPoint in check.CheckPoint)
+                        MCC mCC = new MCC();
+                        mCC.LowLimit = checkPoint.LowLimit.ToString();
+                        mCC.HighLimit = checkPoint.HighLimit.ToString();
+                        switch (checkPoint.AlarmCategory)
                         {
-                            MCC mCC = new MCC();
-                            mCC.LowLimit = checkPoint.LowLimit.ToString();
-                            mCC.HighLimit = checkPoint.HighLimit.ToString();
-                            switch (checkPoint.AlarmCategory)
-                            {
-                                case 1:
-                                    mCC.Alarm = "Information";
-                                    break;
-                                case 2:
-                                    mCC.Alarm = "Warning";
-                                    break;
-                                case 3:
-                                    mCC.Alarm = "Fatal";
-                                    break;
-                                default:
-                                    mCC.Alarm = checkPoint.AlarmCategory.ToString();
-                                    break;
-                            }
-                            mCC.State = checkPoint.Substate.ToString();
-                            mCC.Element = checkPoint.ElementType.ToString();
-                            mCC.Name = check.Identification.ModuleName.ToString();
-                            jsontable.MCCs.Add(mCC);
+                            case 1:
+                                mCC.Alarm = "Information";
+                                break;
+                            case 2:
+                                mCC.Alarm = "Warning";
+                                break;
+                            case 3:
+                                mCC.Alarm = "Fatal";
+                                break;
+                            default:
+                                mCC.Alarm = checkPoint.AlarmCategory.ToString();
+                                break;
                         }
-                        break;
+                        mCC.State = checkPoint.Substate.ToString();
+                        mCC.Element = checkPoint.ElementType.ToString();
+                        mCC.Name = check.Identification.ModuleName.ToString();
+                        jsontable.MCCs.Add(mCC);
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Error in Limit Check, Module not found");
+                }
+
             }
             if (tempGSMMod != 0)
             {
                 jsontable.IsGSM = true;
-                foreach (GSM1 gsm in rootobject.GSM)
+                GSM1 gsm = rootobject.GSM.ToList().Find(g => g.Identification.ModuleNumber == tempGSMMod)!;
+
+                if (gsm != null)
                 {
-                    if (tempGSMMod == gsm.Identification.ModuleNumber)
+                    jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();            //Main & GSM
+                    jsontable.IntensityMax = gsm.Parameter.General.Intensity.Maximum.ToString();            //GSM
+                    jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();            //GSM
+                    jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();                       //GSM
+                    jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();                            //Main & GSM
+                    jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();                      //GSM
+                    jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
+                    jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
+                    jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
+
+                    // ------------------- special words --------------------
+                    special = gsm.Parameter.General.Transmission;
+                    special = special.Split('_').Last();
+                    jsontable.Beam = special;                                                               //GSM
+                    special = gsm.Parameter.General.Glass.Changer;
+                    special = special.Split('_').Last();
+                    jsontable.Monitor = special;                                                            //Main & GSM 
+                    special = gsm.SignalSettings.StopCriterion;
+                    special = special.Split('_').First();
+
+                    jsontable.StopMode = special;                                                           //GSM
+
+                    if (jsontable.StopMode == "QUARTZ")
                     {
-                        jsontable.StartIntensity = gsm.Parameter.General.Intensity.Start.ToString();            //Main & GSM
-                        jsontable.IntensityMax = gsm.Parameter.General.Intensity.Maximum.ToString();            //GSM
-                        jsontable.IntensityMin = gsm.Parameter.General.Intensity.Minimum.ToString();            //GSM
-                        jsontable.Threshold = gsm.Parameter.General.Threshold.ToString();                       //GSM
-                        jsontable.Wavelength = gsm.SignalSettings.Lambda.ToString();                            //Main & GSM
-                        jsontable.AlgDalay = gsm.SignalSettings.AlgorithmDelay.ToString();                      //GSM
-                        jsontable.AlgTime = gsm.SignalSettings.AlgorithmTime.ToString();                        //GSM
-                        jsontable.SubCycles = gsm.SignalSettings.NumberofCycles.ToString();                     //GSM
-                        jsontable.Name = gsm.Identification.ModuleName;                                         //GSM
-
-                        // ------------------- special words --------------------
-                        special = gsm.Parameter.General.Transmission;
-                        special = special.Split('_').Last();
-                        jsontable.Beam = special;                                                               //GSM
-                        special = gsm.Parameter.General.Glass.Changer;
-                        special = special.Split('_').Last();
-                        jsontable.Monitor = special;                                                            //Main & GSM 
-                        special = gsm.SignalSettings.StopCriterion;
-                        special = special.Split('_').First();
-
-                        jsontable.StopMode = special;                                                           //GSM
-
-                        if (jsontable.StopMode == "QUARTZ")
-                        {
-                            jsontable.Cycles = "Layer";                                                         //Main
-                        }
-                        else
-                        {
-                            jsontable.Cycles = jsontable.StopMode + " " + gsm.SignalSettings.NumberofCycles.ToString();    //Main
-                        }
-
-                        //----------------------------error check-------------------------
-                        //if (machine.Text == "E" || machine.Text == "X" || machine.Text == "P")
-                        {
-                            if (gsm.Parameter.General.Glass.Changer == "GL_NEW" && gsm.Parameter.General.Intensity.Start != 47)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Start Intensity must be 47% with NEW monitor\r\n";
-                            }
-                            if (gsm.Parameter.General.Intensity.Maximum != 100)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Max must be 100%\r\n";
-                            }
-                            if (gsm.Parameter.General.Intensity.Minimum != 0)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Min must be 0\r\n";
-                            }
-                            if (gsm.Parameter.General.HTemp != 150)
-                            {
-                                jsontable.ErrorFlag = true;
-                                rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " HTemp must be 150\r\n";
-                            }
-                        }
-                        break;
+                        jsontable.Cycles = "Layer";                                                         //Main
                     }
+                    else
+                    {
+                        jsontable.Cycles = jsontable.StopMode + " " + gsm.SignalSettings.NumberofCycles.ToString();    //Main
+                    }
+
+                    //----------------------------error check-------------------------
+
+                    if (gsm.Parameter.General.Glass.Changer == "GL_NEW" && gsm.Parameter.General.Intensity.Start != 47)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Start Intensity must be 47% with NEW monitor\r\n";
+                    }
+                    if (gsm.Parameter.General.Intensity.Maximum != 100)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Max must be 100%\r\n";
+                    }
+                    if (gsm.Parameter.General.Intensity.Minimum != 0)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " Intensity Min must be 0\r\n";
+                    }
+                    if (gsm.Parameter.General.HTemp != 150)
+                    {
+                        jsontable.ErrorFlag = true;
+                        rtb.Text += "   Error in " + jsontable.Sequence + " " + jsontable.ModuleName + " HTemp must be 150\r\n";
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error in GSM, Module not found");
                 }
             }
             return jsontable;
@@ -458,30 +474,231 @@ namespace TestPro2
         public JsonTable GetVacuum(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            foreach (Vacuum1 vacuum in rootobject.Vacuum)
-            {
-                if (moduleNumber == vacuum.Identification.ModuleNumber)
-                {
-                    jsontable.ModuleName = vacuum.Identification.ModuleName;
-                    break;
-                }
-            }
+            Vacuum1 vacuum = rootobject.Vacuum.ToList().Find(v => v.Identification.ModuleNumber == moduleNumber)!;
+            if (vacuum != null)
+                jsontable.ModuleName = vacuum.Identification.ModuleName;
+            else
+                MessageBox.Show("Error in Vacuum, Module not found");
             return jsontable;
         }
         public JsonTable GetClean(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            foreach (Clean clean in rootobject.Clean)
+            Clean clean;
+            clean = rootobject.Clean.ToList().Find(c => c.Identification.ModuleNumber == moduleNumber)!;
+            if (clean != null)
             {
-                if (moduleNumber == clean.Identification.ModuleNumber)
-                {
-                    jsontable.ModuleName = clean.Identification.ModuleName;
-                    jsontable.Thickness = "Gas ST: " + clean.Parameter.GasStabilizationTime.ToString() + " sec";
-                    jsontable.Cycles = "Time: " + clean.Parameter.CleanTime.ToString() + " sec";
-                    break;
-                }
+                jsontable.ModuleName = clean.Identification.ModuleName;
+                jsontable.Thickness = "Gas ST: " + clean.Parameter.GasStabilizationTime.ToString() + " sec";
+                jsontable.Cycles = "Time: " + clean.Parameter.CleanTime.ToString() + " sec";
+            }
+            else
+            {
+                MessageBox.Show("Error in clean, Module not found");
             }
             return jsontable;
+        }
+        public LayerData[] GetRate()
+        {
+            layerData = new LayerData[9];
+            foreach (Rate rate in rootobject.Rate.ToList())
+            {
+                int arrPos = -1;
+                LayerData layer = new LayerData();
+                float tRate = rate.Parameter.General.Rate * 10;
+                layer.Rate = tRate;
+                layer.ModuleName = rate.Identification.ModuleName;
+                layer.RateModule = rate.Identification.ModuleNumber;
+                layer.Gain = rate.Parameter.General.ControlGain;       //layer
+                layer.HoldTime = rate.Ramping.Hold.Time;               //layer
+                layer.PL = rate.Parameter.General.PowerLimit;          //layer
+                layer.P3 = rate.Ramping.Ramp3.Power;                   //layer
+                layer.T3 = rate.Ramping.Ramp3.Time;                    //layer
+                layer.P2 = rate.Ramping.Ramp2.Power;                   //layer
+                layer.T2 = rate.Ramping.Ramp2.Time;                    //layer
+                layer.P1 = rate.Ramping.Ramp1.Power;                   //layer
+                layer.T1 = rate.Ramping.Ramp1.Time;
+                layer.Delay = rate.Ramping.RiseDelay.ToString();
+                Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == rate.Identification.ModuleNumber)!;
+                if (source != null)
+                {
+                    layer.Pos = source.Parameter.SourceNumber;
+                    char getPos = source.References.EECModule[source.References.EECModule.Length - 1];
+                    if (layer.Pos == 1)
+                    {
+                        int.TryParse(getPos.ToString(), out arrPos);
+                        arrPos--;
+                        layer.Source = source.References.EECModule.Split('_').First();
+                    }
+                    else
+                        arrPos = layer.Pos + 4;
+                    layer.Response = source.Xtal.ResponseTime;           //layer
+                    layer.Derivative = source.Xtal.DerivativeTime;       //layer
+                    List<Evaporators> temp = evaporators.FindAll(e => e.Matter.ToLower() == layer.ModuleName.ToLower());
+                    foreach (Evaporators evp in temp)
+                    {
+                        layer.Src.Add(evp.Src);
+                    }
+
+                }
+                if (arrPos > -1)
+                {
+                    layerData[arrPos] = layer;
+                }
+            }
+
+            return layerData;
+        }
+        public DataGridView GetComboBox(DataGridView dataGrid)
+        {
+            dataGrid.ColumnCount = 5;
+            dataGrid.Columns[0].Name = "position";
+            dataGrid.Columns[1].Name = "Matter";
+            dataGrid.Columns[2].Name = "Sorce";
+            dataGrid.Columns[3].Name = "Rate";
+            dataGrid.Columns[4].Name = "Scan";
+            for (int i = 0; i < layerData.Length; i++)
+            {
+                if (layerData[i] != null)
+                {
+                    // Create a new row
+                    DataGridViewRow row = new DataGridViewRow();
+
+                    // Add cells to the row
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = i.ToString() });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].ModuleName });
+
+                    // Assuming CreateComboBoxColumn() creates a combo box column
+                    DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
+                    comboBoxCell.DataSource = layerData[i].Src; // Assuming Src is a list or data source
+                    row.Cells.Add(comboBoxCell);
+
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].Rate });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layerData[i].Source });
+
+                    // Add the row to the DataGridView
+                    dataGrid.Rows.Add(row);
+                }
+                else
+                {
+                    // If layerData[i] is null, add a row with just the "position" column
+                    dataGrid.Rows.Add(i.ToString());
+                }
+            }
+            return dataGrid;
+        }
+
+
+        //------------------------------sip tab--------------------------------------
+
+        private void open_sip_btn_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                if (machine_box.Text == "") return;
+                openFileDialog.InitialDirectory = initialDirectory;
+                openFileDialog.Filter = "SIP files (*.SIP)|*.SIP";
+                openFileDialog.RestoreDirectory = false;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    sipFilePath = openFileDialog.FileName;
+                    //Read the contents of the file into a stream
+                    sipData = File.ReadAllLines(sipFilePath, System.Text.Encoding.UTF8);
+
+                }
+                else
+                    return;
+            }
+            evapArr = CleenArr(evapArr);
+            bool isStart = false;
+            int line = 49;
+            //search for the first material
+            try
+            {
+                while (!isStart)
+                {
+                    line++;
+                    foreach (string matter in Matters)
+                    {
+                        if (sipData[line] == matter)
+                        {
+                            isStart = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error in file");
+                return;
+            }
+            for (int i = 0; i < evapArr.Length; i++)
+            {
+                int position;
+                if (i < 6)
+                    position = 1;
+                else
+                    position = i - 4;
+                if (sipData[line] != "")
+                {
+                    List<Evaporators> errorCatch;
+                    errorCatch = evaporators.FindAll(e => e.Matter.ToLower() == sipData[line].ToLower()
+                    && Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(e.Src)) == Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(sipData[line + 1]))
+                    && e.Rate.ToString() == sipData[line + 2] && e.Pos == position);
+                    if (errorCatch.Count == 1)
+                    {
+                        evapArr[i] = errorCatch[0];
+                    }
+                    else
+                    {
+                        errorCatch = evaporators.FindAll(e => e.Matter.ToLower() == sipData[line].ToLower());
+                        if (errorCatch.Count == 0)
+                        {
+                            MessageBox.Show(sipData[line] + " is not a valid evaporator");
+                            return;
+                        }
+                        else
+                        {
+                            ErrorBox errorBox = new ErrorBox(errorCatch, i);
+                            if (errorBox.ShowDialog() == DialogResult.OK && errorBox.index > -1)
+                            {
+                                evapArr[i] = errorCatch[errorBox.index];
+                            }
+                            else
+                            {
+                                evapArr = CleenArr(evapArr);
+                                return;
+                            }
+                        }
+                    }
+                }
+                line += 6;
+            }
+            dgv_sip.DataSource = null;
+            dgv_sip.DataSource = evapArr;
+        }
+        private void machine_box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            jsonData = File.ReadAllText(Properties.Settings.Default.jsonDir + "Machine" + machine_box.Text + ".json", Encoding.UTF8);
+            evaporators = JsonConvert.DeserializeObject<List<Evaporators>>(jsonData)!;
+            Matters.Add(evaporators[0].Matter!);
+            foreach (Evaporators evp in evaporators)
+            {
+                if (Matters.Last() != evp.Matter)
+                {
+                    Matters.Add(evp.Matter);
+                }
+            }
+        }
+        private Evaporators[] CleenArr(Evaporators[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = null;
+            }
+            return array;
         }
     }
 }

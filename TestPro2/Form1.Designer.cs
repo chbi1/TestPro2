@@ -36,6 +36,13 @@
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
             rtb = new RichTextBox();
+            process_btn = new Button();
+            show_file_name = new TextBox();
+            label1 = new Label();
+            machine = new ComboBox();
+            label2 = new Label();
+            tabs = new TabControl();
+            REC_tab = new TabPage();
             dgv = new DataGridView();
             sequenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             moduleNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -47,13 +54,19 @@
             wavelengthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            process_btn = new Button();
-            show_file_name = new TextBox();
-            label1 = new Label();
-            machine = new ComboBox();
-            label2 = new Label();
+            src_tab = new TabPage();
+            dgv_sip = new DataGridView();
+            layerDataBindingSource = new BindingSource(components);
+            label3 = new Label();
+            open_sip_btn = new Button();
+            machine_box = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
+            tabs.SuspendLayout();
+            REC_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+            src_tab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_sip).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
             // 
             // jsonTableBindingSource
@@ -62,7 +75,7 @@
             // 
             // open_btn
             // 
-            open_btn.Location = new Point(236, 14);
+            open_btn.Location = new Point(262, 18);
             open_btn.Name = "open_btn";
             open_btn.Size = new Size(112, 34);
             open_btn.TabIndex = 0;
@@ -74,13 +87,87 @@
             // 
             rtb.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtb.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            rtb.Location = new Point(12, 655);
+            rtb.Location = new Point(9, 561);
             rtb.Margin = new Padding(10, 3, 3, 3);
             rtb.Name = "rtb";
             rtb.ReadOnly = true;
-            rtb.Size = new Size(1388, 194);
+            rtb.Size = new Size(1571, 194);
             rtb.TabIndex = 1;
             rtb.Text = "";
+            // 
+            // process_btn
+            // 
+            process_btn.Location = new Point(1028, 15);
+            process_btn.Name = "process_btn";
+            process_btn.Size = new Size(112, 34);
+            process_btn.TabIndex = 3;
+            process_btn.Text = "&Refresh";
+            process_btn.UseVisualStyleBackColor = true;
+            process_btn.Click += process_btn_Click;
+            // 
+            // show_file_name
+            // 
+            show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            show_file_name.Location = new Point(1341, 20);
+            show_file_name.Name = "show_file_name";
+            show_file_name.ReadOnly = true;
+            show_file_name.Size = new Size(181, 31);
+            show_file_name.TabIndex = 4;
+            show_file_name.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(1234, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(90, 25);
+            label1.TabIndex = 5;
+            label1.Text = "File Name";
+            // 
+            // machine
+            // 
+            machine.FormattingEnabled = true;
+            machine.Items.AddRange(new object[] { "E", "N", "X", "P" });
+            machine.Location = new Point(162, 20);
+            machine.Name = "machine";
+            machine.Size = new Size(66, 33);
+            machine.TabIndex = 6;
+            machine.SelectedIndexChanged += machine_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(27, 20);
+            label2.Name = "label2";
+            label2.Size = new Size(129, 25);
+            label2.TabIndex = 7;
+            label2.Text = "Select machine";
+            // 
+            // tabs
+            // 
+            tabs.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabs.Controls.Add(REC_tab);
+            tabs.Controls.Add(src_tab);
+            tabs.Location = new Point(1, 65);
+            tabs.Margin = new Padding(5);
+            tabs.Name = "tabs";
+            tabs.SelectedIndex = 0;
+            tabs.Size = new Size(1596, 801);
+            tabs.TabIndex = 8;
+            // 
+            // REC_tab
+            // 
+            REC_tab.Controls.Add(dgv);
+            REC_tab.Controls.Add(rtb);
+            REC_tab.Location = new Point(4, 34);
+            REC_tab.Margin = new Padding(7);
+            REC_tab.Name = "REC_tab";
+            REC_tab.Padding = new Padding(7);
+            REC_tab.Size = new Size(1588, 763);
+            REC_tab.TabIndex = 0;
+            REC_tab.Text = "REC processor";
+            REC_tab.UseVisualStyleBackColor = true;
             // 
             // dgv
             // 
@@ -111,7 +198,7 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgv.DefaultCellStyle = dataGridViewCellStyle2;
-            dgv.Location = new Point(12, 62);
+            dgv.Location = new Point(8, 10);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RightToLeft = RightToLeft.Yes;
@@ -126,8 +213,8 @@
             dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
-            dgv.Size = new Size(1388, 587);
-            dgv.TabIndex = 2;
+            dgv.Size = new Size(1571, 545);
+            dgv.TabIndex = 3;
             dgv.CellDoubleClick += dgv_CellClick;
             dgv.CellMouseEnter += dgv_CellMouseEnter;
             // 
@@ -211,73 +298,87 @@
             startIntensityDataGridViewTextBoxColumn.Name = "startIntensityDataGridViewTextBoxColumn";
             startIntensityDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // process_btn
+            // src_tab
             // 
-            process_btn.Location = new Point(1005, 15);
-            process_btn.Name = "process_btn";
-            process_btn.Size = new Size(112, 34);
-            process_btn.TabIndex = 3;
-            process_btn.Text = "&Refresh";
-            process_btn.UseVisualStyleBackColor = true;
-            process_btn.Click += process_btn_Click;
+            src_tab.Controls.Add(dgv_sip);
+            src_tab.Controls.Add(label3);
+            src_tab.Controls.Add(open_sip_btn);
+            src_tab.Location = new Point(4, 34);
+            src_tab.Name = "src_tab";
+            src_tab.Padding = new Padding(3);
+            src_tab.Size = new Size(1588, 763);
+            src_tab.TabIndex = 1;
+            src_tab.Text = "Source processor";
+            src_tab.UseVisualStyleBackColor = true;
             // 
-            // show_file_name
+            // dgv_sip
             // 
-            show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            show_file_name.Location = new Point(1219, 15);
-            show_file_name.Name = "show_file_name";
-            show_file_name.ReadOnly = true;
-            show_file_name.Size = new Size(181, 31);
-            show_file_name.TabIndex = 4;
-            show_file_name.TextAlign = HorizontalAlignment.Center;
+            dgv_sip.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_sip.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_sip.Location = new Point(7, 74);
+            dgv_sip.Name = "dgv_sip";
+            dgv_sip.RowHeadersWidth = 62;
+            dgv_sip.RowTemplate.Height = 33;
+            dgv_sip.Size = new Size(1575, 350);
+            dgv_sip.TabIndex = 9;
             // 
-            // label1
+            // layerDataBindingSource
             // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(1123, 18);
-            label1.Name = "label1";
-            label1.Size = new Size(90, 25);
-            label1.TabIndex = 5;
-            label1.Text = "File Name";
+            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
-            // machine
+            // label3
             // 
-            machine.FormattingEnabled = true;
-            machine.Items.AddRange(new object[] { "E", "N", "X", "P", "W" });
-            machine.Location = new Point(147, 15);
-            machine.Name = "machine";
-            machine.Size = new Size(66, 33);
-            machine.TabIndex = 6;
-            machine.SelectedIndexChanged += machine_SelectedIndexChanged;
+            label3.AutoSize = true;
+            label3.Location = new Point(7, 17);
+            label3.Name = "label3";
+            label3.Size = new Size(129, 25);
+            label3.TabIndex = 8;
+            label3.Text = "Select machine";
             // 
-            // label2
+            // open_sip_btn
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 18);
-            label2.Name = "label2";
-            label2.Size = new Size(129, 25);
-            label2.TabIndex = 7;
-            label2.Text = "Select machine";
+            open_sip_btn.Location = new Point(262, 12);
+            open_sip_btn.Name = "open_sip_btn";
+            open_sip_btn.Size = new Size(112, 34);
+            open_sip_btn.TabIndex = 0;
+            open_sip_btn.Text = "&Open";
+            open_sip_btn.UseVisualStyleBackColor = true;
+            open_sip_btn.Click += open_sip_btn_Click;
+            // 
+            // machine_box
+            // 
+            machine_box.FormattingEnabled = true;
+            machine_box.Items.AddRange(new object[] { "E", "N", "X", "P" });
+            machine_box.Location = new Point(393, 19);
+            machine_box.Name = "machine_box";
+            machine_box.Size = new Size(94, 33);
+            machine_box.TabIndex = 1;
+            machine_box.SelectedIndexChanged += machine_box_SelectedIndexChanged;
             // 
             // TestPro
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1412, 858);
-            Controls.Add(label2);
-            Controls.Add(machine);
-            Controls.Add(label1);
+            ClientSize = new Size(1600, 867);
+            Controls.Add(tabs);
             Controls.Add(show_file_name);
+            Controls.Add(machine_box);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(machine);
             Controls.Add(process_btn);
-            Controls.Add(dgv);
-            Controls.Add(rtb);
             Controls.Add(open_btn);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "TestPro";
             Text = "Test Pro";
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).EndInit();
+            tabs.ResumeLayout(false);
+            REC_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+            src_tab.ResumeLayout(false);
+            src_tab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_sip).EndInit();
+            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -291,10 +392,14 @@
         private BindingSource jsonTableBindingSource;
         private Button open_btn;
         private RichTextBox rtb;
-        private DataGridView dgv;
         private Button process_btn;
         private TextBox show_file_name;
         private Label label1;
+        private ComboBox machine;
+        private Label label2;
+        private TabControl tabs;
+        private TabPage REC_tab;
+        private DataGridView dgv;
         private DataGridViewTextBoxColumn sequenceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -305,7 +410,14 @@
         private DataGridViewTextBoxColumn wavelengthDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
-        private ComboBox machine;
-        private Label label2;
+        private TabPage src_tab;
+        private Button open_sip_btn;
+        private Label label3;
+        private ComboBox machine_box;
+        private DataGridView dgv_sip;
+        private BindingSource layerDataBindingSource;
+        private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
     }
 }

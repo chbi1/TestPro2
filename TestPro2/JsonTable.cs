@@ -14,6 +14,7 @@ namespace TestPro2
         public string TSource { get; set; } = string.Empty;
         public string Rotation { get; set; } = string.Empty;
         public string Rate { get; set; } = string.Empty;
+        public float RateModule { get; set; }
         public string Thickness { get; set; } = string.Empty;
         public string Cycles { get; set; } = string.Empty;              // GSM & Main
         public string Wavelength { get; set; } = string.Empty;          // GSM & Main
@@ -43,20 +44,27 @@ namespace TestPro2
     }
     public class LayerData
     {
-        public string Derivative { get; set; } = string.Empty;
-        public string Response { get; set; } = string.Empty;
-        public string Gain { get; set; } = string.Empty;
-        public string HoldTime { get; set; } = string.Empty;
-        public string PL { get; set; } = string.Empty;
-        public string P3 { get; set; } = string.Empty;
-        public string T3 { get; set; } = string.Empty;
-        public string P2 { get; set; } = string.Empty;
-        public string T2 { get; set; } = string.Empty;
-        public string P1 { get; set; } = string.Empty;
-        public string T1 { get; set; } = string.Empty;
+        public string ModuleName { get; set; } = string.Empty;
+        public int Pos { get; set; }
+        public float Rate { get; set; }
+        public float RateModule { get; set; }
+        public float Derivative { get; set; }
+        public float Response { get; set; }
+        public float Gain { get; set; }
+        public int HoldTime { get; set; }
+        public float PL { get; set; }
+        public float P3 { get; set; }
+        public int T3 { get; set; }
+        public float P2 { get; set; }
+        public int T2 { get; set; }
+        public float P1 { get; set; }
+        public int T1 { get; set; }
         public string Delay { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
+        public List<string> Src { get; set; } = new List<string>();
+
     }
+    
     public class MCC
     {
         public string Element { get; set; } = string.Empty;
@@ -66,5 +74,6 @@ namespace TestPro2
         public string State { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
     }
+    
 }
 

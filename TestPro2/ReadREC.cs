@@ -520,7 +520,7 @@ public class General2
     public float Rate { get; set; }
     public float RampTime { get; set; }
     public float RateStartSetPoint { get; set; }
-    public double ControlGain { get; set; }
+    public float ControlGain { get; set; }
     public float ToolingFactor { get; set; }
     public float PowerLimit { get; set; }
     public float WaitPower { get; set; }
@@ -596,25 +596,25 @@ public class Ramping
 
 public class Ramp1
 {
-    public float Time { get; set; }
-    public double Power { get; set; }
+    public int Time { get; set; }
+    public float Power { get; set; }
 }
 
 public class Ramp2
 {
-    public float Time { get; set; }
+    public int Time { get; set; }
     public float Power { get; set; }
 }
 
 public class Ramp3
 {
-    public float Time { get; set; }
+    public int Time { get; set; }
     public float Power { get; set; }
 }
 
 public class Hold
 {
-    public float Time { get; set; }
+    public int Time { get; set; }
     public float Power { get; set; }
 }
 
@@ -675,7 +675,7 @@ public class References5
 
 public class Parameter8
 {
-    public float SourceNumber { get; set; }
+    public int SourceNumber { get; set; }
     public string ShutterMoving { get; set; } = string.Empty;
     public float DistributionShield { get; set; }
     public float _2ndShutterLeadDelay { get; set; }
