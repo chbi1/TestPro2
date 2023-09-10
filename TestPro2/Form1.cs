@@ -1,14 +1,7 @@
 using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using static System.Windows.Forms.Design.AxImporter;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+
 
 namespace TestPro2
 {
@@ -554,11 +547,13 @@ namespace TestPro2
         public DataGridView GetComboBox(DataGridView dataGrid)
         {
             dataGrid.ColumnCount = 5;
-            dataGrid.Columns[0].Name = "position";
+            dataGrid.Columns[0].Name = "Pos";
             dataGrid.Columns[1].Name = "Matter";
             dataGrid.Columns[2].Name = "Source";
             dataGrid.Columns[3].Name = "Rate";
             dataGrid.Columns[4].Name = "Scan";
+            dataGrid.Columns[0].Width = 50;
+            dataGrid.Columns[3].Width = 70;
             dataGrid.RowCount = layerArr.Length;
             for (int i = 0; i < layerArr.Length; i++)
             {
@@ -605,24 +600,89 @@ namespace TestPro2
             }
             return dataGrid;
         }
-        public DataGridView GetParameters(DataGridView source)
+        public DataGridView GetParameters(DataGridView param)
         {
-            DataGridView param;
-            param = new DataGridView();
+            
 
-            if (source != null)
+            if (dgv_source != null)
             {
-                for (int i = 0; i < source.Rows.Count; i++)
+                param.ColumnCount = 12;
+                param.Columns[0].Name = "Matter";
+                param.Columns[1].Name = "T1";
+                param.Columns[2].Name = "P1";
+                param.Columns[3].Name = "T2";
+                param.Columns[4].Name = "P2";
+                param.Columns[5].Name = "T3";
+                param.Columns[6].Name = "P3";
+                param.Columns[7].Name = "PL";
+                param.Columns[8].Name = "HoldTime";
+                param.Columns[9].Name = "Gain";
+                param.Columns[10].Name = "RT";
+                param.Columns[11].Name = "DT";
+
+                bool color = false;
+
+                for (int i = 0; i < dgv_source.Rows.Count; i++)
                 {
-                    if ((source.Rows[i].Cells[2].Selected || source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
+                    DataGridViewRow recRow = new DataGridViewRow();
+                    DataGridViewRow masterRow = new DataGridViewRow();
+
+                    if ((dgv_source.Rows[i].Cells[2].Selected || dgv_source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
                     {
                         Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Contains(e.Matter.ToLower().Replace(" ", ""))
-                            && e.Pos == layerArr[i].Pos && e.Src == source.Rows[i].Cells[2].Value.ToString()
+                            && e.Pos == layerArr[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
                             && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
                             || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
                         if (ev != null)
                         {
                             evapArr[i] = ev;
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
+
+                            if (color)
+                            {
+                                color = false;
+                                recRow.DefaultCellStyle.BackColor = Color.Tan;
+                                masterRow.DefaultCellStyle.BackColor = Color.Tan;
+                            }
+                            else { color = true; }
+                            
+
+                            param.Rows.Add(recRow);
+                            param.Rows.Add(masterRow);
                         }
                     }
                 }
@@ -632,8 +692,10 @@ namespace TestPro2
         private void chack_btn_Click(object sender, EventArgs e)
         {
             dgv_param.DataSource = null;
-            GetParameters(dgv_source);
-            dgv_param.DataSource = evapArr;
+            GetParameters(dgv_param);
+            
+
+            //dgv_param.DataSource = evapArr;
         }
 
         //------------------------------sip tab--------------------------------------
