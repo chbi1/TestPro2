@@ -17,7 +17,6 @@ namespace TestPro2
         Rootobject? rootobject;
         public List<JsonTable> jts;
         List<Evaporators>? evaporators;
-        List<LayerData> RateList;
         LayerData[] layerArr;
         Evaporators[] evapArr;                  //SIP
         List<string>? Matters;                  //SIP
@@ -33,7 +32,6 @@ namespace TestPro2
             jts = new List<JsonTable>();
             id = new Queue<char>();
             Matters = new List<string>();       //SIP
-            RateList = new List<LayerData>();
             evapArr = new Evaporators[9];       //SIP
             layerArr = new LayerData[9];
 
@@ -102,7 +100,6 @@ namespace TestPro2
         }
         private void process_btn_Click(object sender, EventArgs e)
         {
-            GetRate();
             rtb.Text = string.Empty;
             if (jsonData == string.Empty)
             {
@@ -110,6 +107,7 @@ namespace TestPro2
                 return;
             }
             jts.Clear();
+            layerArr = CleenArrData(layerArr);
 
             JsonTable jsontable = new JsonTable();
             jsontable = GetBake(rootobject.Pretreatment.References.BakeModule);
@@ -194,7 +192,7 @@ namespace TestPro2
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
 
             //dgv_sip.DataSource = layerData;
-            GetComboBox(sours_sip);
+            GetComboBox(dgv_source);
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -293,33 +291,22 @@ namespace TestPro2
             {
                 MessageBox.Show("Error in layer, Module not found");
             }
+            Rate? rate = null;
+            Source? source = null;
             for (rti = 0; rti < 3; rti++)
             {
                 int showRM = rti + 1;
-                LayerData dfl = new LayerData();
+                LayerData data = new LayerData();
                 if (tempRateMod[rti] == 0) break;
 
-                
-                Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
+                rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
                 if (rate != null)
                 {
-                    jsontable.RateModule = tempRateMod[rti];
-                    float tRate = rate.Parameter.General.Rate * 10;
-                    jsontable.Rate = tRate.ToString();                              //main
-                    dfl.Gain = rate.Parameter.General.ControlGain;       //layer
-                    dfl.HoldTime = rate.Ramping.Hold.Time;               //layer
-                    dfl.PL = rate.Parameter.General.PowerLimit;          //layer
-                    dfl.P3 = rate.Ramping.Ramp3.Power;                   //layer
-                    dfl.T3 = rate.Ramping.Ramp3.Time;                    //layer
-                    dfl.P2 = rate.Ramping.Ramp2.Power;                   //layer
-                    dfl.T2 = rate.Ramping.Ramp2.Time;                    //layer
-                    dfl.P1 = rate.Ramping.Ramp1.Power;                   //layer
-                    dfl.T1 = rate.Ramping.Ramp1.Time;                    //layer
-                    dfl.Delay = rate.Ramping.RiseDelay.ToString();                  //layer
+                    data = GetRate(tempRateMod[rti]);
+                    jsontable.RateModule[rti] = tempRateMod[rti];
                     tempSrcMod = rate.References.SourceModule;
 
                     //----------------------------error check-------------------------
-
                     if (rate.Parameter.General.ToolingFactor != 100)
                     {
                         jsontable.ErrorFlag = true;
@@ -339,17 +326,9 @@ namespace TestPro2
                     MessageBox.Show("Error in rate, Module not found");
                 }
 
-                Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
+                source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
                 if (source != null)
                 {
-                    if (source.Parameter.SourceNumber == 1)
-                        jsontable.TSource = source.References.EECModule;                //main & layer
-                    else
-                        jsontable.TSource = source.Parameter.SourceNumber.ToString();   //main & layer
-                    dfl.Source = jsontable.TSource;
-                    dfl.Response = source.Xtal.ResponseTime;           //layer
-                    dfl.Derivative = source.Xtal.DerivativeTime;       //layer
-
                     //----------------------------error check-------------------------
                     if (source.Xtal.Density != 2)
                     {
@@ -357,18 +336,31 @@ namespace TestPro2
                         rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
                             jsontable.ModuleName + " Density must be 2\r\n";
                     }
-
                 }
                 else
                 {
                     MessageBox.Show("Error in source, Module not found");
                 }
 
-                jsontable.LayersData.Add(dfl);
+                jsontable.LayersData.Add(data);
 
 
             }
-            AddToTable(tempRateMod[rti - 1]);
+            if (rate != null && source != null)
+            {
+                float tRate = rate.Parameter.General.Rate * 10;
+                jsontable.Rate = tRate.ToString();                                      //main
+                if (source.Parameter.SourceNumber == 1)
+                    jsontable.TSource = source.References.EECModule;                    //main
+                else
+                    jsontable.TSource = source.Parameter.SourceNumber.ToString();       //main
+            }
+            else
+            {
+                MessageBox.Show("Error in rate or source, Module not found");
+            }
+
+
 
             if (tempLimMod != 0)
             {
@@ -503,67 +495,61 @@ namespace TestPro2
             }
             return jsontable;
         }
-        public void GetRate()
+        public LayerData GetRate(int module)
         {
-            layerArr = new LayerData[9];
-            foreach (Rate rate in rootobject.Rate.ToList())
-            {
-                LayerData layer = new LayerData();
-                float tRate = rate.Parameter.General.Rate * 10;
-                layer.Rate = tRate;
-                layer.ModuleName = rate.Identification.ModuleName;
-                layer.RateModule = rate.Identification.ModuleNumber;
-                layer.Gain = rate.Parameter.General.ControlGain;       //layer
-                layer.HoldTime = rate.Ramping.Hold.Time;               //layer
-                layer.PL = rate.Parameter.General.PowerLimit;          //layer
-                layer.P3 = rate.Ramping.Ramp3.Power;                   //layer
-                layer.T3 = rate.Ramping.Ramp3.Time;                    //layer
-                layer.P2 = rate.Ramping.Ramp2.Power;                   //layer
-                layer.T2 = rate.Ramping.Ramp2.Time;                    //layer
-                layer.P1 = rate.Ramping.Ramp1.Power;                   //layer
-                layer.T1 = rate.Ramping.Ramp1.Time;
-                layer.Delay = rate.Ramping.RiseDelay.ToString();
-                Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == rate.Identification.ModuleNumber)!;
-                if (source != null)
-                {
-                    layer.Pos = source.Parameter.SourceNumber;
-                    if (layer.Pos == 1)
-                    {
-                        layer.Scan = source.References.EECModule.Split('_').First();
-                        layer.Source = source.References.EECModule;
-                    }
-                    
-                    layer.Response = source.Xtal.ResponseTime;           //layer
-                    layer.Derivative = source.Xtal.DerivativeTime;       //layer
-                    List<Evaporators> temp = evaporators.FindAll(e => e.Matter.ToLower().Contains(layer.ModuleName.ToLower()));
-                    foreach (Evaporators evp in temp)
-                    {
-                        layer.Src.Add(evp.Src);
-                    }
-                    layer.Src = layer.Src.Distinct().ToList();
-                }
-                RateList.Add(layer);
-            }
-        }
-        public void AddToTable (int module)
-        {
+            Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;
+
             int arrPos = -1;
-            LayerData added = RateList.Find(r => r.RateModule == module);
-            if (added != null)
+            LayerData layer = new LayerData();
+            float tRate = rate.Parameter.General.Rate * 10;
+            layer.Rate = tRate;
+            layer.ModuleName = rate.Identification.ModuleName;
+            layer.RateModule = rate.Identification.ModuleNumber;
+            layer.Gain = rate.Parameter.General.ControlGain;       //layer
+            layer.HoldTime = rate.Ramping.Hold.Time;               //layer
+            layer.PL = rate.Parameter.General.PowerLimit;          //layer
+            layer.P3 = rate.Ramping.Ramp3.Power;                   //layer
+            layer.T3 = rate.Ramping.Ramp3.Time;                    //layer
+            layer.P2 = rate.Ramping.Ramp2.Power;                   //layer
+            layer.T2 = rate.Ramping.Ramp2.Time;                    //layer
+            layer.P1 = rate.Ramping.Ramp1.Power;                   //layer
+            layer.T1 = rate.Ramping.Ramp1.Time;
+            layer.Delay = rate.Ramping.RiseDelay.ToString();
+            Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == rate.References.SourceModule)!;
+            if (source != null)
             {
-                if (added.Pos == 1)
+                layer.Pos = source.Parameter.SourceNumber;
+                if (layer.Pos == 1)
                 {
-                    char getPos = added.Source[added.Source.Length - 1];
+                    layer.Scan = source.References.EECModule.Split('_').First();
+                    layer.Source = source.References.EECModule;
+                    char getPos = layer.Source[layer.Source.Length - 1];
                     int.TryParse(getPos.ToString(), out arrPos);
                     arrPos--;
                 }
                 else
-                    arrPos = added.Pos + 4;
+                {
+                    arrPos = layer.Pos + 4;
+                    layer.Source = source.Parameter.SourceNumber.ToString();
+                }
+
+
+                layer.Response = source.Xtal.ResponseTime;           //layer
+                layer.Derivative = source.Xtal.DerivativeTime;       //layer
+                List<Evaporators> temp = evaporators.FindAll(e => layer.ModuleName.ToLower().Replace(" ", "").Contains(e.Matter.ToLower().Replace(" ", ""))
+                    || e.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "")));
+                foreach (Evaporators evp in temp)
+                {
+                    layer.Src.Add(evp.Src);
+                }
+                layer.Src = layer.Src.Distinct().ToList();
             }
             if (arrPos > -1)
             {
-                layerArr[arrPos] = added;
+                layerArr[arrPos] = layer;
             }
+            return layer;
+
         }
         public DataGridView GetComboBox(DataGridView dataGrid)
         {
@@ -576,36 +562,79 @@ namespace TestPro2
             dataGrid.RowCount = layerArr.Length;
             for (int i = 0; i < layerArr.Length; i++)
             {
+                dataGrid.Rows[i].Cells[1].Value = null;
+                dataGrid.Rows[i].Cells[2].Value = null;
+                dataGrid.Rows[i].Cells[3].Value = null;
+                dataGrid.Rows[i].Cells[4].Value = null;
                 int po;
                 if (i < 6)
                     po = i + 1;
                 else
                     po = i - 4;
+                dataGrid.Rows[i].Cells[0].ReadOnly = true;
+                dataGrid.Rows[i].Cells[1].ReadOnly = true;
+                dataGrid.Rows[i].Cells[3].ReadOnly = true;
+                dataGrid.Rows[i].Cells[4].ReadOnly = true;
+                dataGrid.Rows[i].Cells[2].ReadOnly = true;
 
+                dataGrid.Rows[i].Cells[0].Value = po;
                 if (layerArr[i] != null)
                 {
                     // Add cells to the row
-                    dataGrid.Rows[i].Cells[0].Value = po;
                     dataGrid.Rows[i].Cells[1].Value = layerArr[i].ModuleName;
 
                     // Assuming CreateComboBoxColumn() creates a combo box column
-                    DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
-                    comboBoxCell.DataSource = layerArr[i].Src; // Assuming Src is a list or data source
-                    dataGrid.Rows[i].Cells[2] = comboBoxCell;
+                    if (layerArr[i].Src.Count == 1)
+                    {
+                        dataGrid.Rows[i].Cells[2].Value = layerArr[i].Src[0];
+                    }
+
+                    else
+                    {
+                        DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
+                        dataGrid.Rows[i].Cells[2].ReadOnly = false;
+
+                        comboBoxCell.DataSource = layerArr[i].Src; // Assuming Src is a list or data source
+                        dataGrid.Rows[i].Cells[2] = comboBoxCell;
+                    }
 
                     dataGrid.Rows[i].Cells[3].Value = layerArr[i].Rate;
                     dataGrid.Rows[i].Cells[4].Value = layerArr[i].Scan;
+                }
 
-                }
-                else
-                {
-                    // If layerData[i] is null, add a row with just the "position" column
-                    dataGrid.Rows[i].Cells[0].Value = po;
-                }
             }
             return dataGrid;
         }
+        public DataGridView GetParameters(DataGridView source)
+        {
+            DataGridView param;
+            param = new DataGridView();
 
+            if (source != null)
+            {
+                for (int i = 0; i < source.Rows.Count; i++)
+                {
+                    if ((source.Rows[i].Cells[2].Selected || source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
+                    {
+                        Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Contains(e.Matter.ToLower().Replace(" ", ""))
+                            && e.Pos == layerArr[i].Pos && e.Src == source.Rows[i].Cells[2].Value.ToString()
+                            && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
+                            || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
+                        if (ev != null)
+                        {
+                            evapArr[i] = ev;
+                        }
+                    }
+                }
+            }
+            return param;
+        }
+        private void chack_btn_Click(object sender, EventArgs e)
+        {
+            dgv_param.DataSource = null;
+            GetParameters(dgv_source);
+            dgv_param.DataSource = evapArr;
+        }
 
         //------------------------------sip tab--------------------------------------
 
@@ -694,8 +723,8 @@ namespace TestPro2
                 }
                 line += 6;
             }
-            sours_sip.DataSource = null;
-            sours_sip.DataSource = evapArr;
+            dgv_source.DataSource = null;
+            dgv_source.DataSource = evapArr;
         }
         private void machine_box_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -718,5 +747,14 @@ namespace TestPro2
             }
             return array;
         }
+        private LayerData[] CleenArrData(LayerData[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = null;
+            }
+            return array;
+        }
+
     }
 }

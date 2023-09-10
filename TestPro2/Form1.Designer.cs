@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestPro));
             jsonTableBindingSource = new BindingSource(components);
             open_btn = new Button();
@@ -55,7 +55,26 @@
             monitorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             startIntensityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             src_tab = new TabPage();
-            sours_sip = new DataGridView();
+            chack_btn = new Button();
+            dgv_param = new DataGridView();
+            matterDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            srcDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            scanDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            rateDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            t1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            t2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            t3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            p3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pLDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            holdTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            gainDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            rTDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            dTDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            evaporatorsBindingSource = new BindingSource(components);
+            dgv_source = new DataGridView();
             open_sip_btn = new Button();
             layerDataBindingSource = new BindingSource(components);
             machine_box = new ComboBox();
@@ -64,7 +83,9 @@
             REC_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             src_tab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)sours_sip).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_param).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)evaporatorsBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -178,37 +199,37 @@
             dgv.AutoGenerateColumns = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.BackgroundColor = SystemColors.InactiveCaption;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { sequenceDataGridViewTextBoxColumn, moduleNameDataGridViewTextBoxColumn, dataGridViewTextBoxColumn2, rotationDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn, thicknessDataGridViewTextBoxColumn, cyclesDataGridViewTextBoxColumn, wavelengthDataGridViewTextBoxColumn, monitorDataGridViewTextBoxColumn, startIntensityDataGridViewTextBoxColumn });
             dgv.DataSource = jsonTableBindingSource;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = SystemColors.Window;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            dgv.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgv.DefaultCellStyle = dataGridViewCellStyle2;
             dgv.Location = new Point(8, 10);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RightToLeft = RightToLeft.Yes;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgv.RowHeadersVisible = false;
             dgv.RowHeadersWidth = 62;
             dgv.RowTemplate.Height = 33;
@@ -299,7 +320,9 @@
             // 
             // src_tab
             // 
-            src_tab.Controls.Add(sours_sip);
+            src_tab.Controls.Add(chack_btn);
+            src_tab.Controls.Add(dgv_param);
+            src_tab.Controls.Add(dgv_source);
             src_tab.Controls.Add(open_sip_btn);
             src_tab.Location = new Point(4, 34);
             src_tab.Name = "src_tab";
@@ -309,16 +332,172 @@
             src_tab.Text = "Source processor";
             src_tab.UseVisualStyleBackColor = true;
             // 
-            // sours_sip
+            // chack_btn
             // 
-            sours_sip.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            sours_sip.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            sours_sip.Location = new Point(420, 6);
-            sours_sip.Name = "sours_sip";
-            sours_sip.RowHeadersWidth = 62;
-            sours_sip.RowTemplate.Height = 33;
-            sours_sip.Size = new Size(1162, 350);
-            sours_sip.TabIndex = 9;
+            chack_btn.Location = new Point(55, 126);
+            chack_btn.Name = "chack_btn";
+            chack_btn.Size = new Size(210, 88);
+            chack_btn.TabIndex = 11;
+            chack_btn.Text = "&Check parameters";
+            chack_btn.UseVisualStyleBackColor = true;
+            chack_btn.Click += chack_btn_Click;
+            // 
+            // dgv_param
+            // 
+            dgv_param.AutoGenerateColumns = false;
+            dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_param.Columns.AddRange(new DataGridViewColumn[] { matterDataGridViewTextBoxColumn, dataGridViewTextBoxColumn3, srcDataGridViewTextBoxColumn, scanDataGridViewTextBoxColumn, rateDataGridViewTextBoxColumn1, t1DataGridViewTextBoxColumn, p1DataGridViewTextBoxColumn, t2DataGridViewTextBoxColumn, p2DataGridViewTextBoxColumn, t3DataGridViewTextBoxColumn, p3DataGridViewTextBoxColumn, pLDataGridViewTextBoxColumn, holdTimeDataGridViewTextBoxColumn, gainDataGridViewTextBoxColumn, rTDataGridViewTextBoxColumn, dTDataGridViewTextBoxColumn });
+            dgv_param.DataSource = evaporatorsBindingSource;
+            dgv_param.Location = new Point(7, 360);
+            dgv_param.Name = "dgv_param";
+            dgv_param.RowHeadersWidth = 62;
+            dgv_param.RowTemplate.Height = 33;
+            dgv_param.Size = new Size(1575, 396);
+            dgv_param.TabIndex = 10;
+            // 
+            // matterDataGridViewTextBoxColumn
+            // 
+            matterDataGridViewTextBoxColumn.DataPropertyName = "Matter";
+            matterDataGridViewTextBoxColumn.HeaderText = "Matter";
+            matterDataGridViewTextBoxColumn.MinimumWidth = 8;
+            matterDataGridViewTextBoxColumn.Name = "matterDataGridViewTextBoxColumn";
+            matterDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "Pos";
+            dataGridViewTextBoxColumn3.HeaderText = "Pos";
+            dataGridViewTextBoxColumn3.MinimumWidth = 8;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.Width = 150;
+            // 
+            // srcDataGridViewTextBoxColumn
+            // 
+            srcDataGridViewTextBoxColumn.DataPropertyName = "Src";
+            srcDataGridViewTextBoxColumn.HeaderText = "Src";
+            srcDataGridViewTextBoxColumn.MinimumWidth = 8;
+            srcDataGridViewTextBoxColumn.Name = "srcDataGridViewTextBoxColumn";
+            srcDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // scanDataGridViewTextBoxColumn
+            // 
+            scanDataGridViewTextBoxColumn.DataPropertyName = "Scan";
+            scanDataGridViewTextBoxColumn.HeaderText = "Scan";
+            scanDataGridViewTextBoxColumn.MinimumWidth = 8;
+            scanDataGridViewTextBoxColumn.Name = "scanDataGridViewTextBoxColumn";
+            scanDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // rateDataGridViewTextBoxColumn1
+            // 
+            rateDataGridViewTextBoxColumn1.DataPropertyName = "Rate";
+            rateDataGridViewTextBoxColumn1.HeaderText = "Rate";
+            rateDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            rateDataGridViewTextBoxColumn1.Name = "rateDataGridViewTextBoxColumn1";
+            rateDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // t1DataGridViewTextBoxColumn
+            // 
+            t1DataGridViewTextBoxColumn.DataPropertyName = "T1";
+            t1DataGridViewTextBoxColumn.HeaderText = "T1";
+            t1DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t1DataGridViewTextBoxColumn.Name = "t1DataGridViewTextBoxColumn";
+            t1DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // p1DataGridViewTextBoxColumn
+            // 
+            p1DataGridViewTextBoxColumn.DataPropertyName = "P1";
+            p1DataGridViewTextBoxColumn.HeaderText = "P1";
+            p1DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p1DataGridViewTextBoxColumn.Name = "p1DataGridViewTextBoxColumn";
+            p1DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // t2DataGridViewTextBoxColumn
+            // 
+            t2DataGridViewTextBoxColumn.DataPropertyName = "T2";
+            t2DataGridViewTextBoxColumn.HeaderText = "T2";
+            t2DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t2DataGridViewTextBoxColumn.Name = "t2DataGridViewTextBoxColumn";
+            t2DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // p2DataGridViewTextBoxColumn
+            // 
+            p2DataGridViewTextBoxColumn.DataPropertyName = "P2";
+            p2DataGridViewTextBoxColumn.HeaderText = "P2";
+            p2DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p2DataGridViewTextBoxColumn.Name = "p2DataGridViewTextBoxColumn";
+            p2DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // t3DataGridViewTextBoxColumn
+            // 
+            t3DataGridViewTextBoxColumn.DataPropertyName = "T3";
+            t3DataGridViewTextBoxColumn.HeaderText = "T3";
+            t3DataGridViewTextBoxColumn.MinimumWidth = 8;
+            t3DataGridViewTextBoxColumn.Name = "t3DataGridViewTextBoxColumn";
+            t3DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // p3DataGridViewTextBoxColumn
+            // 
+            p3DataGridViewTextBoxColumn.DataPropertyName = "P3";
+            p3DataGridViewTextBoxColumn.HeaderText = "P3";
+            p3DataGridViewTextBoxColumn.MinimumWidth = 8;
+            p3DataGridViewTextBoxColumn.Name = "p3DataGridViewTextBoxColumn";
+            p3DataGridViewTextBoxColumn.Width = 150;
+            // 
+            // pLDataGridViewTextBoxColumn
+            // 
+            pLDataGridViewTextBoxColumn.DataPropertyName = "PL";
+            pLDataGridViewTextBoxColumn.HeaderText = "PL";
+            pLDataGridViewTextBoxColumn.MinimumWidth = 8;
+            pLDataGridViewTextBoxColumn.Name = "pLDataGridViewTextBoxColumn";
+            pLDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // holdTimeDataGridViewTextBoxColumn
+            // 
+            holdTimeDataGridViewTextBoxColumn.DataPropertyName = "HoldTime";
+            holdTimeDataGridViewTextBoxColumn.HeaderText = "HoldTime";
+            holdTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            holdTimeDataGridViewTextBoxColumn.Name = "holdTimeDataGridViewTextBoxColumn";
+            holdTimeDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // gainDataGridViewTextBoxColumn
+            // 
+            gainDataGridViewTextBoxColumn.DataPropertyName = "Gain";
+            gainDataGridViewTextBoxColumn.HeaderText = "Gain";
+            gainDataGridViewTextBoxColumn.MinimumWidth = 8;
+            gainDataGridViewTextBoxColumn.Name = "gainDataGridViewTextBoxColumn";
+            gainDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // rTDataGridViewTextBoxColumn
+            // 
+            rTDataGridViewTextBoxColumn.DataPropertyName = "RT";
+            rTDataGridViewTextBoxColumn.HeaderText = "RT";
+            rTDataGridViewTextBoxColumn.MinimumWidth = 8;
+            rTDataGridViewTextBoxColumn.Name = "rTDataGridViewTextBoxColumn";
+            rTDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // dTDataGridViewTextBoxColumn
+            // 
+            dTDataGridViewTextBoxColumn.DataPropertyName = "DT";
+            dTDataGridViewTextBoxColumn.HeaderText = "DT";
+            dTDataGridViewTextBoxColumn.MinimumWidth = 8;
+            dTDataGridViewTextBoxColumn.Name = "dTDataGridViewTextBoxColumn";
+            dTDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // evaporatorsBindingSource
+            // 
+            evaporatorsBindingSource.DataSource = typeof(Evaporators);
+            // 
+            // dgv_source
+            // 
+            dgv_source.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_source.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_source.Location = new Point(420, 6);
+            dgv_source.Name = "dgv_source";
+            dgv_source.RightToLeft = RightToLeft.Yes;
+            dgv_source.RowHeadersWidth = 62;
+            dgv_source.RowTemplate.Height = 33;
+            dgv_source.Size = new Size(1162, 339);
+            dgv_source.TabIndex = 9;
             // 
             // open_sip_btn
             // 
@@ -365,7 +544,9 @@
             REC_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             src_tab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)sours_sip).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_param).EndInit();
+            ((System.ComponentModel.ISupportInitialize)evaporatorsBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_source).EndInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -402,10 +583,29 @@
         private Button open_sip_btn;
         private Label label3;
         private ComboBox machine_box;
-        private DataGridView sours_sip;
+        private DataGridView dgv_source;
         private BindingSource layerDataBindingSource;
         private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
+        private DataGridView dgv_param;
+        private Button chack_btn;
+        private DataGridViewTextBoxColumn matterDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn srcDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn scanDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn rateDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn t2DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p2DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn t3DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn p3DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn pLDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn holdTimeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn gainDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn rTDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dTDataGridViewTextBoxColumn;
+        private BindingSource evaporatorsBindingSource;
     }
 }

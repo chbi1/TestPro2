@@ -14,7 +14,7 @@ namespace TestPro2
         public string TSource { get; set; } = string.Empty;
         public string Rotation { get; set; } = string.Empty;
         public string Rate { get; set; } = string.Empty;
-        public int RateModule { get; set; }
+        public int[] RateModule { get; set; } = new int[3];
         public string Thickness { get; set; } = string.Empty;
         public string Cycles { get; set; } = string.Empty;              // GSM & Main
         public string Wavelength { get; set; } = string.Empty;          // GSM & Main
@@ -27,7 +27,6 @@ namespace TestPro2
         public string IntensityMin { get; set; } = string.Empty;
         public string Threshold { get; set; } = string.Empty;
         public string Beam { get; set; } = string.Empty;                //Transmission
-        //public string Glass { get; set; } = string.Empty;
         public string AlgDalay { get; set; } = string.Empty;
         public string AlgTime { get; set; } = string.Empty;
         public string StopMode { get; set; } = string.Empty;
