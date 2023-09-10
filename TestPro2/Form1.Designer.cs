@@ -58,9 +58,7 @@
             src_tab = new TabPage();
             chack_btn = new Button();
             dgv_param = new DataGridView();
-            evaporatorsBindingSource = new BindingSource(components);
             dgv_source = new DataGridView();
-            open_sip_btn = new Button();
             layerDataBindingSource = new BindingSource(components);
             machine_box = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
@@ -69,7 +67,6 @@
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             src_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_param).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)evaporatorsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv_source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
@@ -134,7 +131,7 @@
             // 
             machine.FormattingEnabled = true;
             machine.Items.AddRange(new object[] { "E", "N", "X", "P" });
-            machine.Location = new Point(147, 20);
+            machine.Location = new Point(171, 18);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
@@ -143,7 +140,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 23);
+            label2.Location = new Point(36, 24);
             label2.Name = "label2";
             label2.Size = new Size(129, 25);
             label2.TabIndex = 7;
@@ -308,7 +305,6 @@
             src_tab.Controls.Add(chack_btn);
             src_tab.Controls.Add(dgv_param);
             src_tab.Controls.Add(dgv_source);
-            src_tab.Controls.Add(open_sip_btn);
             src_tab.Location = new Point(4, 34);
             src_tab.Name = "src_tab";
             src_tab.Padding = new Padding(3);
@@ -319,7 +315,7 @@
             // 
             // chack_btn
             // 
-            chack_btn.Location = new Point(55, 126);
+            chack_btn.Location = new Point(166, 49);
             chack_btn.Name = "chack_btn";
             chack_btn.Size = new Size(210, 88);
             chack_btn.TabIndex = 11;
@@ -331,16 +327,12 @@
             // 
             dgv_param.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_param.Location = new Point(7, 360);
+            dgv_param.Location = new Point(558, 19);
             dgv_param.Name = "dgv_param";
             dgv_param.RowHeadersWidth = 62;
             dgv_param.RowTemplate.Height = 33;
-            dgv_param.Size = new Size(1575, 396);
+            dgv_param.Size = new Size(1008, 484);
             dgv_param.TabIndex = 10;
-            // 
-            // evaporatorsBindingSource
-            // 
-            evaporatorsBindingSource.DataSource = typeof(Evaporators);
             // 
             // dgv_source
             // 
@@ -354,24 +346,14 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dgv_source.DefaultCellStyle = dataGridViewCellStyle4;
-            dgv_source.Location = new Point(1023, 6);
+            dgv_source.Location = new Point(18, 164);
             dgv_source.Name = "dgv_source";
             dgv_source.RightToLeft = RightToLeft.Yes;
             dgv_source.RowHeadersVisible = false;
             dgv_source.RowHeadersWidth = 62;
             dgv_source.RowTemplate.Height = 33;
-            dgv_source.Size = new Size(559, 339);
+            dgv_source.Size = new Size(534, 339);
             dgv_source.TabIndex = 9;
-            // 
-            // open_sip_btn
-            // 
-            open_sip_btn.Location = new Point(55, 54);
-            open_sip_btn.Name = "open_sip_btn";
-            open_sip_btn.Size = new Size(112, 34);
-            open_sip_btn.TabIndex = 0;
-            open_sip_btn.Text = "&Open";
-            open_sip_btn.UseVisualStyleBackColor = true;
-            open_sip_btn.Click += open_sip_btn_Click;
             // 
             // layerDataBindingSource
             // 
@@ -409,7 +391,6 @@
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             src_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv_param).EndInit();
-            ((System.ComponentModel.ISupportInitialize)evaporatorsBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv_source).EndInit();
             ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
@@ -444,7 +425,6 @@
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
         private TabPage src_tab;
-        private Button open_sip_btn;
         private Label label3;
         private ComboBox machine_box;
         private DataGridView dgv_source;
@@ -454,6 +434,5 @@
         private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
         private DataGridView dgv_param;
         private Button chack_btn;
-        private BindingSource evaporatorsBindingSource;
     }
 }

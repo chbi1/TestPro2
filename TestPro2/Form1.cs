@@ -11,21 +11,15 @@ namespace TestPro2
         public List<JsonTable> jts;
         List<Evaporators>? evaporators;
         LayerData[] layerArr;
-        Evaporators[] evapArr;                  //SIP
-        List<string>? Matters;                  //SIP
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
-        string[]? sipData;                      //SIP
-        string sipFilePath = string.Empty;      //SIP
         string initialDirectory;
         public TestPro()
         {
             InitializeComponent();
             jts = new List<JsonTable>();
             id = new Queue<char>();
-            Matters = new List<string>();       //SIP
-            evapArr = new Evaporators[9];       //SIP
             layerArr = new LayerData[9];
 
             initialDirectory = "c:\\Users\\user\\Desktop";
@@ -185,6 +179,8 @@ namespace TestPro2
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
 
             //dgv_sip.DataSource = layerData;
+            dgv_source.DataSource = null;
+            dgv_source.Rows.Clear();
             GetComboBox(dgv_source);
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -544,6 +540,9 @@ namespace TestPro2
             return layer;
 
         }
+
+        //------------------------------rate tab--------------------------------------
+
         public DataGridView GetComboBox(DataGridView dataGrid)
         {
             dataGrid.ColumnCount = 5;
@@ -568,9 +567,9 @@ namespace TestPro2
                     po = i - 4;
                 dataGrid.Rows[i].Cells[0].ReadOnly = true;
                 dataGrid.Rows[i].Cells[1].ReadOnly = true;
+                dataGrid.Rows[i].Cells[2].ReadOnly = true;
                 dataGrid.Rows[i].Cells[3].ReadOnly = true;
                 dataGrid.Rows[i].Cells[4].ReadOnly = true;
-                dataGrid.Rows[i].Cells[2].ReadOnly = true;
 
                 dataGrid.Rows[i].Cells[0].Value = po;
                 if (layerArr[i] != null)
@@ -602,10 +601,11 @@ namespace TestPro2
         }
         public DataGridView GetParameters(DataGridView param)
         {
-            
+
 
             if (dgv_source != null)
             {
+
                 param.ColumnCount = 12;
                 param.Columns[0].Name = "Matter";
                 param.Columns[1].Name = "T1";
@@ -619,6 +619,7 @@ namespace TestPro2
                 param.Columns[9].Name = "Gain";
                 param.Columns[10].Name = "RT";
                 param.Columns[11].Name = "DT";
+
 
                 bool color = false;
 
@@ -635,179 +636,132 @@ namespace TestPro2
                             || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
                         if (ev != null)
                         {
-                            evapArr[i] = ev;
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
-
                             if (color)
                             {
                                 color = false;
                                 recRow.DefaultCellStyle.BackColor = Color.Tan;
                                 masterRow.DefaultCellStyle.BackColor = Color.Tan;
                             }
-                            else { color = true; }
-                            
+                            else
+                            {
+                                color = true;
+                                recRow.DefaultCellStyle.BackColor = Color.PowderBlue;
+                                masterRow.DefaultCellStyle.BackColor = Color.PowderBlue;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
+                            if (layerArr[i].T1 != ev.T1)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
+                            if (layerArr[i].P1 != ev.P1)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
+                            if (layerArr[i].T2 != ev.T2)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
+                            if (layerArr[i].P2 != ev.P2)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
+                            if (layerArr[i].T3 != ev.T3)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
+                            if (layerArr[i].P3 != ev.P3)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
+                            if (layerArr[i].PL != ev.PL)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
+                            if (layerArr[i].HoldTime != ev.HoldTime)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
+                            if (layerArr[i].Gain != ev.Gain)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
+                            if (layerArr[i].Response != ev.RT)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
+
+                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
+                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
+                            if (layerArr[i].Derivative != ev.DT)
+                            {
+                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.MistyRose;
+                            }
 
                             param.Rows.Add(recRow);
                             param.Rows.Add(masterRow);
                         }
                     }
                 }
+
             }
             return param;
         }
         private void chack_btn_Click(object sender, EventArgs e)
         {
             dgv_param.DataSource = null;
+            dgv_param.Rows.Clear();
             GetParameters(dgv_param);
-            
+
 
             //dgv_param.DataSource = evapArr;
-        }
-
-        //------------------------------sip tab--------------------------------------
-
-        private void open_sip_btn_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                if (machine_box.Text == "") return;
-                openFileDialog.InitialDirectory = initialDirectory;
-                openFileDialog.Filter = "SIP files (*.SIP)|*.SIP";
-                openFileDialog.RestoreDirectory = false;
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //Get the path of specified file
-                    sipFilePath = openFileDialog.FileName;
-                    //Read the contents of the file into a stream
-                    sipData = File.ReadAllLines(sipFilePath, System.Text.Encoding.UTF8);
-
-                }
-                else
-                    return;
-            }
-            evapArr = CleenArr(evapArr);
-            bool isStart = false;
-            int line = 49;
-            //search for the first material
-            try
-            {
-                while (!isStart)
-                {
-                    line++;
-                    foreach (string matter in Matters)
-                    {
-                        if (sipData[line] == matter)
-                        {
-                            isStart = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error in file");
-                return;
-            }
-            for (int i = 0; i < evapArr.Length; i++)
-            {
-                int position;
-                if (i < 6)
-                    position = 1;
-                else
-                    position = i - 4;
-                if (sipData[line] != "")
-                {
-                    List<Evaporators> errorCatch;
-                    errorCatch = evaporators.FindAll(e => e.Matter.ToLower() == sipData[line].ToLower()
-                    && Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(e.Src)) == Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(sipData[line + 1]))
-                    && e.Rate.ToString() == sipData[line + 2] && e.Pos == position);
-                    if (errorCatch.Count == 1)
-                    {
-                        evapArr[i] = errorCatch[0];
-                    }
-                    else
-                    {
-                        errorCatch = evaporators.FindAll(e => e.Matter.ToLower() == sipData[line].ToLower());
-                        if (errorCatch.Count == 0)
-                        {
-                            MessageBox.Show(sipData[line] + " is not a valid evaporator");
-                            return;
-                        }
-                        else
-                        {
-                            ErrorBox errorBox = new ErrorBox(errorCatch, i);
-                            if (errorBox.ShowDialog() == DialogResult.OK && errorBox.index > -1)
-                            {
-                                evapArr[i] = errorCatch[errorBox.index];
-                            }
-                            else
-                            {
-                                evapArr = CleenArr(evapArr);
-                                return;
-                            }
-                        }
-                    }
-                }
-                line += 6;
-            }
-            dgv_source.DataSource = null;
-            dgv_source.DataSource = evapArr;
         }
         private void machine_box_SelectedIndexChanged(object sender, EventArgs e)
         {
             jsonData = File.ReadAllText(Properties.Settings.Default.jsonDir + "Machine" + machine_box.Text + ".json", Encoding.UTF8);
             evaporators = JsonConvert.DeserializeObject<List<Evaporators>>(jsonData)!;
-            Matters.Add(evaporators[0].Matter!);
-            foreach (Evaporators evp in evaporators)
-            {
-                if (Matters.Last() != evp.Matter)
-                {
-                    Matters.Add(evp.Matter);
-                }
-            }
-        }
-        private Evaporators[] CleenArr(Evaporators[] array)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = null;
-            }
-            return array;
         }
         private LayerData[] CleenArrData(LayerData[] array)
         {
@@ -817,6 +771,5 @@ namespace TestPro2
             }
             return array;
         }
-
     }
 }
