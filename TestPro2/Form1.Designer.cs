@@ -329,6 +329,7 @@
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_param.Location = new Point(558, 19);
             dgv_param.Name = "dgv_param";
+            dgv_param.RowHeadersVisible = false;
             dgv_param.RowHeadersWidth = 62;
             dgv_param.RowTemplate.Height = 33;
             dgv_param.Size = new Size(1008, 484);
