@@ -60,6 +60,8 @@ namespace TestPro2
                     dgv.DataSource = null;
                     //machine.Text = string.Empty;
                 }
+                else
+                    return;
             }
             //string pattern = @"(?<![0-9.])-(?![0-9])";
             //string replacement = "__";
@@ -536,7 +538,7 @@ namespace TestPro2
             {
                 if (layerArr[arrPos] != null && layerArr[arrPos].RateModule != layer.RateModule)
                 {
-                    MessageBox.Show("There is an error where two different rate modules are pointing to the same source.", "Error");
+                    MessageBox.Show("There is an error where two different rate modules are pointing to the same source.\nnames" + layer.ModuleName + " and " + layerArr[arrPos].ModuleName, "Error");
                 }
                 layerArr[arrPos] = layer;
             }
@@ -629,127 +631,146 @@ namespace TestPro2
 
                 for (int i = 0; i < dgv_source.Rows.Count; i++)
                 {
+                    int po;
+                    if (i < 6)
+                        po = i + 1;
+                    else
+                        po = i - 4;
                     DataGridViewRow recRow = new DataGridViewRow();
                     DataGridViewRow masterRow = new DataGridViewRow();
 
                     if ((dgv_source.Rows[i].Cells[2].Selected || dgv_source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
                     {
-                        Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
-                            && e.Pos == layerArr[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
-                            && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
-                            || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
-                        if (ev != null)
+                        try
                         {
-                            if (color)
+                            Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
+                                && e.Pos == layerArr[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
+                                && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
+                                || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
+                            if (ev != null)
                             {
-                                color = false;
-                                recRow.DefaultCellStyle.BackColor = Color.LemonChiffon;
-                                masterRow.DefaultCellStyle.BackColor = Color.LemonChiffon;
+                                if (color)
+                                {
+                                    color = false;
+                                    recRow.DefaultCellStyle.BackColor = Color.LemonChiffon;
+                                    masterRow.DefaultCellStyle.BackColor = Color.LemonChiffon;
+                                }
+                                else
+                                {
+                                    color = true;
+                                    recRow.DefaultCellStyle.BackColor = Color.Lavender;
+                                    masterRow.DefaultCellStyle.BackColor = Color.Lavender;
+                                }
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "File " + po });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = "Param " + po });
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
+                                if (layerArr[i].T1 != ev.T1)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
+                                if (layerArr[i].P1 != ev.P1)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
+                                if (layerArr[i].T2 != ev.T2)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
+                                if (layerArr[i].P2 != ev.P2)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
+                                if (layerArr[i].T3 != ev.T3)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
+                                if (layerArr[i].P3 != ev.P3)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
+                                if (layerArr[i].PL != ev.PL)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
+                                if (layerArr[i].HoldTime != ev.HoldTime)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
+                                if (layerArr[i].Gain != ev.Gain)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
+                                if (layerArr[i].Response != ev.RT)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
+                                masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
+                                if (layerArr[i].Derivative != ev.DT)
+                                {
+                                    recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                    masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
+                                }
+
+                                param.Rows.Add(masterRow);
+                                param.Rows.Add(recRow);
                             }
                             else
                             {
-                                color = true;
-                                recRow.DefaultCellStyle.BackColor = Color.Lavender;
-                                masterRow.DefaultCellStyle.BackColor = Color.Lavender;
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data for " + po });
+                                param.Rows.Add(recRow);
+                                MessageBox.Show("no data find for "+ dgv_source.Rows[i].Cells[1].Value + " try changing source");
                             }
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "File" });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = "Param" });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
-                            if (layerArr[i].T1 != ev.T1)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
-                            if (layerArr[i].P1 != ev.P1)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
-                            if (layerArr[i].T2 != ev.T2)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
-                            if (layerArr[i].P2 != ev.P2)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
-                            if (layerArr[i].T3 != ev.T3)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
-                            if (layerArr[i].P3 != ev.P3)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
-                            if (layerArr[i].PL != ev.PL)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
-                            if (layerArr[i].HoldTime != ev.HoldTime)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
-                            if (layerArr[i].Gain != ev.Gain)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
-                            if (layerArr[i].Response != ev.RT)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
-                            masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
-                            if (layerArr[i].Derivative != ev.DT)
-                            {
-                                recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                                masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
-                            }
-
-                            param.Rows.Add(masterRow);
-                            param.Rows.Add(recRow);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Error while creating layer grid");
                         }
                     }
+                    
                 }
 
             }
