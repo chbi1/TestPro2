@@ -760,7 +760,8 @@ namespace TestPro2
                             }
                             else
                             {
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data for " + po });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data " + po });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = dgv_source.Rows[i].Cells[1].Value });
                                 param.Rows.Add(recRow);
                                 MessageBox.Show("no data find for "+ dgv_source.Rows[i].Cells[1].Value + " try changing source");
                             }
