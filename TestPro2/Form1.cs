@@ -178,7 +178,6 @@ namespace TestPro2
             }
             dgv.Rows[i].Cells[0].Style.BackColor = Color.Gainsboro;
 
-            //dgv_sip.DataSource = layerData;
             dgv_source.DataSource = null;
             dgv_source.Rows.Clear();
             GetComboBox(dgv_source);
@@ -525,8 +524,8 @@ namespace TestPro2
 
                 layer.Response = source.Xtal.ResponseTime;           //layer
                 layer.Derivative = source.Xtal.DerivativeTime;       //layer
-                List<Evaporators> temp = evaporators.FindAll(e => layer.ModuleName.ToLower().Replace(" ", "").Contains(e.Matter.ToLower().Replace(" ", ""))
-                    || e.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "")));
+                List<Evaporators> temp = evaporators.FindAll(e => layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
+                    || e.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".")));
                 foreach (Evaporators evp in temp)
                 {
                     layer.Src.Add(evp.Src);
@@ -635,7 +634,7 @@ namespace TestPro2
 
                     if ((dgv_source.Rows[i].Cells[2].Selected || dgv_source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
                     {
-                        Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Contains(e.Matter.ToLower().Replace(" ", ""))
+                        Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
                             && e.Pos == layerArr[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
                             && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
                             || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
