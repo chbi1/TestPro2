@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,6 +12,7 @@ namespace TestPro2
         public List<JsonTable> jts;
         List<Evaporators>? evaporators;
         LayerData[] layerArr;
+        List<LayerData> layerDouble;
         Queue<char> id;
         string jsonData = string.Empty;
         string filePath = string.Empty;
@@ -21,7 +23,7 @@ namespace TestPro2
             jts = new List<JsonTable>();
             id = new Queue<char>();
             layerArr = new LayerData[9];
-
+            layerDouble = new List<LayerData>();
             initialDirectory = "c:\\Users\\user\\Desktop";
         }
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
@@ -96,6 +98,7 @@ namespace TestPro2
                 return;
             }
             jts.Clear();
+            layerDouble.Clear();
             layerArr = CleenArrData(layerArr);
 
             JsonTable jsontable = new JsonTable();
@@ -182,7 +185,7 @@ namespace TestPro2
 
             dgv_source.DataSource = null;
             dgv_source.Rows.Clear();
-            GetComboBox(dgv_source);
+            GetDgSource(dgv_source);
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -286,13 +289,12 @@ namespace TestPro2
             for (rti = 0; rti < 3; rti++)
             {
                 int showRM = rti + 1;
-                LayerData data = new LayerData();
                 if (tempRateMod[rti] == 0) break;
+
 
                 rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
                 if (rate != null)
                 {
-                    data = GetRate(tempRateMod[rti]);
                     jsontable.RateModule[rti] = tempRateMod[rti];
                     tempSrcMod = rate.References.SourceModule;
 
@@ -309,30 +311,72 @@ namespace TestPro2
                         rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
                             jsontable.ModuleName + " Hold Time must be more than 1\r\n";
                     }
+                    source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
+                    if (source != null)
+                    {
+                        int arrPos = -1;
+                        if (source.Parameter.SourceNumber == 1)
+                        {
+                            char getPos = source.References.EECModule[source.References.EECModule.Length - 1];
+                            int.TryParse(getPos.ToString(), out arrPos);
+                            arrPos--;
+                        }
+                        else
+                        {
+                            arrPos = source.Parameter.SourceNumber + 4;
+                        }
+                        
+                        if (arrPos > -1)
+                        {
+                            if (layerArr[arrPos] != null)
+                            {
+                                if (layerArr[arrPos].RateModule == tempRateMod[rti])
+                                    jsontable.LayersData.Add(layerArr[arrPos]);
+                                else
+                                {
+                                    LayerData data = layerDouble.Find(d => d.RateModule == tempRateMod[rti])!;
+                                    if(data == null)
+                                    {
+                                        data = GetRate(tempRateMod[rti]);
+                                        layerDouble.Add(data);
+                                    }
+                                    jsontable.LayersData.Add(data);
+                                }
+                            }
+                            else
+                            {
+                                LayerData data = GetRate(tempRateMod[rti]);
+                                layerArr[arrPos] = data;
+                                jsontable.LayersData.Add(data);
+                            }
+                        }
+                        else
+                        {
+                            LayerData data = GetRate(tempRateMod[rti]);
+                            jsontable.LayersData.Add(data);
+                            MessageBox.Show("couldn't locate the Crucible of "+ data.ModuleName +".");
+                        }
 
+                        //----------------------------error check-------------------------
+                        if (source.Xtal.Density != 2)
+                        {
+                            jsontable.ErrorFlag = true;
+                            rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
+                                jsontable.ModuleName + " Density must be 2\r\n";
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in source, Module not found");
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Error in rate, Module not found");
                 }
 
-                source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
-                if (source != null)
-                {
-                    //----------------------------error check-------------------------
-                    if (source.Xtal.Density != 2)
-                    {
-                        jsontable.ErrorFlag = true;
-                        rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
-                            jsontable.ModuleName + " Density must be 2\r\n";
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Error in source, Module not found");
-                }
 
-                jsontable.LayersData.Add(data);
+
 
 
             }
@@ -489,7 +533,6 @@ namespace TestPro2
         {
             Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;
 
-            int arrPos = -1;
             LayerData layer = new LayerData();
             float tRate = rate.Parameter.General.Rate * 10;
             layer.Rate = tRate;
@@ -513,13 +556,9 @@ namespace TestPro2
                 {
                     layer.Scan = source.References.EECModule.Split('_').First();
                     layer.Source = source.References.EECModule;
-                    char getPos = layer.Source[layer.Source.Length - 1];
-                    int.TryParse(getPos.ToString(), out arrPos);
-                    arrPos--;
                 }
                 else
                 {
-                    arrPos = layer.Pos + 4;
                     layer.Source = source.Parameter.SourceNumber.ToString();
                 }
 
@@ -534,21 +573,13 @@ namespace TestPro2
                 }
                 layer.Src = layer.Src.Distinct().ToList();
             }
-            if (arrPos > -1)
-            {
-                if (layerArr[arrPos] != null && layerArr[arrPos].RateModule != layer.RateModule)
-                {
-                    MessageBox.Show("There is an error where two different rate modules are pointing to the same source.\nnames" + layer.ModuleName + " and " + layerArr[arrPos].ModuleName, "Error");
-                }
-                layerArr[arrPos] = layer;
-            }
             return layer;
 
         }
 
         //------------------------------rate tab--------------------------------------
 
-        public DataGridView GetComboBox(DataGridView dataGrid)
+        public void GetDgSource(DataGridView dataGrid)
         {
             dataGrid.ColumnCount = 5;
             dataGrid.Columns[0].Name = "Pos";
@@ -558,7 +589,7 @@ namespace TestPro2
             dataGrid.Columns[4].Name = "Scan";
             dataGrid.Columns[0].Width = 50;
             dataGrid.Columns[3].Width = 70;
-            dataGrid.RowCount = layerArr.Length;
+            dataGrid.RowCount = layerArr.Length+1;
             for (int i = 0; i < layerArr.Length; i++)
             {
                 dataGrid.Rows[i].Cells[1].Value = null;
@@ -587,7 +618,10 @@ namespace TestPro2
                     {
                         dataGrid.Rows[i].Cells[2].Value = layerArr[i].Src[0];
                     }
-
+                    else if (layerArr[i].Src.Count == 0)
+                    {
+                        dataGrid.Rows[i].Cells[2].Value = null;
+                    }
                     else
                     {
                         DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
@@ -602,9 +636,40 @@ namespace TestPro2
                 }
 
             }
-            return dataGrid;
+            if (layerDouble.Count > 0)
+            {
+                dataGrid.Columns[0].Width = 90;
+                foreach (LayerData layer in layerDouble)
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.ReadOnly = true;
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = "double" });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.ModuleName });
+
+                    if (layer.Src.Count == 1)
+                    {
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Src[0] });
+                    }
+                    else if (layer.Src.Count == 0)
+                    {
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = null });
+                    }
+                    else
+                    {
+                        DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
+                        row.Cells[row.Cells.Count - 1].ReadOnly = false;
+                        comboBoxCell.DataSource = layer.Src; // Assuming Src is a list or data source
+                        row.Cells.Add(comboBoxCell);
+                    }
+
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Rate });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Scan });
+
+                    dataGrid.Rows.Add(row);
+                }
+            }
         }
-        public DataGridView GetParameters(DataGridView param)
+        public void GetParameters(DataGridView param)
         {
 
 
@@ -639,14 +704,31 @@ namespace TestPro2
                     DataGridViewRow recRow = new DataGridViewRow();
                     DataGridViewRow masterRow = new DataGridViewRow();
 
-                    if ((dgv_source.Rows[i].Cells[2].Selected || dgv_source.Rows[i].Cells[2].Value != null) && layerArr[i] != null)
+                    if ( dgv_source.Rows[i].Cells[2].Value != null)
                     {
                         try
                         {
-                            Evaporators? ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
+                            LayerData data = null;
+                            Evaporators? ev = null;
+                            if (i < layerArr.Length - 1)
+                            {
+                                if (layerArr[i] == null)
+                                    continue;
+                                ev = evaporators.Find(e => layerArr[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
                                 && e.Pos == layerArr[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
                                 && e.Rate == layerArr[i].Rate && (layerArr[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
                                 || e.Scan.ToLower().Replace(" ", "").Contains(layerArr[i].Scan.ToLower().Replace(" ", ""))))!;
+                                data = layerArr[i];
+                            }
+                            else
+                            {
+                                ev = evaporators.Find(e => layerDouble[i - (layerArr.Length)].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
+                                && e.Pos == layerDouble[i - (layerArr.Length)].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
+                                && e.Rate == layerDouble[i - (layerArr.Length)].Rate && (layerDouble[i - layerArr.Length].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
+                                || e.Scan.ToLower().Replace(" ", "").Contains(layerDouble[i - (layerArr.Length)].Scan.ToLower().Replace(" ", ""))))!;
+                                data = layerDouble[i - (layerArr.Length)];
+                            }
+
                             if (ev != null)
                             {
                                 if (color)
@@ -664,92 +746,92 @@ namespace TestPro2
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "File " + po });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = "Param " + po });
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].ModuleName });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.ModuleName });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T1 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.T1 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T1 });
-                                if (layerArr[i].T1 != ev.T1)
+                                if (data.T1 != ev.T1)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P1 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.P1 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P1 });
-                                if (layerArr[i].P1 != ev.P1)
+                                if (data.P1 != ev.P1)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T2 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.T2 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T2 });
-                                if (layerArr[i].T2 != ev.T2)
+                                if (data.T2 != ev.T2)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P2 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.P2 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P2 });
-                                if (layerArr[i].P2 != ev.P2)
+                                if (data.P2 != ev.P2)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].T3 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.T3 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.T3 });
-                                if (layerArr[i].T3 != ev.T3)
+                                if (data.T3 != ev.T3)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].P3 });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.P3 });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.P3 });
-                                if (layerArr[i].P3 != ev.P3)
+                                if (data.P3 != ev.P3)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].PL });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.PL });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.PL });
-                                if (layerArr[i].PL != ev.PL)
+                                if (data.PL != ev.PL)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].HoldTime });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.HoldTime });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.HoldTime });
-                                if (layerArr[i].HoldTime != ev.HoldTime)
+                                if (data.HoldTime != ev.HoldTime)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Gain });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.Gain });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Gain });
-                                if (layerArr[i].Gain != ev.Gain)
+                                if (data.Gain != ev.Gain)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Response });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.Response });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.RT });
-                                if (layerArr[i].Response != ev.RT)
+                                if (data.Response != ev.RT)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                 }
 
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = layerArr[i].Derivative });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.Derivative });
                                 masterRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.DT });
-                                if (layerArr[i].Derivative != ev.DT)
+                                if (data.Derivative != ev.DT)
                                 {
                                     recRow.Cells[recRow.Cells.Count - 1].Style.BackColor = Color.Coral;
                                     masterRow.Cells[masterRow.Cells.Count - 1].Style.BackColor = Color.Coral;
@@ -763,7 +845,7 @@ namespace TestPro2
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data " + po });
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = dgv_source.Rows[i].Cells[1].Value });
                                 param.Rows.Add(recRow);
-                                MessageBox.Show("no data find for "+ dgv_source.Rows[i].Cells[1].Value + " try changing source");
+                                MessageBox.Show("no data find for " + dgv_source.Rows[i].Cells[1].Value + " try changing source");
                             }
                         }
                         catch
@@ -771,11 +853,10 @@ namespace TestPro2
                             MessageBox.Show("Error while creating layer grid");
                         }
                     }
-                    
+
                 }
 
             }
-            return param;
         }
         private void chack_btn_Click(object sender, EventArgs e)
         {

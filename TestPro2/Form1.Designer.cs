@@ -327,12 +327,12 @@
             // 
             dgv_param.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_param.Location = new Point(558, 19);
+            dgv_param.Location = new Point(547, 19);
             dgv_param.Name = "dgv_param";
             dgv_param.RowHeadersVisible = false;
             dgv_param.RowHeadersWidth = 62;
             dgv_param.RowTemplate.Height = 33;
-            dgv_param.Size = new Size(1008, 484);
+            dgv_param.Size = new Size(1019, 595);
             dgv_param.TabIndex = 10;
             // 
             // dgv_source
@@ -347,13 +347,13 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dgv_source.DefaultCellStyle = dataGridViewCellStyle4;
-            dgv_source.Location = new Point(18, 164);
+            dgv_source.Location = new Point(7, 164);
             dgv_source.Name = "dgv_source";
             dgv_source.RightToLeft = RightToLeft.Yes;
             dgv_source.RowHeadersVisible = false;
             dgv_source.RowHeadersWidth = 62;
             dgv_source.RowTemplate.Height = 33;
-            dgv_source.Size = new Size(534, 339);
+            dgv_source.Size = new Size(534, 450);
             dgv_source.TabIndex = 9;
             // 
             // layerDataBindingSource
