@@ -5,5 +5,20 @@
     <Setting Name="jsonDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\\Users\\chb63\\Desktop\\אופיר\\</Value>
     </Setting>
+    <Setting Name="dbCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0101</Value>
+    </Setting>
+    <Setting Name="dbMachineE" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\E\\in\\PCB32\\rec"</Value>
+    </Setting>
+    <Setting Name="dbMachineN" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\N\\IN\\rec"</Value>
+    </Setting>
+    <Setting Name="dbMachineP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\P\\IN\\rec"</Value>
+    </Setting>
+    <Setting Name="dbMachineX" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"\\\\tigger\\ophir\\Optics\\mfg\\coatings\\Machines\\X\\IN\\REC"</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

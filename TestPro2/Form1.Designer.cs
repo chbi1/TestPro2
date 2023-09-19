@@ -61,6 +61,7 @@
             dgv_source = new DataGridView();
             layerDataBindingSource = new BindingSource(components);
             machine_box = new ComboBox();
+            admin_btn = new Button();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
             tabs.SuspendLayout();
             REC_tab.SuspendLayout();
@@ -110,7 +111,7 @@
             // show_file_name
             // 
             show_file_name.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            show_file_name.Location = new Point(1341, 20);
+            show_file_name.Location = new Point(1282, 22);
             show_file_name.Name = "show_file_name";
             show_file_name.ReadOnly = true;
             show_file_name.Size = new Size(181, 31);
@@ -121,7 +122,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1234, 23);
+            label1.Location = new Point(1186, 23);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
@@ -370,11 +371,22 @@
             machine_box.TabIndex = 1;
             machine_box.SelectedIndexChanged += machine_box_SelectedIndexChanged;
             // 
+            // admin_btn
+            // 
+            admin_btn.Location = new Point(1476, 20);
+            admin_btn.Name = "admin_btn";
+            admin_btn.Size = new Size(112, 34);
+            admin_btn.TabIndex = 9;
+            admin_btn.Text = "Admin";
+            admin_btn.UseVisualStyleBackColor = true;
+            admin_btn.Click += admin_btn_Click;
+            // 
             // TestPro
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1600, 867);
+            Controls.Add(admin_btn);
             Controls.Add(tabs);
             Controls.Add(show_file_name);
             Controls.Add(machine_box);
@@ -435,5 +447,6 @@
         private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
         private DataGridView dgv_param;
         private Button chack_btn;
+        private Button admin_btn;
     }
 }

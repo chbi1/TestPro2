@@ -34,5 +34,65 @@ namespace TestPro2.Properties {
                 this["jsonDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0101")]
+        public string dbCode {
+            get {
+                return ((string)(this["dbCode"]));
+            }
+            set {
+                this["dbCode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\\\\\\\tigger\\\\ophir\\\\Optics\\\\mfg\\\\coatings\\\\Machines\\\\E\\\\in\\\\PCB32\\\\rec\"")]
+        public string dbMachineE {
+            get {
+                return ((string)(this["dbMachineE"]));
+            }
+            set {
+                this["dbMachineE"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\\\\\\\tigger\\\\ophir\\\\Optics\\\\mfg\\\\coatings\\\\Machines\\\\N\\\\IN\\\\rec\"")]
+        public string dbMachineN {
+            get {
+                return ((string)(this["dbMachineN"]));
+            }
+            set {
+                this["dbMachineN"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\\\\\\\tigger\\\\ophir\\\\Optics\\\\mfg\\\\coatings\\\\Machines\\\\P\\\\IN\\\\rec\"")]
+        public string dbMachineP {
+            get {
+                return ((string)(this["dbMachineP"]));
+            }
+            set {
+                this["dbMachineP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\\\\\\\tigger\\\\ophir\\\\Optics\\\\mfg\\\\coatings\\\\Machines\\\\X\\\\IN\\\\REC\"")]
+        public string dbMachineX {
+            get {
+                return ((string)(this["dbMachineX"]));
+            }
+            set {
+                this["dbMachineX"] = value;
+            }
+        }
     }
 }
