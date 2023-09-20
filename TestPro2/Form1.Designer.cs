@@ -334,6 +334,7 @@
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_param.Location = new Point(547, 19);
             dgv_param.Name = "dgv_param";
+            dgv_param.ReadOnly = true;
             dgv_param.RowHeadersVisible = false;
             dgv_param.RowHeadersWidth = 62;
             dgv_param.RowTemplate.Height = 33;
@@ -417,9 +418,9 @@
         #endregion
         //private DataGridViewTextBoxColumn sequenceNumberDataGridViewTextBoxColumn;
         //private DataGridViewTextBoxColumn moduleTypeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn moduleNumberDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn moduleNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tSourceDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        //private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private BindingSource jsonTableBindingSource;
         private Button open_btn;
         private RichTextBox rtb;

@@ -18,10 +18,7 @@ namespace TestPro2
         List<Evaporators>? evaporators;
 
         // saves data of the boats and curcibles
-        LayerData[] sourceTable;
-
-        // saves doubles if there are tow parameters for one source
-        List<LayerData> sourceDouble;
+        List<LayerData> sourceTable;
 
         // saves data for table colors
         Queue<char> id;
@@ -34,8 +31,7 @@ namespace TestPro2
             InitializeComponent();
             jsonMasterTable = new List<JsonTable>();
             id = new Queue<char>();
-            sourceTable = new LayerData[9];
-            sourceDouble = new List<LayerData>();
+            sourceTable = new List<LayerData>();
             initialDirectory = "c:\\Users\\user\\Desktop";
         }
         //------------------------------head----------------------------
@@ -112,8 +108,8 @@ namespace TestPro2
                 return;
             }
             jsonMasterTable.Clear();
-            sourceDouble.Clear();
-            sourceTable = CleenArrData(sourceTable);
+            sourceTable.Clear();
+
 
             JsonTable jsontable;
             jsontable = GetBake(rootobject.Pretreatment.References.BakeModule);
@@ -342,36 +338,23 @@ namespace TestPro2
                         {
                             char getPos = source.References.EECModule[source.References.EECModule.Length - 1];
                             int.TryParse(getPos.ToString(), out arrPos);
-                            arrPos--;
                         }
                         else
                         {
-                            arrPos = source.Parameter.SourceNumber + 4;
+                            arrPos = source.Parameter.SourceNumber + 5;
                         }
-
                         if (arrPos > -1)
                         {
-                            if (sourceTable[arrPos] != null)
+                            LayerData? data = sourceTable.Find(st => st.PosInMachine == arrPos && st.RateModule == tempRateMod[rti]);
+                            if (data != null)
                             {
-                                if (sourceTable[arrPos].RateModule == tempRateMod[rti])
-                                    jsontable.LayersData.Add(sourceTable[arrPos]);
-                                else
-                                {
-                                    LayerData data = sourceDouble.Find(d => d.RateModule == tempRateMod[rti])!;
-                                    if (data == null)
-                                    {
-                                        data = GetRate(tempRateMod[rti]);
-                                        data.PosInMachine = arrPos + 1;
-                                        sourceDouble.Add(data);
-                                    }
-                                    jsontable.LayersData.Add(data);
-                                }
+                                jsontable.LayersData.Add(data);
                             }
                             else
                             {
-                                LayerData data = GetRate(tempRateMod[rti]);
-                                data.PosInMachine = arrPos + 1;
-                                sourceTable[arrPos] = data;
+                                data = GetRate(tempRateMod[rti]);
+                                data.PosInMachine = arrPos;
+                                sourceTable.Add(data);
                                 jsontable.LayersData.Add(data);
                             }
                         }
@@ -399,10 +382,6 @@ namespace TestPro2
                 {
                     MessageBox.Show("Error in rate, Module not found");
                 }
-
-
-
-
 
             }
             if (rate != null)
@@ -560,7 +539,7 @@ namespace TestPro2
         public LayerData GetRate(int module)
         {
             LayerData layer = new LayerData();
-            Rate rate = rootobject!.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;  
+            Rate rate = rootobject!.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;
             float tRate = rate.Parameter.General.Rate * 10;
             layer.Rate = tRate;
             layer.ModuleName = rate.Identification.ModuleName;
@@ -603,7 +582,7 @@ namespace TestPro2
                     else
                     {
                         layer.Src = evaporators.FindAll(evp => (layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(evp.Matter!.ToLower().Replace(" ", ""))
-                        || evp.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", "."))) 
+                        || evp.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".")))
                         && evp.Rate == layer.Rate && evp.Pos != 1).Select(evp => evp.Src!).Distinct().ToList();
                     }
                 }
@@ -641,57 +620,12 @@ namespace TestPro2
             dataGrid.Columns[4].Name = "Scan";
             dataGrid.Columns[0].Width = 50;
             dataGrid.Columns[3].Width = 70;
-            dataGrid.RowCount = sourceTable.Length + 1;
-            int po;
-            for (int i = 0; i < sourceTable.Length; i++)
+            if (sourceTable.Count > 0)
             {
-                dataGrid.Rows[i].Cells[1].Value = null;
-                dataGrid.Rows[i].Cells[2].Value = null;
-                dataGrid.Rows[i].Cells[3].Value = null;
-                dataGrid.Rows[i].Cells[4].Value = null;
-                po = i + 1;
-                if (po > 6)
-                    po = i - 4;
-
-                dataGrid.Rows[i].Cells[0].ReadOnly = true;
-                dataGrid.Rows[i].Cells[1].ReadOnly = true;
-                dataGrid.Rows[i].Cells[2].ReadOnly = true;
-                dataGrid.Rows[i].Cells[3].ReadOnly = true;
-                dataGrid.Rows[i].Cells[4].ReadOnly = true;
-
-                dataGrid.Rows[i].Cells[0].Value = po;
-                if (sourceTable[i] != null)
-                {
-                    // Add cells to the row
-                    dataGrid.Rows[i].Cells[1].Value = sourceTable[i].ModuleName;
-
-                    // Assuming CreateComboBoxColumn() creates a combo box column
-                    if (sourceTable[i].Src.Count == 1)
-                    {
-                        dataGrid.Rows[i].Cells[2].Value = sourceTable[i].Src[0];
-                    }
-                    else if (sourceTable[i].Src.Count == 0)
-                    {
-                        dataGrid.Rows[i].Cells[2].Value = "can't find";
-                    }
-                    else
-                    {
-                        DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
-                        dataGrid.Rows[i].Cells[2].ReadOnly = false;
-
-                        comboBoxCell.DataSource = sourceTable[i].Src; // Assuming Src is a list or data source
-                        dataGrid.Rows[i].Cells[2] = comboBoxCell;
-                    }
-
-                    dataGrid.Rows[i].Cells[3].Value = sourceTable[i].Rate;
-                    dataGrid.Rows[i].Cells[4].Value = sourceTable[i].Scan;
-                }
-
-            }
-            if (sourceDouble.Count > 0)
-            {
+                sourceTable = sourceTable.OrderBy(st => st.PosInMachine).ThenBy(st => st.ModuleName).ToList();
                 dataGrid.Columns[0].Width = 90;
-                foreach (LayerData layer in sourceDouble)
+                int po = 0;
+                foreach (LayerData layer in sourceTable)
                 {
                     string pos;
                     if (layer.PosInMachine > 6)
@@ -726,9 +660,13 @@ namespace TestPro2
 
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Rate });
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Scan });
-                    row.DefaultCellStyle.BackColor = Color.OrangeRed;
 
+                    if (po == layer.PosInMachine)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.Tomato;
+                    }
                     dataGrid.Rows.Add(row);
+                    po = layer.PosInMachine;
                 }
             }
         }
@@ -759,11 +697,6 @@ namespace TestPro2
 
                 for (int i = 0; i < dgv_source.Rows.Count; i++)
                 {
-                    int po;
-                    if (i < 6)
-                        po = i + 1;
-                    else
-                        po = i - 4;
                     DataGridViewRow recRow = new DataGridViewRow();
                     DataGridViewRow paramRow = new DataGridViewRow();
 
@@ -773,32 +706,25 @@ namespace TestPro2
                         {
                             LayerData? data = null;
                             Evaporators? ev = null;
-                            if (i < sourceTable.Length)
-                            {
-                                if (sourceTable[i] == null)
-                                    continue;
-                                data = sourceTable[i];
-                            }
-                            else
-                            {
-                                data = sourceDouble[i - sourceTable.Length];
-                            }
+
+                            data = sourceTable[i];
+
                             ev = evaporators!.Find(e => data.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter!.ToLower().Replace(" ", ""))
                             && e.Pos == data.Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
                             && e.Rate == data.Rate && (data.Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
                             || e.Scan.ToLower().Replace(" ", "").Contains(data.Scan.ToLower().Replace(" ", ""))))!;
-                            
+
                             if (ev == null && data.Pos != 1)
                             {
                                 ev = evaporators.Find(e => data.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter!.ToLower().Replace(" ", ""))
-                                && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString() && e.Rate == data.Rate 
+                                && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString() && e.Rate == data.Rate
                                 && (data.Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
                                 || e.Scan.ToLower().Replace(" ", "").Contains(data.Scan.ToLower().Replace(" ", ""))))!;
                                 if (ev != null)
                                 {
-                                    var result = MessageBox.Show("couldn't find " + data.ModuleName + "'s parameters for boat " + data.Pos 
+                                    var result = MessageBox.Show("couldn't find " + data.ModuleName + "'s parameters for boat " + data.Pos
                                         + ".\n Would you like to use the same parameters like boat " + ev.Pos + "?",
-                                        "missing data",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                                        "missing data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                     if (result == DialogResult.No)
                                     {
                                         ev = null;
@@ -819,16 +745,9 @@ namespace TestPro2
                                     recRow.DefaultCellStyle.BackColor = Color.Lavender;
                                     paramRow.DefaultCellStyle.BackColor = Color.Lavender;
                                 }
-                                if (i < sourceTable.Length)
-                                {
-                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "machine " + po });
-                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "file " + po });
-                                }
-                                else
-                                {
-                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "machine double" });
-                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "file double" });
-                                }
+
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "machine " + dgv_source.Rows[i].Cells[0].Value });
+                                paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "file " + dgv_source.Rows[i].Cells[0].Value });
 
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.ModuleName });
                                 paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = ev.Matter });
@@ -926,7 +845,7 @@ namespace TestPro2
                             }
                             else
                             {
-                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data " + po });
+                                recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data " + dgv_source.Rows[i].Cells[0].Value });
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = dgv_source.Rows[i].Cells[1].Value });
                                 param.Rows.Add(recRow);
                                 MessageBox.Show("no data find for " + dgv_source.Rows[i].Cells[1].Value + " try changing source");
@@ -941,14 +860,6 @@ namespace TestPro2
                 }
 
             }
-        }
-        private LayerData[] CleenArrData(LayerData[] array)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = null!;
-            }
-            return array;
         }
 
     }
