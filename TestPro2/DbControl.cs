@@ -58,8 +58,6 @@ namespace TestPro2
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
-                else
-                    return;
             }
         }
 
@@ -81,8 +79,6 @@ namespace TestPro2
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
-                else
-                    return;
             }
         }
 
@@ -104,8 +100,6 @@ namespace TestPro2
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
-                else
-                    return;
             }
         }
 
@@ -127,8 +121,6 @@ namespace TestPro2
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
-                else
-                    return;
             }
         }
 
@@ -150,8 +142,6 @@ namespace TestPro2
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
-                else
-                    return;
             }
         }
     }

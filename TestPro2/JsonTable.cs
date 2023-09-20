@@ -43,6 +43,7 @@ namespace TestPro2
     }
     public class LayerData
     {
+        public int PosInMachine { get; set; }
         public string ModuleName { get; set; } = string.Empty;
         public int Pos { get; set; }
         public float Rate { get; set; }

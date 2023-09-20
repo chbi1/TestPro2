@@ -12,7 +12,7 @@ namespace TestPro2
         Rootobject? rootobject;
 
         // main table and holds details for all the pop up tables
-        public List<JsonTable> jsonMasterTable;
+        private List<JsonTable> jsonMasterTable;
 
         // all machine calibrations for all evaporators
         List<Evaporators>? evaporators;
@@ -38,6 +38,7 @@ namespace TestPro2
             sourceDouble = new List<LayerData>();
             initialDirectory = "c:\\Users\\user\\Desktop";
         }
+        //------------------------------head----------------------------
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (machine.Text)
@@ -56,6 +57,12 @@ namespace TestPro2
                     break;
 
             }
+            try
+            {
+                jsonData = File.ReadAllText(Properties.Settings.Default.jsonDir + "Machine" + machine.Text + ".json", Encoding.UTF8);
+                evaporators = JsonConvert.DeserializeObject<List<Evaporators>>(jsonData)!;
+            }
+            catch { MessageBox.Show("Parameters file not found, Srouce teble functionality won't work"); }
         }
         private void admin_btn_Click(object sender, EventArgs e)
         {
@@ -99,7 +106,7 @@ namespace TestPro2
         private void process_btn_Click(object sender, EventArgs e)
         {
             rtb.Text = string.Empty;
-            if (jsonData == string.Empty)
+            if (jsonData == string.Empty || rootobject == null)
             {
                 MessageBox.Show("No file slected");
                 return;
@@ -108,7 +115,7 @@ namespace TestPro2
             sourceDouble.Clear();
             sourceTable = CleenArrData(sourceTable);
 
-            JsonTable jsontable = new JsonTable();
+            JsonTable jsontable;
             jsontable = GetBake(rootobject.Pretreatment.References.BakeModule);
             jsontable.Sequence = "Pretreatment";
             jsontable.Rotation = rootobject.Pretreatment.Parameter.General.Rotation.Setpoint.ToString();
@@ -195,7 +202,7 @@ namespace TestPro2
             GetDgSource(dgv_source);
         }
 
-
+        //--------------------------rec processer------------------------
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -245,7 +252,7 @@ namespace TestPro2
                         else
                             dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = "--no Limits data available--";
                     }
-                    if(columnIndex < 3)
+                    if (columnIndex < 3)
                     {
                         if (jsonMasterTable[rowIndex].LayersData.Count == 1)
                             dgv.Rows[rowIndex].Cells[columnIndex].ToolTipText = jsonMasterTable[rowIndex].LayersData.Count.ToString() + " rate module is used";
@@ -259,7 +266,7 @@ namespace TestPro2
         public JsonTable GetBake(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            Bake bake = rootobject.Bake.ToList().Find(b => b.Identification.ModuleNumber == moduleNumber)!;
+            Bake bake = rootobject!.Bake.ToList().Find(b => b.Identification.ModuleNumber == moduleNumber)!;
             if (bake != null)
             {
                 jsontable.ModuleName = bake.Identification.ModuleName;
@@ -282,7 +289,7 @@ namespace TestPro2
             int rti;
 
             Layer layer;
-            layer = rootobject.Layer.ToList().Find(l => l.Identification.ModuleNumber == moduleNumber)!;
+            layer = rootobject!.Layer.ToList().Find(l => l.Identification.ModuleNumber == moduleNumber)!;
             if (layer != null)
             {
                 jsontable.IsLayer = true;
@@ -354,6 +361,7 @@ namespace TestPro2
                                     if (data == null)
                                     {
                                         data = GetRate(tempRateMod[rti]);
+                                        data.PosInMachine = arrPos + 1;
                                         sourceDouble.Add(data);
                                     }
                                     jsontable.LayersData.Add(data);
@@ -362,6 +370,7 @@ namespace TestPro2
                             else
                             {
                                 LayerData data = GetRate(tempRateMod[rti]);
+                                data.PosInMachine = arrPos + 1;
                                 sourceTable[arrPos] = data;
                                 jsontable.LayersData.Add(data);
                             }
@@ -396,14 +405,17 @@ namespace TestPro2
 
 
             }
-            if (rate != null && source != null)
+            if (rate != null)
             {
                 float tRate = rate.Parameter.General.Rate * 10;
                 jsontable.Rate = tRate.ToString();                                      //main
+            }
+            if (source != null)
+            {
                 if (source.Parameter.SourceNumber == 1)
                     jsontable.TSource = source.References.EECModule;                    //main
                 else
-                    jsontable.TSource = source.Parameter.SourceNumber.ToString();       //main
+                    jsontable.TSource = source.Parameter.SourceNumber.ToString();
             }
             else
             {
@@ -469,13 +481,13 @@ namespace TestPro2
 
                     // ------------------- special words --------------------
                     special = gsm.Parameter.General.Transmission;
-                    special = special.Split('_').Last();
+                    special = special.Split('_')[special.Split('_').Count() - 1];
                     jsontable.Beam = special;                                                               //GSM
                     special = gsm.Parameter.General.Glass.Changer;
-                    special = special.Split('_').Last();
+                    special = special.Split('_')[special.Split('_').Count() - 1];
                     jsontable.Monitor = special;                                                            //Main & GSM 
                     special = gsm.SignalSettings.StopCriterion;
-                    special = special.Split('_').First();
+                    special = special.Split('_')[0];
 
                     jsontable.StopMode = special;                                                           //GSM
 
@@ -521,7 +533,7 @@ namespace TestPro2
         public JsonTable GetVacuum(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            Vacuum1 vacuum = rootobject.Vacuum.ToList().Find(v => v.Identification.ModuleNumber == moduleNumber)!;
+            Vacuum1 vacuum = rootobject!.Vacuum.ToList().Find(v => v.Identification.ModuleNumber == moduleNumber)!;
             if (vacuum != null)
                 jsontable.ModuleName = vacuum.Identification.ModuleName;
             else
@@ -532,7 +544,7 @@ namespace TestPro2
         {
             JsonTable jsontable = new JsonTable();
             Clean clean;
-            clean = rootobject.Clean.ToList().Find(c => c.Identification.ModuleNumber == moduleNumber)!;
+            clean = rootobject!.Clean.ToList().Find(c => c.Identification.ModuleNumber == moduleNumber)!;
             if (clean != null)
             {
                 jsontable.ModuleName = clean.Identification.ModuleName;
@@ -547,9 +559,8 @@ namespace TestPro2
         }
         public LayerData GetRate(int module)
         {
-            Rate rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;
-
             LayerData layer = new LayerData();
+            Rate rate = rootobject!.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;  
             float tRate = rate.Parameter.General.Rate * 10;
             layer.Rate = tRate;
             layer.ModuleName = rate.Identification.ModuleName;
@@ -570,7 +581,7 @@ namespace TestPro2
                 layer.Pos = source.Parameter.SourceNumber;
                 if (layer.Pos == 1)
                 {
-                    layer.Scan = source.References.EECModule.Split('_').First();
+                    layer.Scan = source.References.EECModule.Split('_')[0];
                     layer.Source = source.References.EECModule;
                 }
                 else
@@ -579,15 +590,25 @@ namespace TestPro2
                 }
 
 
-                layer.Response = source.Xtal.ResponseTime;           //layer
-                layer.Derivative = source.Xtal.DerivativeTime;       //layer
-                List<Evaporators> temp = evaporators.FindAll(e => layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
-                    || e.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".")));
-                foreach (Evaporators evp in temp)
+                layer.Response = source.Xtal.ResponseTime;
+                layer.Derivative = source.Xtal.DerivativeTime;
+                if (evaporators != null)
                 {
-                    layer.Src.Add(evp.Src);
+                    if (layer.Pos == 1)
+                    {
+                        layer.Src = evaporators.FindAll(evp => (layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(evp.Matter!.ToLower().Replace(" ", ""))
+                        || evp.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".")))
+                        && evp.Pos == layer.Pos && evp.Rate == layer.Rate).Select(evp => evp.Src!).Distinct().ToList();
+                    }
+                    else
+                    {
+                        layer.Src = evaporators.FindAll(evp => (layer.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(evp.Matter!.ToLower().Replace(" ", ""))
+                        || evp.Matter.ToLower().Replace(" ", "").Contains(layer.ModuleName.ToLower().Replace(" ", "").Replace("*", "."))) 
+                        && evp.Rate == layer.Rate && evp.Pos != 1).Select(evp => evp.Src!).Distinct().ToList();
+                    }
                 }
-                layer.Src = layer.Src.Distinct().ToList();
+                else
+                    layer.Src.Add("error no param file");
             }
             return layer;
 
@@ -597,12 +618,13 @@ namespace TestPro2
 
         private void chack_btn_Click(object sender, EventArgs e)
         {
+            if (evaporators == null || evaporators.Count == 0)
+            { return; }
             dgv_param.DataSource = null;
             dgv_param.Rows.Clear();
             GetParameters(dgv_param);
 
 
-            //dgv_param.DataSource = evapArr;
         }
         private void machine_box_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -620,17 +642,17 @@ namespace TestPro2
             dataGrid.Columns[0].Width = 50;
             dataGrid.Columns[3].Width = 70;
             dataGrid.RowCount = sourceTable.Length + 1;
+            int po;
             for (int i = 0; i < sourceTable.Length; i++)
             {
                 dataGrid.Rows[i].Cells[1].Value = null;
                 dataGrid.Rows[i].Cells[2].Value = null;
                 dataGrid.Rows[i].Cells[3].Value = null;
                 dataGrid.Rows[i].Cells[4].Value = null;
-                int po;
-                if (i < 6)
-                    po = i + 1;
-                else
+                po = i + 1;
+                if (po > 6)
                     po = i - 4;
+
                 dataGrid.Rows[i].Cells[0].ReadOnly = true;
                 dataGrid.Rows[i].Cells[1].ReadOnly = true;
                 dataGrid.Rows[i].Cells[2].ReadOnly = true;
@@ -650,7 +672,7 @@ namespace TestPro2
                     }
                     else if (sourceTable[i].Src.Count == 0)
                     {
-                        dataGrid.Rows[i].Cells[2].Value = null;
+                        dataGrid.Rows[i].Cells[2].Value = "can't find";
                     }
                     else
                     {
@@ -671,9 +693,19 @@ namespace TestPro2
                 dataGrid.Columns[0].Width = 90;
                 foreach (LayerData layer in sourceDouble)
                 {
+                    string pos;
+                    if (layer.PosInMachine > 6)
+                    {
+                        pos = "boat " + (layer.PosInMachine - 5).ToString();
+                    }
+                    else
+                    {
+                        pos = "curcible " + layer.PosInMachine.ToString();
+                    }
+
                     DataGridViewRow row = new DataGridViewRow();
                     row.ReadOnly = true;
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = "double" });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = pos });
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.ModuleName });
 
                     if (layer.Src.Count == 1)
@@ -694,6 +726,7 @@ namespace TestPro2
 
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Rate });
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = layer.Scan });
+                    row.DefaultCellStyle.BackColor = Color.OrangeRed;
 
                     dataGrid.Rows.Add(row);
                 }
@@ -744,21 +777,34 @@ namespace TestPro2
                             {
                                 if (sourceTable[i] == null)
                                     continue;
-                                ev = evaporators.Find(e => sourceTable[i].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
-                                && e.Pos == sourceTable[i].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
-                                && e.Rate == sourceTable[i].Rate && (sourceTable[i].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
-                                || e.Scan.ToLower().Replace(" ", "").Contains(sourceTable[i].Scan.ToLower().Replace(" ", ""))))!;
                                 data = sourceTable[i];
                             }
                             else
                             {
-                                ev = evaporators.Find(e => sourceDouble[i - sourceTable.Length].ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter.ToLower().Replace(" ", ""))
-                                && e.Pos == sourceDouble[i - sourceTable.Length].Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
-                                && e.Rate == sourceDouble[i - sourceTable.Length].Rate && (sourceDouble[i - sourceTable.Length].Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
-                                || e.Scan.ToLower().Replace(" ", "").Contains(sourceDouble[i - sourceTable.Length].Scan.ToLower().Replace(" ", ""))))!;
                                 data = sourceDouble[i - sourceTable.Length];
                             }
-
+                            ev = evaporators!.Find(e => data.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter!.ToLower().Replace(" ", ""))
+                            && e.Pos == data.Pos && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString()
+                            && e.Rate == data.Rate && (data.Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
+                            || e.Scan.ToLower().Replace(" ", "").Contains(data.Scan.ToLower().Replace(" ", ""))))!;
+                            
+                            if (ev == null && data.Pos != 1)
+                            {
+                                ev = evaporators.Find(e => data.ModuleName.ToLower().Replace(" ", "").Replace("*", ".").Contains(e.Matter!.ToLower().Replace(" ", ""))
+                                && e.Src == dgv_source.Rows[i].Cells[2].Value.ToString() && e.Rate == data.Rate 
+                                && (data.Scan.ToLower().Replace(" ", "").Contains(e.Scan.ToLower().Replace(" ", ""))
+                                || e.Scan.ToLower().Replace(" ", "").Contains(data.Scan.ToLower().Replace(" ", ""))))!;
+                                if (ev != null)
+                                {
+                                    var result = MessageBox.Show("couldn't find " + data.ModuleName + "'s parameters for boat " + data.Pos 
+                                        + ".\n Would you like to use the same parameters like boat " + ev.Pos + "?",
+                                        "missing data",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                                    if (result == DialogResult.No)
+                                    {
+                                        ev = null;
+                                    }
+                                }
+                            }
                             if (ev != null)
                             {
                                 if (color)
@@ -775,13 +821,13 @@ namespace TestPro2
                                 }
                                 if (i < sourceTable.Length)
                                 {
-                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "File " + po });
-                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "Param " + po });
+                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "machine " + po });
+                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "file " + po });
                                 }
                                 else
                                 {
-                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "File double" });
-                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "Param double" });
+                                    recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "machine double" });
+                                    paramRow.Cells.Add(new DataGridViewTextBoxCell { Value = "file double" });
                                 }
 
                                 recRow.Cells.Add(new DataGridViewTextBoxCell { Value = data.ModuleName });

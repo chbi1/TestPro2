@@ -78,7 +78,7 @@
             // 
             // open_btn
             // 
-            open_btn.Location = new Point(367, 23);
+            open_btn.Location = new Point(271, 21);
             open_btn.Name = "open_btn";
             open_btn.Size = new Size(112, 34);
             open_btn.TabIndex = 0;
@@ -100,7 +100,7 @@
             // 
             // process_btn
             // 
-            process_btn.Location = new Point(1028, 15);
+            process_btn.Location = new Point(1028, 20);
             process_btn.Name = "process_btn";
             process_btn.Size = new Size(112, 34);
             process_btn.TabIndex = 3;
@@ -122,7 +122,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1186, 23);
+            label1.Location = new Point(1186, 25);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 5;
@@ -132,7 +132,7 @@
             // 
             machine.FormattingEnabled = true;
             machine.Items.AddRange(new object[] { "E", "N", "X", "P" });
-            machine.Location = new Point(171, 18);
+            machine.Location = new Point(185, 22);
             machine.Name = "machine";
             machine.Size = new Size(66, 33);
             machine.TabIndex = 6;
@@ -141,7 +141,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(36, 24);
+            label2.Location = new Point(36, 26);
             label2.Name = "label2";
             label2.Size = new Size(129, 25);
             label2.TabIndex = 7;
@@ -326,6 +326,10 @@
             // 
             // dgv_param
             // 
+            dgv_param.AllowUserToAddRows = false;
+            dgv_param.AllowUserToDeleteRows = false;
+            dgv_param.AllowUserToResizeColumns = false;
+            dgv_param.AllowUserToResizeRows = false;
             dgv_param.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_param.Location = new Point(547, 19);
@@ -365,7 +369,7 @@
             // 
             machine_box.FormattingEnabled = true;
             machine_box.Items.AddRange(new object[] { "E", "N", "X", "P" });
-            machine_box.Location = new Point(506, 22);
+            machine_box.Location = new Point(403, 22);
             machine_box.Name = "machine_box";
             machine_box.Size = new Size(94, 33);
             machine_box.TabIndex = 1;
@@ -411,8 +415,8 @@
         }
 
         #endregion
-        private DataGridViewTextBoxColumn sequenceNumberDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn moduleTypeDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn sequenceNumberDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn moduleTypeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn moduleNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tSourceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -438,13 +442,13 @@
         private DataGridViewTextBoxColumn monitorDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startIntensityDataGridViewTextBoxColumn;
         private TabPage src_tab;
-        private Label label3;
+        //private Label label3;
         private ComboBox machine_box;
         private DataGridView dgv_source;
         private BindingSource layerDataBindingSource;
-        private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
+        //private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
         private DataGridView dgv_param;
         private Button chack_btn;
         private Button admin_btn;

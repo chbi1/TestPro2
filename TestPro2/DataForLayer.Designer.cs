@@ -194,19 +194,19 @@
 
         #endregion
         private DataGridView dgv_layer;
-        private DataGridViewTextBoxColumn derivativeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn derivative2DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn responseDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn gainDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn holdTimeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn pLDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn p3DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn t3DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn p2DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn t2DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn derivativeDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn derivative2DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn responseDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn gainDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn holdTimeDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn pLDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn p3DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn t3DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn p2DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn t2DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn p1DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn t1DataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn delayDataGridViewTextBoxColumn;
         private BindingSource layerDataBindingSource;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
