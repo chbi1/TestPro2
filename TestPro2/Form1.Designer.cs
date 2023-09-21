@@ -59,7 +59,6 @@
             chack_btn = new Button();
             dgv_param = new DataGridView();
             dgv_source = new DataGridView();
-            layerDataBindingSource = new BindingSource(components);
             machine_box = new ComboBox();
             admin_btn = new Button();
             ((System.ComponentModel.ISupportInitialize)jsonTableBindingSource).BeginInit();
@@ -69,7 +68,6 @@
             src_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_param).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv_source).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).BeginInit();
             SuspendLayout();
             // 
             // jsonTableBindingSource
@@ -316,7 +314,7 @@
             // 
             // chack_btn
             // 
-            chack_btn.Location = new Point(166, 49);
+            chack_btn.Location = new Point(169, 69);
             chack_btn.Name = "chack_btn";
             chack_btn.Size = new Size(210, 88);
             chack_btn.TabIndex = 11;
@@ -330,20 +328,24 @@
             dgv_param.AllowUserToDeleteRows = false;
             dgv_param.AllowUserToResizeColumns = false;
             dgv_param.AllowUserToResizeRows = false;
+            dgv_param.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv_param.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgv_param.BackgroundColor = SystemColors.GradientInactiveCaption;
             dgv_param.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_param.Location = new Point(547, 19);
+            dgv_param.Location = new Point(518, 19);
             dgv_param.Name = "dgv_param";
             dgv_param.ReadOnly = true;
             dgv_param.RowHeadersVisible = false;
             dgv_param.RowHeadersWidth = 62;
             dgv_param.RowTemplate.Height = 33;
-            dgv_param.Size = new Size(1019, 595);
+            dgv_param.Size = new Size(1064, 737);
             dgv_param.TabIndex = 10;
             // 
             // dgv_source
             // 
+            dgv_source.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv_source.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_source.BackgroundColor = SystemColors.GradientInactiveCaption;
             dgv_source.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = SystemColors.Window;
@@ -353,18 +355,14 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dgv_source.DefaultCellStyle = dataGridViewCellStyle4;
-            dgv_source.Location = new Point(7, 164);
+            dgv_source.Location = new Point(7, 241);
             dgv_source.Name = "dgv_source";
             dgv_source.RightToLeft = RightToLeft.Yes;
             dgv_source.RowHeadersVisible = false;
             dgv_source.RowHeadersWidth = 62;
             dgv_source.RowTemplate.Height = 33;
-            dgv_source.Size = new Size(534, 450);
+            dgv_source.Size = new Size(505, 515);
             dgv_source.TabIndex = 9;
-            // 
-            // layerDataBindingSource
-            // 
-            layerDataBindingSource.DataSource = typeof(LayerData);
             // 
             // machine_box
             // 
@@ -410,7 +408,6 @@
             src_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv_param).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv_source).EndInit();
-            ((System.ComponentModel.ISupportInitialize)layerDataBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -419,7 +416,7 @@
         //private DataGridViewTextBoxColumn sequenceNumberDataGridViewTextBoxColumn;
         //private DataGridViewTextBoxColumn moduleTypeDataGridViewTextBoxColumn;
         //private DataGridViewTextBoxColumn moduleNumberDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn tSourceDataGridViewTextBoxColumn;
+        //private DataGridViewTextBoxColumn tSourceDataGridViewTextBoxColumn;
         //private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private BindingSource jsonTableBindingSource;
         private Button open_btn;
@@ -446,7 +443,6 @@
         //private Label label3;
         private ComboBox machine_box;
         private DataGridView dgv_source;
-        private BindingSource layerDataBindingSource;
         //private DataGridViewTextBoxColumn moduleNameDataGridViewTextBoxColumn1;
         //private DataGridViewTextBoxColumn posDataGridViewTextBoxColumn;
         //private DataGridViewTextBoxColumn sourceDataGridViewTextBoxColumn;
