@@ -372,6 +372,7 @@
             machine_box.Name = "machine_box";
             machine_box.Size = new Size(94, 33);
             machine_box.TabIndex = 1;
+            machine_box.Visible = false;
             machine_box.SelectedIndexChanged += machine_box_SelectedIndexChanged;
             // 
             // admin_btn

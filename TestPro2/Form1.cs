@@ -37,6 +37,12 @@ namespace TestPro2
         //------------------------------head----------------------------
         private void machine_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                jsonData = File.ReadAllText(Properties.Settings.Default.jsonDir + "Machine" + machine.Text + ".json", Encoding.UTF8);
+                evaporators = JsonConvert.DeserializeObject<List<Evaporators>>(jsonData)!;
+            }
+            catch { MessageBox.Show("Parameters file not found, Srouce teble functionality won't work"); }
             switch (machine.Text)
             {
                 case "E":
@@ -53,12 +59,6 @@ namespace TestPro2
                     break;
 
             }
-            try
-            {
-                jsonData = File.ReadAllText(Properties.Settings.Default.jsonDir + "Machine" + machine.Text + ".json", Encoding.UTF8);
-                evaporators = JsonConvert.DeserializeObject<List<Evaporators>>(jsonData)!;
-            }
-            catch { MessageBox.Show("Parameters file not found, Srouce teble functionality won't work"); }
         }
         private void admin_btn_Click(object sender, EventArgs e)
         {
@@ -689,10 +689,7 @@ namespace TestPro2
                         DataGridViewRow row = new DataGridViewRow();
                         row.ReadOnly = true;
                         row.Cells.Add(new DataGridViewTextBoxCell { Value = pos });
-                        //row.Cells.Add(new DataGridViewTextBoxCell { Value = string.Empty });
-                        //row.Cells.Add(new DataGridViewTextBoxCell { Value = string.Empty });
-                        //row.Cells.Add(new DataGridViewTextBoxCell { Value = string.Empty });
-                        //row.Cells.Add(new DataGridViewTextBoxCell { Value = string.Empty });
+
 
                         dataGrid.Rows.Add(row);
                     }

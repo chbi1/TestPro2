@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestPro2.Properties;
 
 namespace TestPro2
 {
@@ -55,6 +56,7 @@ namespace TestPro2
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     Properties.Settings.Default.jsonDir = selectedFolder + "\\";
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
@@ -76,6 +78,7 @@ namespace TestPro2
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     Properties.Settings.Default.dbMachineE = selectedFolder;
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
@@ -97,6 +100,7 @@ namespace TestPro2
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     Properties.Settings.Default.dbMachineN = selectedFolder;
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
@@ -118,6 +122,7 @@ namespace TestPro2
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     Properties.Settings.Default.dbMachineP = selectedFolder;
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
@@ -139,6 +144,7 @@ namespace TestPro2
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     Properties.Settings.Default.dbMachineX = selectedFolder;
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show("Selected folder: " + selectedFolder);
                 }
