@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,7 +8,7 @@ namespace TestPro2
     public partial class TestPro : Form
     {
         // json deserialization main object
-        Rootobject? rootobject;
+        RecFile? RecDsrlz;
 
         // main table and holds details for all the pop up tables
         private List<JsonTable> jsonMasterTable;
@@ -93,8 +92,8 @@ namespace TestPro2
                 jsonData = Regex.Replace(jsonData, pattern, replacement);
                 if (jsonData != null)
                 {
-                    rootobject = JsonConvert.DeserializeObject<Rootobject>(jsonData)!;
-                    show_file_name.Text = rootobject.Identification.ProcessID.ToString();
+                    RecDsrlz = JsonConvert.DeserializeObject<RecFile>(jsonData)!;
+                    show_file_name.Text = RecDsrlz.Identification.ProcessID.ToString();
                     process_btn_Click(sender, e);
                 }
             }
@@ -102,7 +101,7 @@ namespace TestPro2
         private void process_btn_Click(object sender, EventArgs e)
         {
             rtb.Text = string.Empty;
-            if (jsonData == string.Empty || rootobject == null)
+            if (RecDsrlz == null)
             {
                 MessageBox.Show("No file slected");
                 return;
@@ -112,11 +111,11 @@ namespace TestPro2
 
 
             JsonTable jsontable;
-            jsontable = GetBake(rootobject.Pretreatment.References.BakeModule);
+            jsontable = GetBake(RecDsrlz.Pretreatment.References.BakeModule);
             jsontable.Sequence = "Pretreatment";
-            jsontable.Rotation = rootobject.Pretreatment.Parameter.General.Rotation.Setpoint.ToString();
+            jsontable.Rotation = RecDsrlz.Pretreatment.Parameter.General.Rotation.Setpoint.ToString();
             jsonMasterTable.Add(jsontable);
-            foreach (ProcessSequence sequence in rootobject.ProcessSequence)
+            foreach (ProcessSequence sequence in RecDsrlz.ProcessSequence)
             {
 
                 jsontable = new JsonTable();
@@ -154,12 +153,12 @@ namespace TestPro2
             }
             jsontable = new JsonTable();
             jsontable.Sequence = "Posttreatment";
-            if (rootobject.Posttreatment.Parameter.VentStop)
+            if (RecDsrlz.Posttreatment.Parameter.VentStop)
                 jsontable.TSource = "Vent Stop: Yes";
             else jsontable.TSource = "Vent Stop: No";
-            jsontable.Rate = "Temp: " + rootobject.Posttreatment.Parameter.VacuumCool.Temperature.ToString();
-            jsontable.Thickness = "H Delay: " + rootobject.Posttreatment.Parameter.VacuumCool.HeatDelay.ToString();
-            jsontable.Cycles = "Time: " + rootobject.Posttreatment.Parameter.VacuumCool.Time.ToString() + " sec";
+            jsontable.Rate = "Temp: " + RecDsrlz.Posttreatment.Parameter.VacuumCool.Temperature.ToString();
+            jsontable.Thickness = "H Delay: " + RecDsrlz.Posttreatment.Parameter.VacuumCool.HeatDelay.ToString();
+            jsontable.Cycles = "Time: " + RecDsrlz.Posttreatment.Parameter.VacuumCool.Time.ToString() + " sec";
 
             jsonMasterTable.Add(jsontable);
 
@@ -262,7 +261,7 @@ namespace TestPro2
         public JsonTable GetBake(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            Bake bake = rootobject!.Bake.ToList().Find(b => b.Identification.ModuleNumber == moduleNumber)!;
+            Bake bake = RecDsrlz!.Bake.ToList().Find(b => b.Identification.ModuleNumber == moduleNumber)!;
             if (bake != null)
             {
                 jsontable.ModuleName = bake.Identification.ModuleName;
@@ -285,7 +284,7 @@ namespace TestPro2
             int rti;
 
             Layer layer;
-            layer = rootobject!.Layer.ToList().Find(l => l.Identification.ModuleNumber == moduleNumber)!;
+            layer = RecDsrlz!.Layer.ToList().Find(l => l.Identification.ModuleNumber == moduleNumber)!;
             if (layer != null)
             {
                 jsontable.IsLayer = true;
@@ -311,7 +310,7 @@ namespace TestPro2
                 if (tempRateMod[rti] == 0) break;
 
 
-                rate = rootobject.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
+                rate = RecDsrlz.Rate.ToList().Find(r => r.Identification.ModuleNumber == tempRateMod[rti])!;
                 if (rate != null)
                 {
                     jsontable.RateModule[rti] = tempRateMod[rti];
@@ -330,10 +329,11 @@ namespace TestPro2
                         rtb.Text += "   Error in " + jsontable.Sequence + " rate module " + showRM + " " +
                             jsontable.ModuleName + " Hold Time must be more than 1\r\n";
                     }
-                    source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
+                    source = RecDsrlz.Source.ToList().Find(s => s.Identification.ModuleNumber == tempSrcMod)!;
                     if (source != null)
                     {
                         int arrPos = -1;
+                        LayerData? data = null;
                         if (source.Parameter.SourceNumber == 1)
                         {
                             char getPos = source.References.EECModule[source.References.EECModule.Length - 1];
@@ -343,16 +343,17 @@ namespace TestPro2
                         {
                             arrPos = source.Parameter.SourceNumber + 5;
                         }
+
                         if (arrPos > -1)
                         {
-                            LayerData? data = sourceTable.Find(st => st.PosInMachine == arrPos && st.RateModule == tempRateMod[rti]);
+                            data = sourceTable.Find(st => st.PosInMachine == arrPos && st.RateModule == tempRateMod[rti]);
                             if (data != null)
                             {
                                 jsontable.LayersData.Add(data);
                             }
                             else
                             {
-                                data = GetRate(tempRateMod[rti]);
+                                data = GetRate(rate, source);
                                 data.PosInMachine = arrPos;
                                 sourceTable.Add(data);
                                 jsontable.LayersData.Add(data);
@@ -360,7 +361,7 @@ namespace TestPro2
                         }
                         else
                         {
-                            LayerData data = GetRate(tempRateMod[rti]);
+                            data = GetRate(rate, source);
                             jsontable.LayersData.Add(data);
                             MessageBox.Show("couldn't locate the Crucible of " + data.ModuleName + ".");
                         }
@@ -406,7 +407,7 @@ namespace TestPro2
             if (tempLimMod != 0)
             {
                 jsontable.IsMCC = true;
-                LimitCheck check = rootobject.LimitCheck.ToList().Find(c => c.Identification.ModuleNumber == tempLimMod)!;
+                LimitCheck check = RecDsrlz.LimitCheck.ToList().Find(c => c.Identification.ModuleNumber == tempLimMod)!;
                 if (check != null)
                 {
                     foreach (CheckPoint checkPoint in check.CheckPoint)
@@ -444,7 +445,7 @@ namespace TestPro2
             if (tempGSMMod != 0)
             {
                 jsontable.IsGSM = true;
-                GSM1 gsm = rootobject.GSM.ToList().Find(g => g.Identification.ModuleNumber == tempGSMMod)!;
+                GSM1 gsm = RecDsrlz.GSM.ToList().Find(g => g.Identification.ModuleNumber == tempGSMMod)!;
 
                 if (gsm != null)
                 {
@@ -512,7 +513,7 @@ namespace TestPro2
         public JsonTable GetVacuum(float moduleNumber)
         {
             JsonTable jsontable = new JsonTable();
-            Vacuum1 vacuum = rootobject!.Vacuum.ToList().Find(v => v.Identification.ModuleNumber == moduleNumber)!;
+            Vacuum1 vacuum = RecDsrlz!.Vacuum.ToList().Find(v => v.Identification.ModuleNumber == moduleNumber)!;
             if (vacuum != null)
                 jsontable.ModuleName = vacuum.Identification.ModuleName;
             else
@@ -523,7 +524,7 @@ namespace TestPro2
         {
             JsonTable jsontable = new JsonTable();
             Clean clean;
-            clean = rootobject!.Clean.ToList().Find(c => c.Identification.ModuleNumber == moduleNumber)!;
+            clean = RecDsrlz!.Clean.ToList().Find(c => c.Identification.ModuleNumber == moduleNumber)!;
             if (clean != null)
             {
                 jsontable.ModuleName = clean.Identification.ModuleName;
@@ -536,10 +537,9 @@ namespace TestPro2
             }
             return jsontable;
         }
-        public LayerData GetRate(int module)
+        public LayerData GetRate(Rate rate, Source source)
         {
             LayerData layer = new LayerData();
-            Rate rate = rootobject!.Rate.ToList().Find(r => r.Identification.ModuleNumber == module)!;
             float tRate = rate.Parameter.General.Rate * 10;
             layer.Rate = tRate;
             layer.ModuleName = rate.Identification.ModuleName;
@@ -554,7 +554,6 @@ namespace TestPro2
             layer.P1 = rate.Ramping.Ramp1.Power;                   //layer
             layer.T1 = rate.Ramping.Ramp1.Time;
             layer.Delay = rate.Ramping.RiseDelay.ToString();
-            Source source = rootobject.Source.ToList().Find(s => s.Identification.ModuleNumber == rate.References.SourceModule)!;
             if (source != null)
             {
                 layer.Pos = source.Parameter.SourceNumber;
@@ -877,7 +876,10 @@ namespace TestPro2
                                     recRow.Cells.Add(new DataGridViewTextBoxCell { Value = "no data " + dgv_source.Rows[i].Cells[0].Value });
                                     recRow.Cells.Add(new DataGridViewTextBoxCell { Value = dgv_source.Rows[i].Cells[1].Value });
                                     param.Rows.Add(recRow);
-                                    MessageBox.Show("no data find for " + dgv_source.Rows[i].Cells[1].Value + " try changing source");
+                                    if (data.Src.Count > 1)
+                                    {
+                                        MessageBox.Show("no data find for " + dgv_source.Rows[i].Cells[1].Value + " try changing source");
+                                    }
                                 }
                             }
                         }

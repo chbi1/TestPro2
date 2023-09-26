@@ -1,5 +1,5 @@
 ﻿namespace TestPro2;
-public class Rootobject
+public class RecFile
 {
     public Identification Identification { get; set; } = new Identification();
     public RecipeProperty RecipeProperty { get; set; } = new RecipeProperty();
