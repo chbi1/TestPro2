@@ -10,16 +10,13 @@ using System.Windows.Forms;
 
 namespace TestPro2
 {
-    public partial class GSMTable : Form
+    public partial class MCCData : Form
     {
-        public GSMTable(JsonTable jt)
+        public MCCData(List<MCC> mCCs)
         {
             InitializeComponent();
-            this.Text = "GSM datd for " + jt.Name;
-            List<JsonTable> list = new List<JsonTable>();
-            list.Add(jt);
-            dgv_gsm.DataSource = null;
-            dgv_gsm.DataSource = list;
+            this.Text = "MCC for - " + mCCs[0].Name;
+            mcc_dgv.DataSource = mCCs;
         }
     }
 }
